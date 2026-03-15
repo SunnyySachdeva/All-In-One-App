@@ -1,0 +1,8 @@
+![Pomodoro](https://github.com/SunnyySachdeva/All-In-One-App/blob/main/screenshots/Screenshot%202026-03-15%20175931.png)
+![Tasks](https://github.com/SunnyySachdeva/All-In-One-App/blob/main/screenshots/Screenshot%202026-03-15%20175910.png)
+![Videos](https://github.com/SunnyySachdeva/All-In-One-App/blob/main/screenshots/Screenshot%202026-03-15%20180043.png)
+![RSS Feeds](https://github.com/SunnyySachdeva/All-In-One-App/blob/main/screenshots/Screenshot%202026-03-15%20180016.png)
+![Podcasts](https://github.com/SunnyySachdeva/All-In-One-App/blob/main/screenshots/Screenshot%202026-03-15%20175802.png)
+![Shell](https://github.com/SunnyySachdeva/All-In-One-App/blob/main/screenshots/Screenshot%202026-03-15%20180245.png)
+![Palettes](https://github.com/SunnyySachdeva/All-In-One-App/blob/main/screenshots/Screenshot%202026-03-15%20180428.png)
+![light mode](https://github.com/SunnyySachdeva/All-In-One-App/blob/main/screenshots/Screenshot%202026-03-15%20180330.png)
