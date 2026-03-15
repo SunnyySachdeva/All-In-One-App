@@ -1,0 +1,3336 @@
+<!DOCTYPE html>
+
+<html lang="en" class="h-full">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Workspace</title>
+
+    <script>
+
+        (() => {
+
+            const savedTheme = localStorage.getItem("task-console-theme");
+
+            const savedPalette = localStorage.getItem("task-console-palette") || "violet";
+
+            const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+            const theme = savedTheme || (prefersDark ? "dark" : "light");
+
+            document.documentElement.classList.toggle("dark", theme === "dark");
+
+            document.documentElement.dataset.palette = savedPalette;
+
+        })();
+
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+
+        tailwind.config = {
+
+            darkMode: "class",
+
+            theme: {
+
+                extend: {
+
+                    colors: {
+
+                        base: "#f6f7fb",
+
+                        night: "#09090f",
+
+                        aurora: "#6d5efc",
+
+                        cyanpop: "#18c8ff",
+
+                        coral: "#ff7a59",
+
+                        mint: "#6ee7b7"
+
+                    },
+
+                    boxShadow: {
+
+                        glow: "0 24px 80px rgba(109, 94, 252, 0.22)"
+
+                    },
+
+                    fontFamily: {
+
+                        sans: ["Segoe UI", "Inter", "system-ui", "sans-serif"]
+
+                    }
+
+                }
+
+            }
+
+        };
+
+    </script>
+
+    <style>
+
+        :root {
+
+            --accent-start: #6d5efc;
+
+            --accent-end: #18c8ff;
+
+            --accent-solid: #6d5efc;
+
+            --accent-soft: rgba(109, 94, 252, 0.18);
+
+            --dark-base-top: #0c1020;
+
+            --dark-base-bottom: #151a2d;
+
+            --dark-secondary-soft: rgba(24, 200, 255, 0.12);
+
+        }
+
+        :root[data-palette="green"] {
+
+            --accent-start: #15803d;
+
+            --accent-end: #22c55e;
+
+            --accent-solid: #16a34a;
+
+            --accent-soft: rgba(34, 197, 94, 0.18);
+
+            --dark-base-top: #07150d;
+
+            --dark-base-bottom: #0d2418;
+
+            --dark-secondary-soft: rgba(34, 197, 94, 0.10);
+
+        }
+
+        :root[data-palette="red"] {
+
+            --accent-start: #b91c1c;
+
+            --accent-end: #fb7185;
+
+            --accent-solid: #dc2626;
+
+            --accent-soft: rgba(239, 68, 68, 0.18);
+
+            --dark-base-top: #18090b;
+
+            --dark-base-bottom: #2b0f13;
+
+            --dark-secondary-soft: rgba(251, 113, 133, 0.10);
+
+        }
+
+        :root[data-palette="magenta"] {
+
+            --accent-start: #c026d3;
+
+            --accent-end: #f472b6;
+
+            --accent-solid: #d946ef;
+
+            --accent-soft: rgba(217, 70, 239, 0.18);
+
+            --dark-base-top: #170816;
+
+            --dark-base-bottom: #2b1030;
+
+            --dark-secondary-soft: rgba(244, 114, 182, 0.10);
+
+        }
+
+        :root[data-palette="brown"] {
+
+            --accent-start: #92400e;
+
+            --accent-end: #d6a76c;
+
+            --accent-solid: #b45309;
+
+            --accent-soft: rgba(180, 83, 9, 0.18);
+
+            --dark-base-top: #15100a;
+
+            --dark-base-bottom: #281b12;
+
+            --dark-secondary-soft: rgba(214, 167, 108, 0.09);
+
+        }
+
+        :root[data-palette="teal"] {
+
+            --accent-start: #0f766e;
+
+            --accent-end: #2dd4bf;
+
+            --accent-solid: #14b8a6;
+
+            --accent-soft: rgba(20, 184, 166, 0.18);
+
+            --dark-base-top: #061515;
+
+            --dark-base-bottom: #0b2527;
+
+            --dark-secondary-soft: rgba(45, 212, 191, 0.10);
+
+        }
+
+        :root[data-palette="blue"] {
+
+            --accent-start: #1d4ed8;
+
+            --accent-end: #60a5fa;
+
+            --accent-solid: #2563eb;
+
+            --accent-soft: rgba(37, 99, 235, 0.18);
+
+            --dark-base-top: #07111f;
+
+            --dark-base-bottom: #0d1e34;
+
+            --dark-secondary-soft: rgba(96, 165, 250, 0.10);
+
+        }
+
+        :root[data-palette="orange"] {
+
+            --accent-start: #c2410c;
+
+            --accent-end: #fb923c;
+
+            --accent-solid: #ea580c;
+
+            --accent-soft: rgba(234, 88, 12, 0.18);
+
+            --dark-base-top: #171008;
+
+            --dark-base-bottom: #2a180d;
+
+            --dark-secondary-soft: rgba(251, 146, 60, 0.10);
+
+        }
+
+        :root[data-palette="lime"] {
+
+            --accent-start: #4d7c0f;
+
+            --accent-end: #a3e635;
+
+            --accent-solid: #65a30d;
+
+            --accent-soft: rgba(101, 163, 13, 0.18);
+
+            --dark-base-top: #101508;
+
+            --dark-base-bottom: #1c290d;
+
+            --dark-secondary-soft: rgba(163, 230, 53, 0.10);
+
+        }
+
+        :root[data-palette="indigo"] {
+
+            --accent-start: #4338ca;
+
+            --accent-end: #818cf8;
+
+            --accent-solid: #4f46e5;
+
+            --accent-soft: rgba(79, 70, 229, 0.18);
+
+            --dark-base-top: #0b0c1b;
+
+            --dark-base-bottom: #171736;
+
+            --dark-secondary-soft: rgba(129, 140, 248, 0.10);
+
+        }
+
+        :root[data-palette="rose"] {
+
+            --accent-start: #be123c;
+
+            --accent-end: #fda4af;
+
+            --accent-solid: #e11d48;
+
+            --accent-soft: rgba(225, 29, 72, 0.18);
+
+            --dark-base-top: #18090f;
+
+            --dark-base-bottom: #2c111a;
+
+            --dark-secondary-soft: rgba(253, 164, 175, 0.10);
+
+        }
+
+        :root[data-palette="amber"] {
+
+            --accent-start: #d97706;
+
+            --accent-end: #fcd34d;
+
+            --accent-solid: #f59e0b;
+
+            --accent-soft: rgba(245, 158, 11, 0.18);
+
+            --dark-base-top: #1c1105;
+
+            --dark-base-bottom: #2d190a;
+
+            --dark-secondary-soft: rgba(252, 211, 77, 0.10);
+
+        }
+
+        :root[data-palette="sky"] {
+
+            --accent-start: #0ea5e9;
+
+            --accent-end: #7dd3fc;
+
+            --accent-solid: #0284c7;
+
+            --accent-soft: rgba(14, 165, 233, 0.18);
+
+            --dark-base-top: #071526;
+
+            --dark-base-bottom: #0c2541;
+
+            --dark-secondary-soft: rgba(125, 211, 252, 0.10);
+
+        }
+
+        :root[data-palette="stone"] {
+
+            --accent-start: #52525b;
+
+            --accent-end: #a3a3a3;
+
+            --accent-solid: #6b7280;
+
+            --accent-soft: rgba(156, 163, 175, 0.18);
+
+            --dark-base-top: #090a0e;
+
+            --dark-base-bottom: #1f1f23;
+
+            --dark-secondary-soft: rgba(156, 163, 175, 0.10);
+
+        }
+
+        :root[data-palette="emerald"] {
+
+            --accent-start: #047857;
+
+            --accent-end: #4ade80;
+
+            --accent-solid: #059669;
+
+            --accent-soft: rgba(16, 185, 129, 0.18);
+
+            --dark-base-top: #071510;
+
+            --dark-base-bottom: #0d2313;
+
+            --dark-secondary-soft: rgba(34, 197, 94, 0.10);
+
+        }
+
+        .app-shell {
+
+            background:
+
+                radial-gradient(circle at top left, var(--accent-soft), transparent 24%),
+
+                radial-gradient(circle at bottom right, rgba(24, 200, 255, 0.14), transparent 30%),
+
+                linear-gradient(180deg, rgba(255,255,255,0.96), rgba(244,247,255,0.98));
+
+        }
+
+        .dark .app-shell {
+
+            background:
+
+                radial-gradient(circle at top left, var(--accent-soft), transparent 20%),
+
+                radial-gradient(circle at bottom right, var(--dark-secondary-soft), transparent 28%),
+
+                linear-gradient(180deg, var(--dark-base-top), var(--dark-base-bottom));
+
+        }
+
+        .accent-gradient {
+
+            background-image: linear-gradient(90deg, var(--accent-start), var(--accent-end));
+
+        }
+
+        .accent-text {
+
+            color: var(--accent-solid);
+
+        }
+
+        .accent-ring {
+
+            border-color: var(--accent-solid);
+
+        }
+
+        .accent-panel {
+
+            border-color: var(--accent-soft);
+
+            box-shadow: 0 0 0 1px var(--accent-soft), 0 24px 80px rgba(15, 23, 42, 0.08);
+
+        }
+
+        .dark .accent-panel {
+
+            box-shadow: 0 0 0 1px var(--accent-soft), 0 24px 80px rgba(0, 0, 0, 0.28);
+
+        }
+
+        .accent-soft-bg {
+
+            background-color: var(--accent-soft);
+
+        }
+
+        .nav-active {
+
+            border-color: transparent;
+
+            background-image: linear-gradient(90deg, var(--accent-start), var(--accent-end));
+
+            color: white;
+
+            box-shadow: 0 16px 40px var(--accent-soft);
+
+        }
+
+        .dark .nav-active {
+
+            color: white;
+
+        }
+
+        .nav-idle:hover {
+
+            border-color: var(--accent-solid);
+
+            box-shadow: 0 0 0 1px var(--accent-soft);
+
+        }
+
+        .accent-button {
+
+            border-color: var(--accent-soft);
+
+        }
+
+        .accent-button:hover {
+
+            border-color: var(--accent-solid);
+
+            box-shadow: 0 0 0 1px var(--accent-soft);
+
+        }
+
+        .accent-chip {
+
+            border-color: var(--accent-soft);
+
+            background-color: rgba(255, 255, 255, 0.88);
+
+        }
+
+        .dark .accent-chip {
+
+            background-color: rgba(15, 23, 42, 0.72);
+
+        }
+
+        .accent-chip:hover {
+
+            border-color: var(--accent-solid);
+
+            box-shadow: 0 0 0 1px var(--accent-soft);
+
+        }
+
+        .accent-card {
+
+            border-color: var(--accent-soft);
+
+        }
+
+        .accent-card:hover {
+
+            border-color: var(--accent-solid);
+
+            box-shadow: 0 0 0 1px var(--accent-soft);
+
+        }
+
+        .accent-input:focus {
+
+            border-color: var(--accent-solid);
+
+            box-shadow: 0 0 0 3px var(--accent-soft);
+
+        }
+
+
+
+        #palette-overlay {
+            opacity: 0;
+            transform-origin: left center;
+            transform: translateX(-16px) scale(0.92);
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            z-index: 50;
+        }
+        #palette-overlay.palette-open {
+            visibility: visible;
+            pointer-events: auto;
+            opacity: 1;
+            transform: translateX(0) scale(1);
+            animation: palette-slide-right 0.28s ease-out;
+        }
+        @keyframes palette-slide-right {
+            0% {
+                opacity: 0;
+                transform: translateX(-18px) scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+    </style>
+
+</head>
+
+<body class="h-full bg-base text-slate-900 transition-colors duration-300 dark:bg-night dark:text-slate-100">
+
+    <div class="app-shell min-h-screen">
+
+        <div class="flex min-h-screen w-full flex-col md:flex-row">
+
+            <aside class="w-full border-b border-slate-200/80 bg-white/75 p-6 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/70 md:sticky md:top-0 md:h-screen md:max-w-xs md:border-b-0 md:border-r">
+
+                <div class="flex items-start justify-between gap-4">
+
+                    <div>
+
+                        <h1 class="text-3xl font-semibold tracking-tight">Workspace</h1>
+
+                        <p class="mt-3 text-sm leading-6 text-slate-500 dark:text-slate-400">Persistent tools for tasks, reading, and media.</p>
+
+                    </div>
+
+                    <div class="relative z-30 flex items-start gap-2">
+
+                        <div class="relative">
+
+                            <button id="palette-toggle" type="button" class="rounded-2xl border border-slate-200 bg-white/80 p-3 text-slate-700 transition hover:border-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-slate-500" aria-label="Open palette">
+
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18z" />
+
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 10.5h.01M16.5 10.5h.01M9 15h6M8 7.5h.01M16 7.5h.01" />
+
+                                </svg>
+
+                            </button>
+
+                            <div id="palette-overlay" class="absolute left-full top-0 ml-3 z-40 rounded-[1.5rem] border border-slate-200 bg-white/95 p-3 shadow-2xl backdrop-blur-xl dark:border-slate-700 dark:bg-slate-950/95">
+
+                                <div class="flex flex-row flex-wrap gap-2" id="palette-options">
+
+                                    <button type="button" data-palette="violet" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-violet-600 to-cyan-400"></button>
+
+                                    <button type="button" data-palette="green" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-green-700 to-green-400"></button>
+
+                                    <button type="button" data-palette="red" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-red-700 to-rose-400"></button>
+
+                                    <button type="button" data-palette="magenta" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-fuchsia-700 to-pink-400"></button>
+
+                                    <button type="button" data-palette="brown" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-amber-800 to-orange-300"></button>
+
+                                    <button type="button" data-palette="teal" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-teal-700 to-teal-300"></button>
+
+                                    <button type="button" data-palette="blue" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-blue-700 to-sky-400"></button>
+
+                                    <button type="button" data-palette="orange" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-orange-700 to-amber-300"></button>
+
+                                    <button type="button" data-palette="lime" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-lime-700 to-lime-300"></button>
+
+                                    <button type="button" data-palette="indigo" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-indigo-700 to-violet-300"></button>
+
+                                    <button type="button" data-palette="rose" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-rose-700 to-pink-300"></button>
+
+                                    <button type="button" data-palette="amber" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-amber-700 to-amber-300"></button>
+
+                                    <button type="button" data-palette="sky" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-sky-600 to-cyan-300"></button>
+
+                                    <button type="button" data-palette="stone" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-stone-700 to-stone-300"></button>
+
+                                    <button type="button" data-palette="emerald" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-emerald-700 to-lime-300"></button>
+
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <button id="theme-toggle" type="button" class="rounded-2xl border border-slate-200 bg-white/80 p-3 text-slate-700 transition hover:border-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-slate-500" aria-label="Toggle theme">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3c0 .34.02.68.05 1.01A7 7 0 0021 12.79z" />
+
+                            </svg>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" class="hidden h-5 w-5 dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25M12 18.75V21M4.97 4.97l1.59 1.59M17.44 17.44l1.59 1.59M3 12h2.25M18.75 12H21M4.97 19.03l1.59-1.59M17.44 6.56l1.59-1.59M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+
+                            </svg>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <nav class="mt-8 space-y-2" id="tab-menu">
+
+                    <button class="tab-trigger nav-active flex w-full items-center justify-between rounded-2xl border px-4 py-3 text-left text-sm" data-tab="tasks"><span><span class= flex items-center gap-3><span class=text-lg>???</span><span>Daily Tasks</span></span></span><span class="text-xs uppercase tracking-[0.2em] opacity-70">Live</span></button>
+
+                    <button class="tab-trigger nav-idle flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-left text-sm text-slate-700 transition dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-200" data-tab="pomodoro"><span><span class=flex items-center gap-3><span class=text-lg>??</span><span>Pomodoro</span></span></span><span class="text-xs uppercase tracking-[0.2em] text-slate-400">Live</span></button>
+
+                    <button class="tab-trigger nav-idle flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-left text-sm text-slate-700 transition dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-200" data-tab="notes"><span><span class=flex items-center gap-3><span class=text-lg>??</span><span>Quick Notes</span></span></span><span class="text-xs uppercase tracking-[0.2em] text-slate-400">Live</span></button>
+
+                    <button class="tab-trigger nav-idle flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-left text-sm text-slate-700 transition dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-200" data-tab="rss"><span><span class=flex items-center gap-3><span class=text-lg>??</span><span>RSS Reader</span></span></span><span class="text-xs uppercase tracking-[0.2em] text-slate-400">Live</span></button>
+
+                    <button class="tab-trigger nav-idle flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-left text-sm text-slate-700 transition dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-200" data-tab="videos"><span><span class=flex items-center gap-3><span class=text-lg>??</span><span>Videos</span></span></span><span class="text-xs uppercase tracking-[0.2em] text-slate-400">Live</span></button>
+
+                    <button class="tab-trigger nav-idle flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-left text-sm text-slate-700 transition dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-200" data-tab="podcasts"><span><span class=flex items-center gap-3><span class=text-lg>???</span><span>Podcasts</span></span></span><span class="text-xs uppercase tracking-[0.2em] text-slate-400">Live</span></button>
+
+                    <button class="tab-trigger nav-idle flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-left text-sm text-slate-700 transition dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-200" data-tab="terminal"><span><span class=flex items-center gap-3><span class=text-lg>??</span><span>Terminal</span></span></span><span class="text-xs uppercase tracking-[0.2em] text-slate-400">Live</span></button>
+
+                </nav>
+
+
+
+                <div class="accent-panel mt-8 rounded-[1.75rem] border bg-white/80 p-4 dark:bg-slate-900/80">
+
+                    <button id="today-toggle" type="button" class="flex w-full items-center justify-between text-left">
+
+                        <span class="accent-text text-xs uppercase tracking-[0.3em]">Today</span>
+
+                        <span id="today-toggle-icon" class="text-slate-400 transition">-</span>
+
+                    </button>
+
+                    <div id="today-content">
+
+                        <div class="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300">Top priority tasks in the queue.</div>
+
+                        <div class="mt-4 space-y-2" id="today-priority-list"></div>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+
+
+            <main class="flex-1 p-6 md:p-8 xl:p-10">
+
+                <section class="tab-panel" data-tab-panel="tasks">
+
+                    <div class="rounded-[2rem] border border-white/70 bg-white/70 p-6 shadow-glow backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/55 md:p-8">
+
+                        <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+
+                            <div>
+
+                                <p class="accent-text text-xs uppercase tracking-[0.35em]">Daily Flow</p>
+
+                                <h2 class="mt-3 text-3xl font-semibold tracking-tight">Manage daily tasks</h2>
+
+                                <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-600 dark:text-slate-300">Capture priorities, mark progress, and keep your day visible without losing state between sessions.</p>
+
+                            </div>
+
+                            <div class="accent-gradient rounded-2xl px-4 py-3 text-sm text-white" id="task-summary">Loading tasks...</div>
+
+                        </div>
+
+                        <form id="task-form" class="mt-8 flex flex-col gap-3 md:flex-row">
+
+                            <input id="task-input" type="text" placeholder="Add a task for today..." class="flex-1 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-aurora dark:border-slate-700 dark:bg-slate-900 dark:text-white" required>
+
+                            <select id="task-priority-input" class="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-white">
+
+                                <option value="high">High</option>
+
+                                <option value="medium" selected>Medium</option>
+
+                                <option value="low">Low</option>
+
+                            </select>
+
+                            <input id="task-due-date-input" type="date" class="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-white">
+
+                            <button type="submit" class="accent-gradient rounded-2xl px-6 py-3 text-sm font-medium text-white">Add Task</button>
+
+                        </form>
+
+                        <div class="mt-6 rounded-[1.5rem] border border-slate-200 bg-white/80 p-4 dark:border-slate-800 dark:bg-slate-900/80">
+
+                            <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+
+                                <div>
+
+                                    <p class="text-xs uppercase tracking-[0.25em] text-slate-400">Next Tasks</p>
+
+                                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Fetch the next pending tasks from your saved list.</p>
+
+                                </div>
+
+                                <button id="fetch-next-tasks" type="button" class="accent-button rounded-2xl border border-slate-300 px-4 py-2 text-sm text-slate-700 dark:border-slate-700 dark:text-slate-200">Fetch Next</button>
+
+                            </div>
+
+                            <div class="mt-4 space-y-2" id="next-task-list"></div>
+
+                        </div>
+
+                        <div class="mt-8 space-y-3" id="task-list"></div>
+
+                    </div>
+
+                </section>
+
+
+
+                <section class="tab-panel hidden" data-tab-panel="pomodoro">
+
+                    <div class="rounded-[2rem] border border-white/70 bg-white/70 p-6 shadow-glow backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/55 md:p-8">
+
+                        <p class="text-xs uppercase tracking-[0.35em] text-mint">Focus Block</p>
+
+                        <h2 class="mt-3 text-3xl font-semibold tracking-tight">Pomodoro timer</h2>
+
+                        <div class="mt-8 grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+
+                            <div class="rounded-[1.75rem] bg-[linear-gradient(135deg,_#101727,_#202c55_55%,_#6d5efc)] p-8 text-white">
+
+                                <p class="text-sm uppercase tracking-[0.3em] text-white/60" id="pomodoro-state">Focus Session</p>
+
+                                <div class="mt-6 text-6xl font-semibold tracking-tight md:text-7xl" id="timer-display">25:00</div>
+
+                                <div class="mt-8 flex flex-wrap gap-3">
+
+                                    <button id="start-timer" class="rounded-2xl bg-white px-5 py-3 text-sm font-medium text-slate-900">Start</button>
+
+                                    <button id="pause-timer" class="rounded-2xl border border-white/30 px-5 py-3 text-sm">Pause</button>
+
+                                    <button id="reset-timer" class="rounded-2xl border border-white/30 px-5 py-3 text-sm">Reset</button>
+
+                                </div>
+
+                            </div>
+
+                            <div class="space-y-4 rounded-[1.75rem] border border-slate-200 bg-white/80 p-6 dark:border-slate-800 dark:bg-slate-900/85">
+
+                                <label class="block text-sm text-slate-600 dark:text-slate-300">Focus minutes<input id="focus-minutes" type="number" min="1" max="120" value="25" class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 dark:border-slate-700 dark:bg-slate-950"></label>
+
+                                <label class="block text-sm text-slate-600 dark:text-slate-300">Break minutes<input id="break-minutes" type="number" min="1" max="60" value="5" class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 dark:border-slate-700 dark:bg-slate-950"></label>
+
+                                <p class="text-sm leading-7 text-slate-500 dark:text-slate-400">The timer switches between focus and break automatically and stays client-side for instant control.</p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+
+                <section class="tab-panel hidden" data-tab-panel="notes">
+
+                    <div class="rounded-[2rem] border border-white/70 bg-white/70 p-6 shadow-glow backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/55 md:p-8">
+
+                        <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Capture</p>
+
+                        <h2 class="mt-3 text-3xl font-semibold tracking-tight">Quick notes</h2>
+
+                        <div class="mt-8 rounded-[1.75rem] border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+
+                            <textarea id="notes-area" rows="18" class="w-full resize-none bg-transparent text-sm leading-7 text-slate-700 outline-none dark:text-slate-200" placeholder="Write your notes here..."></textarea>
+
+                        </div>
+
+                        <p class="mt-3 text-xs uppercase tracking-[0.25em] text-slate-400" id="notes-status">Loading notes...</p>
+
+                    </div>
+
+                </section>
+
+
+
+                <section class="tab-panel hidden" data-tab-panel="rss">
+
+                    <div class="rounded-[2rem] border border-white/70 bg-white/70 p-6 shadow-glow backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/55 md:p-8">
+
+                        <p class="accent-text text-xs uppercase tracking-[0.35em]">Reader</p>
+
+                        <h2 class="mt-3 text-3xl font-semibold tracking-tight">RSS feeds</h2>
+
+                        <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-600 dark:text-slate-300">Track tech feeds, browse article lists, and open the selected story in the built-in reader pane.</p>
+
+                        <form id="rss-form" class="mt-8 flex flex-col gap-3 xl:flex-row">
+
+                            <input id="rss-url-input" type="url" placeholder="https://example.com/feed.xml" class="flex-1 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-aurora dark:border-slate-700 dark:bg-slate-900" required>
+
+                            <button type="submit" class="accent-gradient rounded-2xl px-6 py-3 text-sm font-medium text-white">Add Feed</button>
+
+                            <button type="button" id="rss-refresh" class="rounded-2xl border border-slate-300 px-6 py-3 text-sm text-slate-700 dark:border-slate-700 dark:text-slate-200">Refresh</button>
+
+                            <button type="button" id="rss-import-button" class="rounded-2xl border border-slate-300 px-6 py-3 text-sm text-slate-700 dark:border-slate-700 dark:text-slate-200">Import TXT</button>
+
+                            <input id="rss-import-file" type="file" accept=".txt,text/plain" class="hidden">
+
+                        </form>
+
+                        <div class="mt-4 text-sm text-slate-500 dark:text-slate-400" id="rss-status">No feeds loaded yet.</div>
+
+                        <div class="mt-4 rounded-[1.5rem] border border-slate-200 bg-white/80 p-4 dark:border-slate-800 dark:bg-slate-900/80">
+
+                            <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+
+                                <div>
+
+                                    <p class="text-xs uppercase tracking-[0.25em] text-slate-400">Popular Tech Feeds</p>
+
+                                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Official RSS feeds from major tech publishers.</p>
+
+                                </div>
+
+                                <button type="button" id="rss-add-all-presets" class="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm text-slate-700 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200">Add all</button>
+
+                            </div>
+
+                            <div class="mt-4 flex flex-wrap gap-2" id="rss-preset-categories"></div>
+
+                            <div class="mt-4 flex flex-wrap gap-2" id="rss-preset-feeds"></div>
+
+                        </div>
+
+                        <div class="mt-4 flex flex-wrap gap-2" id="rss-feed-chips"></div>
+
+                        <div class="mt-3 space-y-2" id="rss-errors"></div>
+
+                        <div class="mt-8 grid gap-6 xl:grid-cols-[0.72fr_1.68fr]">
+
+                            <div class="rounded-[1.75rem] border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+
+                                <div class="mb-3 flex items-center justify-between">
+
+                                    <h3 class="text-sm uppercase tracking-[0.25em] text-slate-400">Articles</h3>
+
+                                    <span id="rss-count" class="text-xs text-slate-400">0 items</span>
+
+                                </div>
+
+                                <div class="h-[2000px] space-y-3 overflow-y-auto pr-2" id="rss-article-list"></div>
+
+                            </div>
+
+                            <div class="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/70">
+
+                                <div id="rss-article-meta" class="mb-4 hidden rounded-2xl bg-white p-4 dark:bg-slate-950">
+
+                                    <p id="rss-article-feed" class="text-xs uppercase tracking-[0.25em] text-slate-400"></p>
+
+                                    <h3 id="rss-article-title" class="mt-2 text-2xl font-semibold"></h3>
+
+                                    <p id="rss-article-date" class="mt-2 text-sm text-slate-500"></p>
+
+                                    <a id="rss-open-link" href="#" target="_blank" rel="noopener noreferrer" class="mt-3 inline-flex rounded-2xl bg-slate-900 px-4 py-2 text-sm text-white dark:bg-white dark:text-slate-900">Open original article</a>
+
+                                </div>
+
+                                <div id="rss-empty-state" class="flex h-full min-h-[22rem] items-center justify-center rounded-[1.5rem] border border-dashed border-slate-300 bg-white text-center text-sm text-slate-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-400">Select an article to view it here.</div>
+
+                                <iframe id="rss-viewer" class="hidden h-[2000px] w-full rounded-[1.5rem] border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950" referrerpolicy="no-referrer"></iframe>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+
+                <section class="tab-panel hidden" data-tab-panel="videos">
+
+                    <div class="rounded-[2rem] border border-white/70 bg-white/70 p-6 shadow-glow backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/55 md:p-8">
+
+                        <p class="text-xs uppercase tracking-[0.35em] text-coral">Watchlist</p>
+
+                        <h2 class="mt-3 text-3xl font-semibold tracking-tight">Videos</h2>
+
+                        <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-600 dark:text-slate-300">Add channel links, aggregate the latest uploads, and watch selected videos in the built-in player.</p>
+
+                        <form id="youtube-form" class="mt-8 flex flex-col gap-3 xl:flex-row">
+
+                            <input id="youtube-url-input" type="url" placeholder="https://www.youtube.com/@channelname" class="flex-1 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-aurora dark:border-slate-700 dark:bg-slate-900" required>
+
+                            <button type="submit" class="rounded-2xl bg-gradient-to-r from-coral to-aurora px-6 py-3 text-sm font-medium text-white">Add Channel</button>
+
+                            <button type="button" id="youtube-refresh" class="rounded-2xl border border-slate-300 px-6 py-3 text-sm text-slate-700 dark:border-slate-700 dark:text-slate-200">Refresh Videos</button>
+
+                            <button type="button" id="youtube-import-button" class="rounded-2xl border border-slate-300 px-6 py-3 text-sm text-slate-700 dark:border-slate-700 dark:text-slate-200">Import TXT</button>
+
+                            <input id="youtube-import-file" type="file" accept=".txt,text/plain" class="hidden">
+
+                        </form>
+
+                        <div class="mt-4 text-sm text-slate-500 dark:text-slate-400" id="youtube-status">No channels loaded yet.</div>
+
+                        <div class="mt-3 space-y-2" id="youtube-errors"></div>
+
+                        <div class="mt-8 grid gap-6 xl:grid-cols-[0.9fr_1.35fr_0.75fr]">
+
+                            <div class="min-h-[28rem] rounded-[1.75rem] border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+
+                                <div class="mb-3 flex items-center justify-between">
+
+                                    <h3 class="text-sm uppercase tracking-[0.25em] text-slate-400">Latest videos</h3>
+
+                                    <span id="youtube-count" class="text-xs text-slate-400">0 items</span>
+
+                                </div>
+
+                                <div class="space-y-3 overflow-y-auto pr-2" id="youtube-video-list"></div>
+
+                            </div>
+
+                            <div class="min-h-[28rem] rounded-[1.75rem] border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/70">
+
+                                <div id="youtube-video-meta" class="mb-4 hidden rounded-2xl bg-white p-4 dark:bg-slate-950">
+
+                                    <p id="youtube-video-channel" class="text-xs uppercase tracking-[0.25em] text-slate-400"></p>
+
+                                    <h3 id="youtube-video-title" class="mt-2 text-2xl font-semibold"></h3>
+
+                                    <p id="youtube-video-date" class="mt-2 text-sm text-slate-500"></p>
+
+                                    <a id="youtube-open-link" href="#" target="_blank" rel="noopener noreferrer" class="mt-3 inline-flex rounded-2xl bg-slate-900 px-4 py-2 text-sm text-white dark:bg-white dark:text-slate-900">Open on YouTube</a>
+
+                                </div>
+
+                                <div id="youtube-empty-state" class="flex h-full min-h-[22rem] items-center justify-center rounded-[1.5rem] border border-dashed border-slate-300 bg-white text-center text-sm text-slate-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-400">Select a video to watch it here.</div>
+
+                                <iframe id="youtube-player" class="hidden aspect-video w-full rounded-[1.5rem] border border-slate-200 bg-black dark:border-slate-800" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+                            </div>
+
+                            <div class="min-h-[28rem] rounded-[1.75rem] border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+
+                                <div class="mb-3 flex items-center justify-between">
+
+                                    <h3 class="text-sm uppercase tracking-[0.25em] text-slate-400">Channels</h3>
+
+                                    <span class="text-xs text-slate-400">Saved</span>
+
+                                </div>
+
+                                <div class="grid grid-cols-1 gap-2 overflow-y-auto pr-2 sm:grid-cols-2" id="youtube-channel-chips"></div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+
+                <section class="tab-panel hidden" data-tab-panel="podcasts">
+
+                    <div class="rounded-[2rem] border border-white/70 bg-white/70 p-6 shadow-glow backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/55 md:p-8">
+
+                        <p class="accent-text text-xs uppercase tracking-[0.35em]">Audio</p>
+
+                        <h2 class="mt-3 text-3xl font-semibold tracking-tight">Podcast app</h2>
+
+                        <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-600 dark:text-slate-300">Add podcast RSS links, filter by category, browse episodes, and listen with the built-in audio player.</p>
+
+                        <form id="podcast-form" class="mt-8 flex flex-col gap-3 xl:flex-row">
+
+                            <input id="podcast-url-input" type="url" placeholder="https://example.com/podcast-feed.xml" class="flex-1 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-aurora dark:border-slate-700 dark:bg-slate-900" required>
+
+                            <button type="submit" class="accent-gradient rounded-2xl px-6 py-3 text-sm font-medium text-white">Add Podcast</button>
+
+                            <button type="button" id="podcast-refresh" class="rounded-2xl border border-slate-300 px-6 py-3 text-sm text-slate-700 dark:border-slate-700 dark:text-slate-200">Refresh Episodes</button>
+
+                            <button type="button" id="podcast-import-button" class="rounded-2xl border border-slate-300 px-6 py-3 text-sm text-slate-700 dark:border-slate-700 dark:text-slate-200">Import TXT</button>
+
+                            <input id="podcast-import-file" type="file" accept=".txt,text/plain" class="hidden">
+
+                        </form>
+
+                        <div class="mt-4 text-sm text-slate-500 dark:text-slate-400" id="podcast-status">No podcast feeds loaded yet.</div>
+
+                        <div class="mt-4 flex flex-wrap gap-2" id="podcast-category-list"></div>
+
+                        <div class="mt-4 flex flex-wrap gap-2" id="podcast-feed-chips"></div>
+
+                        <div class="mt-3 space-y-2" id="podcast-errors"></div>
+
+                        <div class="mt-8 grid gap-6 xl:grid-cols-[0.85fr_1.55fr]">
+
+                            <div class="rounded-[1.75rem] border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+
+                                <div class="mb-3 flex items-center justify-between">
+
+                                    <h3 class="text-sm uppercase tracking-[0.25em] text-slate-400">Episodes</h3>
+
+                                    <span id="podcast-count" class="text-xs text-slate-400">0 items</span>
+
+                                </div>
+
+                                <div class="h-[1200px] space-y-3 overflow-y-auto pr-2" id="podcast-episode-list"></div>
+
+                            </div>
+
+                            <div class="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/70">
+
+                                <div id="podcast-episode-meta" class="mb-4 hidden rounded-2xl bg-white p-4 dark:bg-slate-950">
+
+                                    <p id="podcast-feed-title" class="text-xs uppercase tracking-[0.25em] text-slate-400"></p>
+
+                                    <h3 id="podcast-episode-title" class="mt-2 text-2xl font-semibold"></h3>
+
+                                    <p id="podcast-episode-date" class="mt-2 text-sm text-slate-500"></p>
+
+                                    <a id="podcast-open-link" href="#" target="_blank" rel="noopener noreferrer" class="mt-3 inline-flex rounded-2xl bg-slate-900 px-4 py-2 text-sm text-white dark:bg-white dark:text-slate-900">Open original page</a>
+
+                                </div>
+
+                                <div id="podcast-empty-state" class="flex h-full min-h-[18rem] items-center justify-center rounded-[1.5rem] border border-dashed border-slate-300 bg-white text-center text-sm text-slate-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-400">Select an episode to listen here.</div>
+
+                                <div id="podcast-player-shell" class="hidden">
+
+                                    <audio id="podcast-player" class="w-full" controls preload="none"></audio>
+
+                                    <div id="podcast-description" class="mt-6 max-h-[900px] overflow-y-auto rounded-[1.5rem] border border-slate-200 bg-white p-4 text-sm leading-7 text-slate-600 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300"></div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <section class="tab-panel hidden" data-tab-panel="terminal">
+
+                    <div class="rounded-[2rem] border border-white/70 bg-white/70 p-6 shadow-glow backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/55 md:p-8">
+
+                        <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+
+                            <div>
+
+                                <p class="accent-text text-xs uppercase tracking-[0.35em]">Shell</p>
+
+                                <h2 class="mt-3 text-3xl font-semibold tracking-tight">Terminal</h2>
+
+                                <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-600 dark:text-slate-300">Run PowerShell commands inside the app. The current working directory is tracked between commands and output stays in a single scrollable console.</p>
+
+                            </div>
+
+                            <div class="accent-card rounded-[1.5rem] border px-5 py-4 text-sm text-slate-600 dark:text-slate-300">
+
+                                <div class="text-xs uppercase tracking-[0.25em] text-slate-400">Working Directory</div>
+
+                                <div id="terminal-cwd" class="mt-2 break-all font-mono text-xs text-slate-700 dark:text-slate-200">G:\Git Repos\codex</div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="mt-8 overflow-hidden rounded-[1.75rem] border border-slate-200 bg-slate-950 shadow-2xl shadow-slate-950/25 dark:border-slate-700">
+
+                            <div class="flex items-center justify-between border-b border-slate-800 bg-slate-900 px-4 py-3 text-xs uppercase tracking-[0.25em] text-slate-400">
+
+                                <span>Integrated shell</span>
+
+                                <button id="terminal-clear" type="button" class="rounded-full border border-slate-700 px-3 py-1 text-[11px] text-slate-300 transition hover:border-slate-500 hover:text-white">Clear</button>
+
+                            </div>
+
+                            <div id="terminal-output" class="h-[900px] overflow-y-auto bg-slate-950 px-4 py-4 font-mono text-sm leading-7 text-slate-200"></div>
+
+                            <form id="terminal-form" class="border-t border-slate-800 bg-slate-900 p-4">
+
+                                <label class="mb-3 block text-xs uppercase tracking-[0.25em] text-slate-500" for="terminal-input">Command</label>
+
+                                <div class="flex flex-col gap-3 xl:flex-row">
+
+                                    <input id="terminal-input" type="text" autocomplete="off" spellcheck="false" placeholder="Get-ChildItem" class="flex-1 rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 font-mono text-sm text-slate-100 outline-none transition focus:border-slate-500">
+
+                                    <button type="submit" class="accent-gradient rounded-2xl px-6 py-3 text-sm font-medium text-white">Run Command</button>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </main>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        const baseTriggerClass = "tab-trigger flex w-full items-center justify-between rounded-2xl border px-4 py-3 text-left text-sm transition";
+
+        const activeTriggerClass = `${baseTriggerClass} nav-active`;
+
+        const idleTriggerClass = `${baseTriggerClass} nav-idle border-slate-200 bg-white/80 text-slate-700 dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-200`;
+
+
+
+        const tabTriggers = document.querySelectorAll(".tab-trigger");
+
+        const tabPanels = document.querySelectorAll(".tab-panel");
+
+        const themeToggle = document.getElementById("theme-toggle");
+
+        const paletteButtons = document.querySelectorAll(".palette-option");
+
+        const paletteOverlay = document.getElementById("palette-overlay");
+
+        const paletteToggle = document.getElementById("palette-toggle");
+
+        const paletteOptions = document.getElementById("palette-options");
+
+        const todayToggle = document.getElementById("today-toggle");
+
+        const todayToggleIcon = document.getElementById("today-toggle-icon");
+
+        const todayContent = document.getElementById("today-content");
+
+
+
+        function activateTab(tabId) {
+
+            tabTriggers.forEach((trigger) => {
+
+                trigger.className = trigger.dataset.tab === tabId ? activeTriggerClass : idleTriggerClass;
+
+            });
+
+            tabPanels.forEach((panel) => {
+
+                panel.classList.toggle("hidden", panel.dataset.tabPanel !== tabId);
+
+            });
+
+        }
+
+
+
+        tabTriggers.forEach((trigger) => trigger.addEventListener("click", () => activateTab(trigger.dataset.tab)));
+
+        themeToggle.addEventListener("click", () => {
+
+            const isDark = document.documentElement.classList.toggle("dark");
+
+            localStorage.setItem("task-console-theme", isDark ? "dark" : "light");
+
+        });
+
+        paletteButtons.forEach((button) => {
+
+            button.addEventListener("click", () => {
+
+                const palette = button.dataset.palette;
+
+                document.documentElement.dataset.palette = palette;
+
+                localStorage.setItem("task-console-palette", palette);
+
+                paletteButtons.forEach((entry) => entry.classList.remove("ring-2", "ring-offset-2", "ring-slate-900", "dark:ring-white"));
+
+                button.classList.add("ring-2", "ring-offset-2", "ring-slate-900", "dark:ring-white");
+
+            });
+
+            if (button.dataset.palette === document.documentElement.dataset.palette) {
+
+                button.classList.add("ring-2", "ring-offset-2", "ring-slate-900", "dark:ring-white");
+
+            }
+
+        });
+
+
+
+
+
+
+
+        function setPaletteOpen(open) {
+
+            paletteOverlay.classList.toggle('palette-open', open);
+
+            localStorage.setItem('task-console-palette-collapsed', open ? 'false' : 'true');
+
+        }
+
+
+
+        function applyPaletteCollapseState() {
+
+            const collapsed = localStorage.getItem('task-console-palette-collapsed');
+
+            const isCollapsed = collapsed === 'true' || collapsed === null;
+
+            paletteOverlay.classList.toggle('palette-open', !isCollapsed);
+
+        }
+
+
+
+        paletteToggle.addEventListener('click', () => {
+
+            setPaletteOpen(!paletteOverlay.classList.contains('palette-open'));
+
+        });
+
+
+
+        document.addEventListener('click', (event) => {
+
+            if (
+
+                paletteOverlay.classList.contains('palette-open') &&
+
+                !paletteOverlay.contains(event.target) &&
+
+                !paletteToggle.contains(event.target)
+
+            ) {
+
+                setPaletteOpen(false);
+
+            }
+
+        });
+
+        function applyTodayCollapseState() {
+
+            const collapsed = localStorage.getItem("task-console-today-collapsed") === "true";
+
+            todayContent.classList.toggle("hidden", collapsed);
+
+            todayToggleIcon.textContent = collapsed ? "+" : "-";
+
+        }
+
+
+
+        todayToggle.addEventListener("click", () => {
+
+            const nextCollapsed = !todayContent.classList.contains("hidden");
+
+            localStorage.setItem("task-console-today-collapsed", nextCollapsed ? "true" : "false");
+
+            applyTodayCollapseState();
+
+        });
+
+
+
+        async function apiFetch(url, options = {}) {
+
+            const response = await fetch(url, {
+
+                headers: { "Content-Type": "application/json", ...(options.headers || {}) },
+
+                ...options
+
+            });
+
+            if (!response.ok) {
+
+                let message = "Request failed.";
+
+                try {
+
+                    const payload = await response.json();
+
+                    message = payload.error || message;
+
+                } catch (error) {
+
+                    message = response.statusText || message;
+
+                }
+
+                throw new Error(message);
+
+            }
+
+            if (response.status === 204) return null;
+
+            return response.json();
+
+        }
+
+
+
+        async function readLinesFromFile(file) {
+
+            const text = await file.text();
+
+            return text
+
+                .split(/\r?\n/)
+
+                .map((line) => line.trim())
+
+                .filter((line) => line && !line.startsWith("#"));
+
+        }
+
+
+
+        async function importUrlsFromFile(file, addFn) {
+
+            const urls = await readLinesFromFile(file);
+
+            for (const url of urls) {
+
+                await addFn(url);
+
+            }
+
+            return urls.length;
+
+        }
+
+
+
+        function formatDate(value) {
+
+            const date = new Date(value);
+
+            return Number.isNaN(date.getTime()) ? "" : date.toLocaleString();
+
+        }
+
+
+
+        function stripHtml(value) {
+
+            const container = document.createElement("div");
+
+            container.innerHTML = value || "";
+
+            return (container.textContent || container.innerText || "").trim();
+
+        }
+
+
+
+        const taskForm = document.getElementById("task-form");
+
+        const taskInput = document.getElementById("task-input");
+
+        const taskPriorityInput = document.getElementById("task-priority-input");
+
+        const taskDueDateInput = document.getElementById("task-due-date-input");
+
+        const taskList = document.getElementById("task-list");
+
+        const taskSummary = document.getElementById("task-summary");
+
+        const fetchNextTasksButton = document.getElementById("fetch-next-tasks");
+
+        const nextTaskList = document.getElementById("next-task-list");
+
+        const todayPriorityList = document.getElementById("today-priority-list");
+
+        let tasks = [];
+
+        let nextTasks = [];
+
+        let draggedTaskId = null;
+
+
+
+        function taskPriorityRank(priority) {
+
+            if (priority === "high") return 1;
+
+            if (priority === "medium") return 2;
+
+            return 3;
+
+        }
+
+
+
+        function getPrioritizedPendingTasks(limit) {
+
+            return [...tasks]
+
+                .filter((task) => !task.done)
+
+                .sort((left, right) => {
+
+                    const priorityDelta = taskPriorityRank(left.priority) - taskPriorityRank(right.priority);
+
+                    if (priorityDelta !== 0) return priorityDelta;
+
+                    const leftTime = Date.parse(left.created_at || "") || 0;
+
+                    const rightTime = Date.parse(right.created_at || "") || 0;
+
+                    if (leftTime !== rightTime) return leftTime - rightTime;
+
+                    return left.id - right.id;
+
+                })
+
+                .slice(0, limit);
+
+        }
+
+
+
+        function renderTodayPriorityTasks() {
+
+            const topTasks = getPrioritizedPendingTasks(2);
+
+            todayPriorityList.innerHTML = "";
+
+            if (!topTasks.length) {
+
+                todayPriorityList.innerHTML = '<div class="rounded-2xl border border-dashed border-slate-300 px-3 py-3 text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">No pending tasks right now.</div>';
+
+                return;
+
+            }
+
+            topTasks.forEach((task, index) => {
+
+                const item = document.createElement("div");
+
+                item.className = "accent-card rounded-2xl border px-3 py-3";
+
+                item.innerHTML = `<div class="flex items-center justify-between gap-3"><span class="text-xs uppercase tracking-[0.2em] text-slate-400">Top ${index + 1}</span><span class="rounded-full border px-2 py-1 text-[11px] ${task.priority === "high" ? "border-red-300 text-red-600 dark:border-red-800 dark:text-red-300" : task.priority === "medium" ? "border-amber-300 text-amber-600 dark:border-amber-800 dark:text-amber-300" : "border-emerald-300 text-emerald-600 dark:border-emerald-800 dark:text-emerald-300"}">${task.priority}</span></div><div class="mt-2 text-sm text-slate-700 dark:text-slate-200">${task.text}</div>`;
+
+                todayPriorityList.appendChild(item);
+
+            });
+
+        }
+
+
+
+        function renderNextTasks() {
+
+            nextTaskList.innerHTML = "";
+
+            if (!nextTasks.length) {
+
+                nextTaskList.innerHTML = '<div class="rounded-2xl border border-dashed border-slate-300 px-4 py-3 text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">No pending tasks in the queue.</div>';
+
+                return;
+
+            }
+
+            nextTasks.forEach((task, index) => {
+
+                const item = document.createElement("div");
+
+                item.className = "accent-card rounded-2xl border px-4 py-3 text-sm";
+
+                item.innerHTML = `<span class="text-xs uppercase tracking-[0.2em] text-slate-400">Next ${index + 1}</span><div class="mt-2 text-slate-700 dark:text-slate-200">${task.text}</div>`;
+
+                nextTaskList.appendChild(item);
+
+            });
+
+        }
+
+
+
+        function renderTasks() {
+
+            taskList.innerHTML = "";
+
+            if (!tasks.length) {
+
+                taskList.innerHTML = '<div class="rounded-2xl border border-dashed border-slate-300 bg-white/70 p-5 text-sm text-slate-500 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-400">No tasks yet. Add your first item above.</div>';
+
+            } else {
+
+                tasks.forEach((task) => {
+
+                    const item = document.createElement("div");
+
+                    item.draggable = true;
+
+                    item.dataset.taskId = task.id;
+
+                    item.className = "flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white/80 px-4 py-4 dark:border-slate-800 dark:bg-slate-900/80";
+
+                    item.innerHTML = `
+
+                        <div class="flex flex-wrap items-center gap-3">
+
+                            <button type="button" data-role="toggle-details" class="rounded-xl border border-slate-200 px-3 py-2 text-slate-500 transition hover:border-slate-400 dark:border-slate-700 dark:text-slate-300 dark:hover:border-slate-500" aria-label="Toggle task details">
+
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+
+                                </svg>
+
+                            </button>
+
+                            <span class="cursor-move text-slate-400">::</span>
+
+                            <input data-role="task-checkbox" type="checkbox" class="h-4 w-4 rounded border-slate-300" ${task.done ? "checked" : ""}>
+
+                            <div class="min-w-0 flex-1 text-sm ${task.done ? "text-slate-400 line-through" : "text-slate-700 dark:text-slate-200"}">${task.text}</div>
+
+                            <span class="rounded-full border border-slate-200 px-2 py-1 text-xs text-slate-500 dark:border-slate-700 dark:text-slate-400">${task.due_date || "No due date"}</span>
+
+                            <span class="rounded-full border px-2 py-1 text-xs ${task.priority === "high" ? "border-red-300 text-red-600 dark:border-red-800 dark:text-red-300" : task.priority === "medium" ? "border-amber-300 text-amber-600 dark:border-amber-800 dark:text-amber-300" : "border-emerald-300 text-emerald-600 dark:border-emerald-800 dark:text-emerald-300"}">${task.priority}</span>
+
+                            <button data-role="delete-task" class="rounded-xl border border-slate-200 px-3 py-2 text-xs uppercase tracking-[0.2em] text-slate-500 dark:border-slate-700 dark:text-slate-400">Delete</button>
+
+                        </div>
+
+                        <div data-role="task-details" class="hidden grid gap-3 md:grid-cols-[0.9fr_0.7fr_0.6fr]">
+
+                            <input type="text" class="task-text rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm dark:border-slate-700 dark:bg-slate-950 dark:text-white" value="${task.text.replace(/"/g, "&quot;")}">
+
+                            <input type="date" class="task-due rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm dark:border-slate-700 dark:bg-slate-950 dark:text-white" value="${task.due_date || ""}">
+
+                            <select class="task-priority rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm dark:border-slate-700 dark:bg-slate-950 dark:text-white">
+
+                                <option value="high" ${task.priority === "high" ? "selected" : ""}>High</option>
+
+                                <option value="medium" ${task.priority === "medium" ? "selected" : ""}>Medium</option>
+
+                                <option value="low" ${task.priority === "low" ? "selected" : ""}>Low</option>
+
+                            </select>
+
+                        </div>
+
+                    `;
+
+                    const checkbox = item.querySelector('[data-role="task-checkbox"]');
+
+                    const deleteButton = item.querySelector('[data-role="delete-task"]');
+
+                    const detailsToggle = item.querySelector('[data-role="toggle-details"]');
+
+                    const detailsPanel = item.querySelector('[data-role="task-details"]');
+
+                    const textEditor = item.querySelector(".task-text");
+
+                    const dueEditor = item.querySelector(".task-due");
+
+                    const priorityEditor = item.querySelector(".task-priority");
+
+                    detailsToggle.addEventListener("click", () => {
+
+                        detailsPanel.classList.toggle("hidden");
+
+                        detailsToggle.classList.toggle("rotate-180");
+
+                    });
+
+                    const persistTaskDetails = async () => {
+
+                        try {
+
+                            const updated = await apiFetch(`/api/tasks/${task.id}`, {
+
+                                method: "PATCH",
+
+                                body: JSON.stringify({
+
+                                    text: textEditor.value.trim(),
+
+                                    due_date: dueEditor.value,
+
+                                    priority: priorityEditor.value
+
+                                })
+
+                            });
+
+                            tasks = tasks.map((entry) => entry.id === updated.id ? updated : entry);
+
+                            renderTasks();
+
+                            renderTodayPriorityTasks();
+
+                            await loadNextTasks();
+
+                        } catch (error) {
+
+                            alert(error.message);
+
+                        }
+
+                    };
+
+                    checkbox.addEventListener("change", async () => {
+
+                        try {
+
+                            const updated = await apiFetch(`/api/tasks/${task.id}`, { method: "PATCH", body: JSON.stringify({ done: checkbox.checked }) });
+
+                            tasks = tasks.map((entry) => entry.id === updated.id ? updated : entry);
+
+                            renderTasks();
+
+                            renderTodayPriorityTasks();
+
+                            await loadNextTasks();
+
+                        } catch (error) {
+
+                            checkbox.checked = !checkbox.checked;
+
+                            alert(error.message);
+
+                        }
+
+                    });
+
+                    textEditor.addEventListener("change", persistTaskDetails);
+
+                    dueEditor.addEventListener("change", persistTaskDetails);
+
+                    priorityEditor.addEventListener("change", persistTaskDetails);
+
+                    deleteButton.addEventListener("click", async () => {
+
+                        try {
+
+                            await apiFetch(`/api/tasks/${task.id}`, { method: "DELETE" });
+
+                            tasks = tasks.filter((entry) => entry.id !== task.id);
+
+                            renderTasks();
+
+                            renderTodayPriorityTasks();
+
+                            await loadNextTasks();
+
+                        } catch (error) {
+
+                            alert(error.message);
+
+                        }
+
+                    });
+
+                    item.addEventListener("dragstart", () => {
+
+                        draggedTaskId = task.id;
+
+                        item.classList.add("opacity-60");
+
+                    });
+
+                    item.addEventListener("dragend", () => {
+
+                        draggedTaskId = null;
+
+                        item.classList.remove("opacity-60");
+
+                    });
+
+                    item.addEventListener("dragover", (event) => {
+
+                        event.preventDefault();
+
+                        item.classList.add("accent-ring");
+
+                    });
+
+                    item.addEventListener("dragleave", () => {
+
+                        item.classList.remove("accent-ring");
+
+                    });
+
+                    item.addEventListener("drop", async (event) => {
+
+                        event.preventDefault();
+
+                        item.classList.remove("accent-ring");
+
+                        if (!draggedTaskId || draggedTaskId === task.id) return;
+
+                        const currentIndex = tasks.findIndex((entry) => entry.id === draggedTaskId);
+
+                        const targetIndex = tasks.findIndex((entry) => entry.id === task.id);
+
+                        const reordered = [...tasks];
+
+                        const [moved] = reordered.splice(currentIndex, 1);
+
+                        reordered.splice(targetIndex, 0, moved);
+
+                        try {
+
+                            tasks = await apiFetch("/api/tasks/reorder", {
+
+                                method: "POST",
+
+                                body: JSON.stringify({ task_ids: reordered.map((entry) => entry.id) })
+
+                            });
+
+                            renderTasks();
+
+                            renderTodayPriorityTasks();
+
+                            await loadNextTasks();
+
+                        } catch (error) {
+
+                            alert(error.message);
+
+                        }
+
+                    });
+
+                    taskList.appendChild(item);
+
+                });
+
+            }
+
+            const completed = tasks.filter((task) => task.done).length;
+
+            taskSummary.textContent = `${tasks.length} task${tasks.length === 1 ? "" : "s"}, ${completed} done`;
+
+        }
+
+
+
+        async function loadNextTasks() {
+
+            nextTasks = await apiFetch("/api/tasks/next?limit=1");
+
+            renderNextTasks();
+
+        }
+
+
+
+        async function loadTasks() {
+
+            tasks = await apiFetch("/api/tasks");
+
+            renderTasks();
+
+            renderTodayPriorityTasks();
+
+        }
+
+
+
+        taskForm.addEventListener("submit", async (event) => {
+
+            event.preventDefault();
+
+            const text = taskInput.value.trim();
+
+            if (!text) return;
+
+            try {
+
+                const newTask = await apiFetch("/api/tasks", {
+
+                    method: "POST",
+
+                    body: JSON.stringify({
+
+                        text,
+
+                        priority: taskPriorityInput.value,
+
+                        due_date: taskDueDateInput.value
+
+                    })
+
+                });
+
+                tasks.push(newTask);
+
+                taskInput.value = "";
+
+                taskPriorityInput.value = "medium";
+
+                taskDueDateInput.value = "";
+
+                renderTasks();
+
+                renderTodayPriorityTasks();
+
+                await loadNextTasks();
+
+            } catch (error) {
+
+                alert(error.message);
+
+            }
+
+        });
+
+
+
+        fetchNextTasksButton.addEventListener("click", async () => {
+
+            try {
+
+                await loadNextTasks();
+
+            } catch (error) {
+
+                alert(error.message);
+
+            }
+
+        });
+
+
+
+        const notesArea = document.getElementById("notes-area");
+
+        const notesStatus = document.getElementById("notes-status");
+
+        let notesSaveTimer;
+
+
+
+        async function loadNotes() {
+
+            const payload = await apiFetch("/api/notes");
+
+            notesArea.value = payload.content || "";
+
+            notesStatus.textContent = "Saved to backend";
+
+        }
+
+
+
+        notesArea.addEventListener("input", () => {
+
+            notesStatus.textContent = "Saving...";
+
+            clearTimeout(notesSaveTimer);
+
+            notesSaveTimer = setTimeout(async () => {
+
+                try {
+
+                    await apiFetch("/api/notes", { method: "PUT", body: JSON.stringify({ content: notesArea.value }) });
+
+                    notesStatus.textContent = "Saved to backend";
+
+                } catch (error) {
+
+                    notesStatus.textContent = "Save failed";
+
+                }
+
+            }, 350);
+
+        });
+
+
+
+        const timerDisplay = document.getElementById("timer-display");
+
+        const pomodoroState = document.getElementById("pomodoro-state");
+
+        const focusInput = document.getElementById("focus-minutes");
+
+        const breakInput = document.getElementById("break-minutes");
+
+        const startButton = document.getElementById("start-timer");
+
+        const pauseButton = document.getElementById("pause-timer");
+
+        const resetButton = document.getElementById("reset-timer");
+
+        let isFocusMode = true;
+
+        let remainingSeconds = Number(focusInput.value) * 60;
+
+        let timerId = null;
+
+
+
+        function formatTime(totalSeconds) {
+
+            const minutes = Math.floor(totalSeconds / 60).toString().padStart(2, "0");
+
+            const seconds = (totalSeconds % 60).toString().padStart(2, "0");
+
+            return `${minutes}:${seconds}`;
+
+        }
+
+
+
+        function syncTimerDisplay() {
+
+            timerDisplay.textContent = formatTime(remainingSeconds);
+
+            pomodoroState.textContent = isFocusMode ? "Focus Session" : "Break Session";
+
+        }
+
+
+
+        function stopTimer() {
+
+            if (timerId) {
+
+                clearInterval(timerId);
+
+                timerId = null;
+
+            }
+
+        }
+
+
+
+        function resetTimer() {
+
+            stopTimer();
+
+            isFocusMode = true;
+
+            remainingSeconds = Number(focusInput.value || 25) * 60;
+
+            syncTimerDisplay();
+
+        }
+
+
+
+        function tick() {
+
+            if (remainingSeconds > 0) {
+
+                remainingSeconds -= 1;
+
+                syncTimerDisplay();
+
+                return;
+
+            }
+
+            isFocusMode = !isFocusMode;
+
+            remainingSeconds = Number((isFocusMode ? focusInput : breakInput).value || (isFocusMode ? 25 : 5)) * 60;
+
+            syncTimerDisplay();
+
+        }
+
+
+
+        startButton.addEventListener("click", () => {
+
+            if (!timerId) timerId = setInterval(tick, 1000);
+
+        });
+
+        pauseButton.addEventListener("click", stopTimer);
+
+        resetButton.addEventListener("click", resetTimer);
+
+        focusInput.addEventListener("change", resetTimer);
+
+        breakInput.addEventListener("change", () => {
+
+            if (!timerId && !isFocusMode) {
+
+                remainingSeconds = Number(breakInput.value || 5) * 60;
+
+                syncTimerDisplay();
+
+            }
+
+        });
+
+
+
+        const rssForm = document.getElementById("rss-form");
+
+        const rssUrlInput = document.getElementById("rss-url-input");
+
+        const rssRefreshButton = document.getElementById("rss-refresh");
+
+        const rssImportButton = document.getElementById("rss-import-button");
+
+        const rssImportFile = document.getElementById("rss-import-file");
+
+        const rssAddAllPresetsButton = document.getElementById("rss-add-all-presets");
+
+        const rssPresetCategories = document.getElementById("rss-preset-categories");
+
+        const rssPresetFeeds = document.getElementById("rss-preset-feeds");
+
+        const rssStatus = document.getElementById("rss-status");
+
+        const rssFeedChips = document.getElementById("rss-feed-chips");
+
+        const rssErrors = document.getElementById("rss-errors");
+
+        const rssCount = document.getElementById("rss-count");
+
+        const rssArticleList = document.getElementById("rss-article-list");
+
+        const rssEmptyState = document.getElementById("rss-empty-state");
+
+        const rssViewer = document.getElementById("rss-viewer");
+
+        const rssArticleMeta = document.getElementById("rss-article-meta");
+
+        const rssArticleFeed = document.getElementById("rss-article-feed");
+
+        const rssArticleTitle = document.getElementById("rss-article-title");
+
+        const rssArticleDate = document.getElementById("rss-article-date");
+
+        const rssOpenLink = document.getElementById("rss-open-link");
+
+
+
+        let rssFeeds = [];
+
+        let rssArticles = [];
+
+        let activePresetCategory = "All";
+
+        const popularTechFeeds = [
+
+            { name: "TechCrunch", category: "Startups", url: "https://techcrunch.com/feed/" },
+
+            { name: "WIRED Top Stories", category: "General Tech", url: "https://www.wired.com/feed/rss" },
+
+            { name: "WIRED AI", category: "AI", url: "https://www.wired.com/feed/tag/ai/latest/rss" },
+
+            { name: "WIRED Security", category: "Security", url: "https://www.wired.com/feed/category/security/latest/rss" },
+
+            { name: "Ars Technica", category: "General Tech", url: "http://feeds.arstechnica.com/arstechnica/index" },
+
+            { name: "GitHub Blog", category: "Developer Tools", url: "https://github.blog/feed/" },
+
+            { name: "XDA Developers", category: "Developer Tools", url: "https://www.xda-developers.com/feed/" },
+
+            { name: "The Verge", category: "General Tech", url: "https://www.theverge.com/rss/index.xml" }
+
+        ];
+
+        const presetCategories = ["All", "AI", "Security", "Startups", "Developer Tools", "General Tech"];
+
+
+
+        function openArticle(article) {
+
+            rssArticleMeta.classList.remove("hidden");
+
+            rssEmptyState.classList.add("hidden");
+
+            rssViewer.classList.remove("hidden");
+
+            rssArticleFeed.textContent = article.feed_title;
+
+            rssArticleTitle.textContent = article.title;
+
+            rssArticleDate.textContent = formatDate(article.published_at);
+
+            rssOpenLink.href = article.link || "#";
+
+            rssViewer.src = article.link ? `/article-view?url=${encodeURIComponent(article.link)}` : "about:blank";
+
+        }
+
+
+
+        function renderFeedChips() {
+
+            rssFeedChips.innerHTML = "";
+
+            if (!rssFeeds.length) {
+
+                rssFeedChips.innerHTML = '<div class="rounded-2xl border border-dashed border-slate-300 px-4 py-3 text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">No RSS feeds added yet.</div>';
+
+                return;
+
+            }
+
+            rssFeeds.forEach((feed) => {
+
+                const chip = document.createElement("div");
+
+                chip.className = "accent-chip flex items-center gap-2 rounded-full border px-4 py-2 text-sm";
+
+                chip.innerHTML = `<span class="max-w-[18rem] truncate">${feed.title}</span><button class="rounded-full border border-slate-200 px-2 py-1 text-xs uppercase tracking-[0.2em] text-slate-500 dark:border-slate-700 dark:text-slate-400">Remove</button>`;
+
+                chip.querySelector("button").addEventListener("click", async () => {
+
+                    try {
+
+                        await apiFetch(`/api/rss/feeds/${feed.id}`, { method: "DELETE" });
+
+                        await loadRss();
+
+                    } catch (error) {
+
+                        alert(error.message);
+
+                    }
+
+                });
+
+                rssFeedChips.appendChild(chip);
+
+            });
+
+        }
+
+
+
+        function renderPresetCategories() {
+
+            rssPresetCategories.innerHTML = "";
+
+            presetCategories.forEach((category) => {
+
+                const button = document.createElement("button");
+
+                const active = category === activePresetCategory;
+
+                button.type = "button";
+
+                button.className = active ? "accent-gradient rounded-full border border-transparent px-4 py-2 text-sm text-white" : "accent-chip rounded-full border px-4 py-2 text-sm";
+
+                button.textContent = category;
+
+                button.addEventListener("click", () => {
+
+                    activePresetCategory = category;
+
+                    renderPresetCategories();
+
+                    renderPresetFeeds();
+
+                });
+
+                rssPresetCategories.appendChild(button);
+
+            });
+
+        }
+
+
+
+        function renderPresetFeeds() {
+
+            rssPresetFeeds.innerHTML = "";
+
+            const visibleFeeds = popularTechFeeds.filter((feed) => activePresetCategory === "All" || feed.category === activePresetCategory);
+
+            if (!visibleFeeds.length) {
+
+                rssPresetFeeds.innerHTML = '<div class="rounded-2xl border border-dashed border-slate-300 px-4 py-3 text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">No preset feeds in this category.</div>';
+
+                return;
+
+            }
+
+            visibleFeeds.forEach((feed) => {
+
+                const button = document.createElement("button");
+
+                const alreadyAdded = rssFeeds.some((item) => item.url === feed.url);
+
+                button.type = "button";
+
+                button.disabled = alreadyAdded;
+
+                button.className = alreadyAdded ? "rounded-full border border-slate-200 bg-white px-4 py-2 text-sm text-slate-400 dark:border-slate-700 dark:bg-slate-950" : "accent-chip rounded-full border px-4 py-2 text-sm";
+
+                button.textContent = alreadyAdded ? `${feed.name} Added` : `Add ${feed.name}`;
+
+                button.addEventListener("click", async () => {
+
+                    try {
+
+                        rssStatus.textContent = `Adding ${feed.name}...`;
+
+                        await apiFetch("/api/rss/feeds", { method: "POST", body: JSON.stringify({ url: feed.url }) });
+
+                        await loadRss();
+
+                    } catch (error) {
+
+                        rssStatus.textContent = `Unable to add ${feed.name}.`;
+
+                        alert(error.message);
+
+                    }
+
+                });
+
+                rssPresetFeeds.appendChild(button);
+
+            });
+
+        }
+
+
+
+        function renderRssErrors(errors) {
+
+            rssErrors.innerHTML = "";
+
+            errors.forEach((errorItem) => {
+
+                const message = document.createElement("div");
+
+                message.className = "rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/50 dark:text-amber-200";
+
+                message.textContent = `${errorItem.feed_title}: ${errorItem.message}`;
+
+                rssErrors.appendChild(message);
+
+            });
+
+        }
+
+
+
+        function renderArticles() {
+
+            rssArticleList.innerHTML = "";
+
+            rssCount.textContent = `${rssArticles.length} item${rssArticles.length === 1 ? "" : "s"}`;
+
+            if (!rssArticles.length) {
+
+                rssArticleList.innerHTML = '<div class="rounded-2xl border border-dashed border-slate-300 p-4 text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">No articles available. Add a feed or refresh.</div>';
+
+                rssArticleMeta.classList.add("hidden");
+
+                rssEmptyState.classList.remove("hidden");
+
+                rssViewer.classList.add("hidden");
+
+                rssViewer.src = "about:blank";
+
+                return;
+
+            }
+
+            rssArticles.forEach((article, index) => {
+
+                const item = document.createElement("button");
+
+                item.className = "accent-card w-full rounded-2xl border p-4 text-left transition hover:border-slate-400 hover:bg-white/95 dark:hover:border-slate-600";
+
+                item.innerHTML = `<p class="text-xs uppercase tracking-[0.2em] text-slate-400">${article.feed_title}</p><h4 class="mt-2 text-sm font-semibold">${article.title}</h4><p class="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">${article.summary || "No summary available."}</p><p class="mt-3 text-xs text-slate-400">${formatDate(article.published_at)}</p>`;
+
+                item.addEventListener("click", () => openArticle(article));
+
+                rssArticleList.appendChild(item);
+
+                if (index === 0) openArticle(article);
+
+            });
+
+        }
+
+
+
+        async function loadRss() {
+
+            rssStatus.textContent = "Loading feeds and articles...";
+
+            const [feedsPayload, articlesPayload] = await Promise.all([apiFetch("/api/rss/feeds"), apiFetch("/api/rss/articles")]);
+
+            rssFeeds = feedsPayload;
+
+            rssArticles = articlesPayload.articles || [];
+
+            renderFeedChips();
+
+            renderPresetCategories();
+
+            renderPresetFeeds();
+
+            renderRssErrors(articlesPayload.errors || []);
+
+            renderArticles();
+
+            rssStatus.textContent = rssFeeds.length ? `Loaded ${rssFeeds.length} feed${rssFeeds.length === 1 ? "" : "s"}.` : "No feeds loaded yet.";
+
+        }
+
+
+
+        async function addRssFeedUrl(url) {
+
+            await apiFetch("/api/rss/feeds", { method: "POST", body: JSON.stringify({ url }) });
+
+        }
+
+
+
+        rssForm.addEventListener("submit", async (event) => {
+
+            event.preventDefault();
+
+            const url = rssUrlInput.value.trim();
+
+            if (!url) return;
+
+            try {
+
+                rssStatus.textContent = "Adding feed...";
+
+                await apiFetch("/api/rss/feeds", { method: "POST", body: JSON.stringify({ url }) });
+
+                rssUrlInput.value = "";
+
+                await loadRss();
+
+            } catch (error) {
+
+                rssStatus.textContent = "Unable to add feed.";
+
+                alert(error.message);
+
+            }
+
+        });
+
+
+
+        rssRefreshButton.addEventListener("click", async () => {
+
+            try { await loadRss(); } catch (error) { rssStatus.textContent = "Refresh failed."; alert(error.message); }
+
+        });
+
+
+
+        rssImportButton.addEventListener("click", () => rssImportFile.click());
+
+        rssImportFile.addEventListener("change", async () => {
+
+            const file = rssImportFile.files?.[0];
+
+            if (!file) return;
+
+            try {
+
+                rssStatus.textContent = "Importing RSS feeds...";
+
+                await importUrlsFromFile(file, addRssFeedUrl);
+
+                await loadRss();
+
+            } catch (error) {
+
+                rssStatus.textContent = "RSS import failed.";
+
+                alert(error.message);
+
+            } finally {
+
+                rssImportFile.value = "";
+
+            }
+
+        });
+
+
+
+        rssAddAllPresetsButton.addEventListener("click", async () => {
+
+            const missingFeeds = popularTechFeeds.filter((feed) => !rssFeeds.some((item) => item.url === feed.url));
+
+            if (!missingFeeds.length) {
+
+                rssStatus.textContent = "All popular tech feeds are already added.";
+
+                return;
+
+            }
+
+            try {
+
+                rssStatus.textContent = "Adding popular tech feeds...";
+
+                await Promise.all(missingFeeds.map((feed) => apiFetch("/api/rss/feeds", { method: "POST", body: JSON.stringify({ url: feed.url }) })));
+
+                await loadRss();
+
+            } catch (error) {
+
+                rssStatus.textContent = "Unable to add all popular feeds.";
+
+                alert(error.message);
+
+            }
+
+        });
+
+
+
+        const youtubeForm = document.getElementById("youtube-form");
+
+        const youtubeUrlInput = document.getElementById("youtube-url-input");
+
+        const youtubeRefreshButton = document.getElementById("youtube-refresh");
+
+        const youtubeImportButton = document.getElementById("youtube-import-button");
+
+        const youtubeImportFile = document.getElementById("youtube-import-file");
+
+        const youtubeStatus = document.getElementById("youtube-status");
+
+        const youtubeChannelChips = document.getElementById("youtube-channel-chips");
+
+        const youtubeErrors = document.getElementById("youtube-errors");
+
+        const youtubeCount = document.getElementById("youtube-count");
+
+        const youtubeVideoList = document.getElementById("youtube-video-list");
+
+        const youtubeEmptyState = document.getElementById("youtube-empty-state");
+
+        const youtubePlayer = document.getElementById("youtube-player");
+
+        const youtubeVideoMeta = document.getElementById("youtube-video-meta");
+
+        const youtubeVideoChannel = document.getElementById("youtube-video-channel");
+
+        const youtubeVideoTitle = document.getElementById("youtube-video-title");
+
+        const youtubeVideoDate = document.getElementById("youtube-video-date");
+
+        const youtubeOpenLink = document.getElementById("youtube-open-link");
+
+        const FREECODECAMP_CHANNEL_ID = "UC8butISFwT-Wl7EV0hUK0BQ";
+
+        const FREECODECAMP_URL = "https://www.youtube.com/feeds/videos.xml?channel_id=UC8butISFwT-Wl7EV0hUK0BQ";
+
+
+
+        let youtubeChannels = [];
+
+        let youtubeVideos = [];
+
+        let selectedChannelId = FREECODECAMP_CHANNEL_ID;
+
+        let defaultChannelEnsured = false;
+
+
+
+        function openVideo(video) {
+
+            youtubeVideoMeta.classList.remove("hidden");
+
+            youtubeEmptyState.classList.add("hidden");
+
+            youtubePlayer.classList.remove("hidden");
+
+            youtubeVideoChannel.textContent = video.channel_title;
+
+            youtubeVideoTitle.textContent = video.title;
+
+            youtubeVideoDate.textContent = formatDate(video.published_at);
+
+            youtubeOpenLink.href = video.link || "#";
+
+            youtubePlayer.src = video.video_id ? `https://www.youtube.com/embed/${video.video_id}?rel=0&modestbranding=1&autoplay=1` : "about:blank";
+
+        }
+
+
+
+
+
+        function renderYouTubeChannels() {
+
+            youtubeChannelChips.innerHTML = "";
+
+            if (!youtubeChannels.length) {
+
+                youtubeChannelChips.innerHTML = '<div class="rounded-2xl border border-dashed border-slate-300 px-4 py-3 text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">No channels added yet.</div>';
+
+                return;
+
+            }
+
+            youtubeChannels.forEach((channel) => {
+
+                const isSelected = channel.channel_id === selectedChannelId;
+
+                const card = document.createElement("div");
+
+                card.className = "flex items-center gap-2 rounded-2xl border px-3 py-3 text-sm transition focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-slate-50 dark:focus-within:ring-offset-slate-900";
+
+                if (isSelected) {
+
+                    card.classList.add("accent-gradient", "border-transparent", "shadow-xl", "text-white");
+
+                } else {
+
+                    card.classList.add("border-slate-200", "bg-white/70", "text-slate-700", "dark:border-slate-700", "dark:bg-slate-900/70", "dark:text-slate-200");
+
+                }
+
+                const label = document.createElement("button");
+
+                label.type = "button";
+
+                label.className = "flex-1 truncate text-left font-semibold";
+
+                if (isSelected) {
+
+                    label.classList.add("text-white");
+
+                }
+
+                label.textContent = channel.title || channel.channel_id;
+
+                label.setAttribute("aria-pressed", isSelected ? "true" : "false");
+
+                label.addEventListener("click", () => selectChannel(channel.channel_id));
+
+                const deleteButton = document.createElement("button");
+
+                deleteButton.type = "button";
+
+                deleteButton.className = "inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition hover:border-slate-400 hover:text-slate-700 dark:border-slate-700 dark:text-slate-400 dark:hover:border-slate-500 dark:hover:text-slate-200";
+
+                deleteButton.setAttribute("aria-label", "Delete channel");
+
+                deleteButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M6 7.5h12M9.75 7.5V6a.75.75 0 01.75-.75h3a.75.75 0 01.75.75v1.5m-6 0v10.125c0 .621.504 1.125 1.125 1.125h5.25c.621 0 1.125-.504 1.125-1.125V7.5M10.5 11.25v4.5M13.5 11.25v4.5" /></svg>`;
+
+                deleteButton.addEventListener("click", async (event) => {
+
+                    event.stopPropagation();
+
+                    try {
+
+                        await apiFetch(`/api/youtube/channels/${channel.id}`, { method: "DELETE" });
+
+                        await loadYouTube();
+
+                    } catch (error) {
+
+                        alert(error.message);
+
+                    }
+
+                });
+
+                card.append(label, deleteButton);
+
+                youtubeChannelChips.appendChild(card);
+
+            });
+
+        }
+
+
+
+        function selectChannel(channelId) {
+
+            if (!channelId) return;
+
+            selectedChannelId = channelId;
+
+            renderYouTubeChannels();
+
+            renderYouTubeVideos();
+
+        }
+
+        function renderYouTubeErrors(errors) {
+
+            youtubeErrors.innerHTML = "";
+
+            errors.forEach((errorItem) => {
+
+                const message = document.createElement("div");
+
+                message.className = "rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/50 dark:text-amber-200";
+
+                message.textContent = `${errorItem.channel_title}: ${errorItem.message}`;
+
+                youtubeErrors.appendChild(message);
+
+            });
+
+        }
+
+
+
+
+
+        function renderYouTubeVideos() {
+
+            youtubeVideoList.innerHTML = "";
+
+            const visibleVideos = selectedChannelId
+
+                ? youtubeVideos.filter((video) => video.channel_id === selectedChannelId)
+
+                : youtubeVideos;
+
+            youtubeCount.textContent = `${visibleVideos.length} item${visibleVideos.length === 1 ? "" : "s"}`;
+
+            if (!visibleVideos.length) {
+
+                youtubeVideoList.innerHTML = '<div class="rounded-2xl border border-dashed border-slate-300 p-4 text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">No videos available for this channel.</div>';
+
+                youtubeVideoMeta.classList.add("hidden");
+
+                youtubeEmptyState.classList.remove("hidden");
+
+                youtubePlayer.classList.add("hidden");
+
+                youtubePlayer.src = "about:blank";
+
+                return;
+
+            }
+
+            visibleVideos.forEach((video, index) => {
+
+                const item = document.createElement("button");
+
+                item.className = "accent-card w-full rounded-2xl border p-3 text-left transition hover:border-slate-400 hover:bg-white/95 dark:hover:border-slate-600";
+
+                item.innerHTML = `<div class="flex gap-3"><img src="${video.thumbnail || ""}" alt="" class="h-20 w-32 rounded-xl object-cover bg-slate-200 dark:bg-slate-800"><div class="min-w-0 flex-1"><p class="text-xs uppercase tracking-[0.2em] text-slate-400">${video.channel_title}</p><h4 class="mt-2 text-sm font-semibold">${video.title}</h4><p class="mt-3 text-xs text-slate-400">${formatDate(video.published_at)}</p></div></div>`;
+
+                item.addEventListener("click", () => openVideo(video));
+
+                youtubeVideoList.appendChild(item);
+
+                if (index === 0) openVideo(video);
+
+            });
+
+        }
+
+
+
+        async function loadYouTube() {
+
+            youtubeStatus.textContent = "Loading channels and videos...";
+
+            const [channelsPayload, videosPayload] = await Promise.all([apiFetch("/api/youtube/channels"), apiFetch("/api/youtube/videos")]);
+
+            youtubeChannels = channelsPayload;
+
+            youtubeVideos = videosPayload.videos || [];
+
+            if (!defaultChannelEnsured) {
+
+                const hasDefault = youtubeChannels.some((channel) => channel.channel_id === FREECODECAMP_CHANNEL_ID);
+
+                if (!hasDefault) {
+
+                    try {
+
+                        youtubeStatus.textContent = "Adding freeCodeCamp channel...";
+
+                        await addYouTubeChannelUrl(FREECODECAMP_URL);
+
+                        defaultChannelEnsured = true;
+
+                        await loadYouTube();
+
+                        return;
+
+                    } catch (error) {
+
+                        youtubeStatus.textContent = "Unable to add freeCodeCamp channel.";
+
+                        defaultChannelEnsured = true;
+
+                        console.error(error);
+
+                    }
+
+                } else {
+
+                    defaultChannelEnsured = true;
+
+                }
+
+            }
+
+            const hasSelection = selectedChannelId && youtubeChannels.some((channel) => channel.channel_id === selectedChannelId);
+
+            if (!hasSelection) {
+
+                const fallback = youtubeChannels.find((channel) => channel.channel_id === FREECODECAMP_CHANNEL_ID) || youtubeChannels[0];
+
+                selectedChannelId = fallback ? fallback.channel_id : null;
+
+            }
+
+            renderYouTubeChannels();
+
+            renderYouTubeErrors(videosPayload.errors || []);
+
+            renderYouTubeVideos();
+
+            youtubeStatus.textContent = youtubeChannels.length ? `Loaded ${youtubeChannels.length} channel${youtubeChannels.length === 1 ? "" : "s"}.` : "No channels loaded yet.";
+
+        }
+
+        async function addYouTubeChannelUrl(url) {
+
+            await apiFetch("/api/youtube/channels", { method: "POST", body: JSON.stringify({ url }) });
+
+        }
+
+
+
+        youtubeForm.addEventListener("submit", async (event) => {
+
+            event.preventDefault();
+
+            const url = youtubeUrlInput.value.trim();
+
+            if (!url) return;
+
+            try {
+
+                youtubeStatus.textContent = "Adding channel...";
+
+                await apiFetch("/api/youtube/channels", { method: "POST", body: JSON.stringify({ url }) });
+
+                youtubeUrlInput.value = "";
+
+                await loadYouTube();
+
+            } catch (error) {
+
+                youtubeStatus.textContent = "Unable to add channel.";
+
+                alert(error.message);
+
+            }
+
+        });
+
+
+
+        youtubeRefreshButton.addEventListener("click", async () => {
+
+            try {
+
+                await loadYouTube();
+
+            } catch (error) {
+
+                youtubeStatus.textContent = "Refresh failed.";
+
+                alert(error.message);
+
+            }
+
+        });
+
+
+
+        youtubeImportButton.addEventListener("click", () => youtubeImportFile.click());
+
+        youtubeImportFile.addEventListener("change", async () => {
+
+            const file = youtubeImportFile.files?.[0];
+
+            if (!file) return;
+
+            try {
+
+                youtubeStatus.textContent = "Importing channels...";
+
+                await importUrlsFromFile(file, addYouTubeChannelUrl);
+
+                await loadYouTube();
+
+            } catch (error) {
+
+                youtubeStatus.textContent = "Channel import failed.";
+
+                alert(error.message);
+
+            } finally {
+
+                youtubeImportFile.value = "";
+
+            }
+
+        });
+
+
+
+        const podcastForm = document.getElementById("podcast-form");
+
+        const podcastUrlInput = document.getElementById("podcast-url-input");
+
+        const podcastRefreshButton = document.getElementById("podcast-refresh");
+
+        const podcastImportButton = document.getElementById("podcast-import-button");
+
+        const podcastImportFile = document.getElementById("podcast-import-file");
+
+        const podcastStatus = document.getElementById("podcast-status");
+
+        const podcastCategoryList = document.getElementById("podcast-category-list");
+
+        const podcastFeedChips = document.getElementById("podcast-feed-chips");
+
+        const podcastErrors = document.getElementById("podcast-errors");
+
+        const podcastCount = document.getElementById("podcast-count");
+
+        const podcastEpisodeList = document.getElementById("podcast-episode-list");
+
+        const podcastEmptyState = document.getElementById("podcast-empty-state");
+
+        const podcastPlayerShell = document.getElementById("podcast-player-shell");
+
+        const podcastPlayer = document.getElementById("podcast-player");
+
+        const podcastEpisodeMeta = document.getElementById("podcast-episode-meta");
+
+        const podcastFeedTitle = document.getElementById("podcast-feed-title");
+
+        const podcastEpisodeTitle = document.getElementById("podcast-episode-title");
+
+        const podcastEpisodeDate = document.getElementById("podcast-episode-date");
+
+        const podcastOpenLink = document.getElementById("podcast-open-link");
+
+        const podcastDescription = document.getElementById("podcast-description");
+
+        const terminalCwdLabel = document.getElementById("terminal-cwd");
+
+        const terminalOutput = document.getElementById("terminal-output");
+
+        const terminalForm = document.getElementById("terminal-form");
+
+        const terminalInput = document.getElementById("terminal-input");
+
+        const terminalClearButton = document.getElementById("terminal-clear");
+
+
+
+        let podcastFeeds = [];
+
+        let podcastEpisodes = [];
+
+        let activePodcastCategory = "All";
+
+        let terminalCwd = "G:\\Git Repos\\codex";
+
+
+
+        function renderPodcastCategories() {
+
+            const categories = ["All", ...new Set(podcastEpisodes.map((episode) => episode.category || episode.feed_category || "General"))];
+
+            podcastCategoryList.innerHTML = "";
+
+            categories.forEach((category) => {
+
+                const button = document.createElement("button");
+
+                const active = category === activePodcastCategory;
+
+                button.type = "button";
+
+                button.className = active
+
+                    ? "accent-gradient rounded-full border border-transparent px-4 py-2 text-sm text-white"
+
+                    : "accent-chip rounded-full border px-4 py-2 text-sm";
+
+                button.textContent = category;
+
+                button.addEventListener("click", () => {
+
+                    activePodcastCategory = category;
+
+                    renderPodcastCategories();
+
+                    renderPodcastEpisodes();
+
+                });
+
+                podcastCategoryList.appendChild(button);
+
+            });
+
+        }
+
+
+
+        function renderPodcastFeedChips() {
+
+            podcastFeedChips.innerHTML = "";
+
+            if (!podcastFeeds.length) {
+
+                podcastFeedChips.innerHTML = '<div class="rounded-2xl border border-dashed border-slate-300 px-4 py-3 text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">No podcast feeds added yet.</div>';
+
+                return;
+
+            }
+
+            podcastFeeds.forEach((feed) => {
+
+                const chip = document.createElement("div");
+
+                chip.className = "accent-chip flex items-center gap-2 rounded-full border px-4 py-2 text-sm";
+
+                chip.innerHTML = `<span class="max-w-[18rem] truncate">${feed.title}</span><button class="rounded-full border border-slate-200 px-2 py-1 text-xs uppercase tracking-[0.2em] text-slate-500 dark:border-slate-700 dark:text-slate-400">Remove</button>`;
+
+                chip.querySelector("button").addEventListener("click", async () => {
+
+                    try {
+
+                        await apiFetch(`/api/podcasts/feeds/${feed.id}`, { method: "DELETE" });
+
+                        await loadPodcasts();
+
+                    } catch (error) {
+
+                        alert(error.message);
+
+                    }
+
+                });
+
+                podcastFeedChips.appendChild(chip);
+
+            });
+
+        }
+
+
+
+        function renderPodcastErrors(errors) {
+
+            podcastErrors.innerHTML = "";
+
+            errors.forEach((errorItem) => {
+
+                const message = document.createElement("div");
+
+                message.className = "rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/50 dark:text-amber-200";
+
+                message.textContent = `${errorItem.feed_title}: ${errorItem.message}`;
+
+                podcastErrors.appendChild(message);
+
+            });
+
+        }
+
+
+
+        function openPodcastEpisode(episode) {
+
+            podcastEpisodeMeta.classList.remove("hidden");
+
+            podcastEmptyState.classList.add("hidden");
+
+            podcastPlayerShell.classList.remove("hidden");
+
+            podcastFeedTitle.textContent = `${episode.feed_title} · ${episode.category || episode.feed_category || "General"}`;
+
+            podcastEpisodeTitle.textContent = episode.title;
+
+            podcastEpisodeDate.textContent = formatDate(episode.published_at);
+
+            podcastOpenLink.href = episode.link || episode.audio_url || "#";
+
+            podcastPlayer.src = episode.audio_url || "";
+
+            podcastDescription.textContent = stripHtml(episode.description) || "No episode description available.";
+
+        }
+
+
+
+        function renderPodcastEpisodes() {
+
+            podcastEpisodeList.innerHTML = "";
+
+            const visibleEpisodes = podcastEpisodes.filter((episode) => activePodcastCategory === "All" || (episode.category || episode.feed_category || "General") === activePodcastCategory);
+
+            podcastCount.textContent = `${visibleEpisodes.length} item${visibleEpisodes.length === 1 ? "" : "s"}`;
+
+            if (!visibleEpisodes.length) {
+
+                podcastEpisodeList.innerHTML = '<div class="rounded-2xl border border-dashed border-slate-300 p-4 text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">No episodes available for this category.</div>';
+
+                podcastEpisodeMeta.classList.add("hidden");
+
+                podcastEmptyState.classList.remove("hidden");
+
+                podcastPlayerShell.classList.add("hidden");
+
+                podcastPlayer.src = "";
+
+                return;
+
+            }
+
+            visibleEpisodes.forEach((episode, index) => {
+
+                const item = document.createElement("button");
+
+                item.className = "accent-card w-full rounded-2xl border p-4 text-left transition hover:border-slate-400 hover:bg-white/95 dark:hover:border-slate-600";
+
+                item.innerHTML = `<p class="text-xs uppercase tracking-[0.2em] text-slate-400">${episode.feed_title}</p><h4 class="mt-2 text-sm font-semibold">${episode.title}</h4><p class="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">${stripHtml(episode.description) || "No description available."}</p><p class="mt-3 text-xs text-slate-400">${formatDate(episode.published_at)}</p>`;
+
+                item.addEventListener("click", () => openPodcastEpisode(episode));
+
+                podcastEpisodeList.appendChild(item);
+
+                if (index === 0) openPodcastEpisode(episode);
+
+            });
+
+        }
+
+
+
+        function appendTerminalOutput(text, className = "text-slate-200") {
+
+            const block = document.createElement("div");
+
+            block.className = `whitespace-pre-wrap break-words ${className}`;
+
+            block.textContent = text;
+
+            terminalOutput.appendChild(block);
+
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+
+        }
+
+
+
+        function renderTerminalBanner() {
+
+            terminalOutput.innerHTML = "";
+
+            appendTerminalOutput("PowerShell shell ready.", "text-slate-100");
+
+            appendTerminalOutput(`cwd> ${terminalCwd}`, "mt-1 text-slate-400");
+
+        }
+
+
+
+        terminalForm.addEventListener("submit", async (event) => {
+
+            event.preventDefault();
+
+            const command = terminalInput.value.trim();
+
+            if (!command) return;
+
+            terminalInput.value = "";
+
+            terminalInput.disabled = true;
+
+            appendTerminalOutput(`\nPS ${terminalCwd}> ${command}`, "mt-4 text-emerald-300");
+
+            try {
+
+                const payload = await apiFetch("/api/terminal/execute", {
+
+                    method: "POST",
+
+                    body: JSON.stringify({ command, cwd: terminalCwd })
+
+                });
+
+                terminalCwd = payload.cwd || terminalCwd;
+
+                terminalCwdLabel.textContent = terminalCwd;
+
+                if (payload.stdout) {
+
+                    appendTerminalOutput(payload.stdout, "mt-2 text-slate-100");
+
+                }
+
+                if (payload.stderr) {
+
+                    appendTerminalOutput(payload.stderr, "mt-2 text-rose-300");
+
+                }
+
+                appendTerminalOutput(`[exit ${payload.exit_code}]`, "mt-2 text-slate-500");
+
+            } catch (error) {
+
+                appendTerminalOutput(error.message, "mt-2 text-rose-300");
+
+            } finally {
+
+                terminalInput.disabled = false;
+
+                terminalInput.focus();
+
+            }
+
+        });
+
+
+
+        terminalClearButton.addEventListener("click", () => {
+
+            renderTerminalBanner();
+
+            terminalInput.focus();
+
+        });
+
+
+
+        async function loadPodcasts() {
+
+            podcastStatus.textContent = "Loading podcast feeds and episodes...";
+
+            const [feedsPayload, episodesPayload] = await Promise.all([apiFetch("/api/podcasts/feeds"), apiFetch("/api/podcasts/episodes")]);
+
+            podcastFeeds = feedsPayload;
+
+            podcastEpisodes = episodesPayload.episodes || [];
+
+            renderPodcastCategories();
+
+            renderPodcastFeedChips();
+
+            renderPodcastErrors(episodesPayload.errors || []);
+
+            renderPodcastEpisodes();
+
+            podcastStatus.textContent = podcastFeeds.length
+
+                ? `Loaded ${podcastFeeds.length} podcast feed${podcastFeeds.length === 1 ? "" : "s"}.`
+
+                : "No podcast feeds loaded yet.";
+
+        }
+
+
+
+        async function addPodcastFeedUrl(url) {
+
+            await apiFetch("/api/podcasts/feeds", { method: "POST", body: JSON.stringify({ url }) });
+
+        }
+
+
+
+        podcastForm.addEventListener("submit", async (event) => {
+
+            event.preventDefault();
+
+            const url = podcastUrlInput.value.trim();
+
+            if (!url) return;
+
+            try {
+
+                podcastStatus.textContent = "Adding podcast feed...";
+
+                await addPodcastFeedUrl(url);
+
+                podcastUrlInput.value = "";
+
+                await loadPodcasts();
+
+            } catch (error) {
+
+                podcastStatus.textContent = "Unable to add podcast feed.";
+
+                alert(error.message);
+
+            }
+
+        });
+
+
+
+        podcastRefreshButton.addEventListener("click", async () => {
+
+            try {
+
+                await loadPodcasts();
+
+            } catch (error) {
+
+                podcastStatus.textContent = "Refresh failed.";
+
+                alert(error.message);
+
+            }
+
+        });
+
+
+
+        podcastImportButton.addEventListener("click", () => podcastImportFile.click());
+
+        podcastImportFile.addEventListener("change", async () => {
+
+            const file = podcastImportFile.files?.[0];
+
+            if (!file) return;
+
+            try {
+
+                podcastStatus.textContent = "Importing podcast feeds...";
+
+                await importUrlsFromFile(file, addPodcastFeedUrl);
+
+                await loadPodcasts();
+
+            } catch (error) {
+
+                podcastStatus.textContent = "Podcast import failed.";
+
+                alert(error.message);
+
+            } finally {
+
+                podcastImportFile.value = "";
+
+            }
+
+        });
+
+
+
+        async function initializeApp() {
+
+            try {
+
+                await Promise.all([loadTasks(), loadNextTasks(), loadNotes(), loadRss(), loadYouTube(), loadPodcasts()]);
+
+            } catch (error) {
+
+                console.error(error);
+
+            }
+
+            applyPaletteCollapseState();
+
+            applyTodayCollapseState();
+
+            terminalCwdLabel.textContent = terminalCwd;
+
+            renderTerminalBanner();
+
+            syncTimerDisplay();
+
+            activateTab("tasks");
+
+        }
+
+
+
+        initializeApp();
+
+    </script>
+
+</body>
+
+</html>
+

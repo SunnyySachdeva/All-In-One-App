@@ -1,0 +1,7 @@
+__pycache__
+node_modules
+tmp_render.py
+tmp_search.py
+tmp_snip2.py
+tmp_tasks_html.py
+task_console.db
