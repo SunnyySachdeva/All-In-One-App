@@ -117,6 +117,21 @@ def init_db():
         )
         """
     )
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS favorite_videos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            video_id TEXT NOT NULL UNIQUE,
+            channel_id TEXT,
+            channel_title TEXT,
+            title TEXT,
+            link TEXT,
+            thumbnail TEXT,
+            published_at TEXT,
+            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )
+        """
+    )
     db.commit()
     db.close()
 
@@ -1063,6 +1078,162 @@ def execute_terminal_command():
     except OSError as exc:
         return jsonify({"error": f"Unable to execute command: {exc}"}), 500
     return jsonify(result)
+
+
+@app.post("/api/ai/summary")
+def generate_video_summary():
+    payload = request.get_json(silent=True) or {}
+    video_title = (payload.get("title") or "").strip()
+    video_channel = (payload.get("channel") or "").strip()
+    video_id = (payload.get("video_id") or "").strip()
+    
+    if not video_title:
+        return jsonify({"error": "Video title is required."}), 400
+    
+    prompt = f"""You are a YouTube video analyzer. Provide a brief summary of what this video is about based on the information below.
+
+Video Title: {video_title}
+Channel: {video_channel}
+Video ID: {video_id}
+
+Provide a 2-3 sentence summary describing what the video is about, the main topic, and who would benefit from watching it. Be concise and informative."""
+
+    try:
+        import urllib.request
+        import json
+        
+        ollama_request = {
+            "model": "llama3:latest",
+            "prompt": prompt,
+            "stream": False,
+            "options": {
+                "temperature": 0.3,
+                "num_predict": 300
+            }
+        }
+        
+        request_obj = urllib.request.Request(
+            "http://localhost:11434/api/generate",
+            data=json.dumps(ollama_request).encode("utf-8"),
+            headers={"Content-Type": "application/json"}
+        )
+        
+        with urllib.request.urlopen(request_obj, timeout=120) as response:
+            result = json.loads(response.read().decode("utf-8"))
+            
+        summary = result.get("response", "").strip()
+        
+        if not summary:
+            return jsonify({"error": "No summary generated."}), 500
+            
+        return jsonify({"summary": summary})
+        
+    except Exception as exc:
+        return jsonify({"error": f"Failed to generate summary: {str(exc)}"}), 500
+
+
+@app.get("/api/youtube/favorites")
+def list_favorite_videos():
+    db = get_db()
+    rows = db.execute(
+        """
+        SELECT id, video_id, channel_id, channel_title, title, link, thumbnail, published_at, created_at
+        FROM favorite_videos
+        ORDER BY created_at DESC
+        """
+    ).fetchall()
+    return jsonify(
+        [
+            {
+                "id": row["id"],
+                "video_id": row["video_id"],
+                "channel_id": row["channel_id"],
+                "channel_title": row["channel_title"],
+                "title": row["title"],
+                "link": row["link"],
+                "thumbnail": row["thumbnail"],
+                "published_at": row["published_at"],
+                "created_at": row["created_at"],
+            }
+            for row in rows
+        ]
+    )
+
+
+@app.post("/api/youtube/favorites")
+def add_favorite_video():
+    payload = request.get_json(silent=True) or {}
+    video_id = (payload.get("video_id") or "").strip()
+    channel_id = (payload.get("channel_id") or "").strip()
+    channel_title = (payload.get("channel_title") or "").strip()
+    title = (payload.get("title") or "").strip()
+    link = (payload.get("link") or "").strip()
+    thumbnail = (payload.get("thumbnail") or "").strip()
+    published_at = (payload.get("published_at") or "").strip()
+    
+    if not video_id or not title:
+        return jsonify({"error": "Video ID and title are required."}), 400
+    
+    db = get_db()
+    try:
+        cursor = db.execute(
+            """
+            INSERT INTO favorite_videos (video_id, channel_id, channel_title, title, link, thumbnail, published_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """,
+            (video_id, channel_id, channel_title, title, link, thumbnail, published_at),
+        )
+        db.commit()
+    except sqlite3.IntegrityError:
+        row = db.execute(
+            "SELECT id, video_id, channel_id, channel_title, title, link, thumbnail, published_at, created_at FROM favorite_videos WHERE video_id = ?",
+            (video_id,),
+        ).fetchone()
+        return jsonify(
+            {
+                "id": row["id"],
+                "video_id": row["video_id"],
+                "channel_id": row["channel_id"],
+                "channel_title": row["channel_title"],
+                "title": row["title"],
+                "link": row["link"],
+                "thumbnail": row["thumbnail"],
+                "published_at": row["published_at"],
+                "created_at": row["created_at"],
+            }
+        ), 200
+    
+    txt_path = BASE_DIR / "favorite_videos.txt"
+    with open(txt_path, "a", encoding="utf-8") as f:
+        f.write(f"{title}\n{video_id}\n{link}\n---\n")
+    
+    row = db.execute(
+        "SELECT id, video_id, channel_id, channel_title, title, link, thumbnail, published_at, created_at FROM favorite_videos WHERE id = ?",
+        (cursor.lastrowid,),
+    ).fetchone()
+    return jsonify(
+        {
+            "id": row["id"],
+            "video_id": row["video_id"],
+            "channel_id": row["channel_id"],
+            "channel_title": row["channel_title"],
+            "title": row["title"],
+            "link": row["link"],
+            "thumbnail": row["thumbnail"],
+            "published_at": row["published_at"],
+            "created_at": row["created_at"],
+        }
+    ), 201
+
+
+@app.delete("/api/youtube/favorites/<int:favorite_id>")
+def delete_favorite_video(favorite_id):
+    db = get_db()
+    cursor = db.execute("DELETE FROM favorite_videos WHERE id = ?", (favorite_id,))
+    db.commit()
+    if cursor.rowcount == 0:
+        return jsonify({"error": "Favorite video not found."}), 404
+    return ("", 204)
 
 
 init_db()
