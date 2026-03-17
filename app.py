@@ -75,6 +75,15 @@ def init_db():
     cursor.execute("INSERT OR IGNORE INTO notes (id, content) VALUES (1, '')")
     cursor.execute(
         """
+        CREATE TABLE IF NOT EXISTS saved_notes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            content TEXT NOT NULL,
+            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )
+        """
+    )
+    cursor.execute(
+        """
         CREATE TABLE IF NOT EXISTS rss_feeds (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             url TEXT NOT NULL UNIQUE,
@@ -643,6 +652,49 @@ def save_notes():
     db.commit()
     row = db.execute("SELECT content, updated_at FROM notes WHERE id = 1").fetchone()
     return jsonify({"content": row["content"], "updated_at": row["updated_at"]})
+
+
+@app.get("/api/notes/saved")
+def get_saved_notes():
+    rows = get_db().execute(
+        "SELECT id, content, created_at FROM saved_notes ORDER BY created_at DESC"
+    ).fetchall()
+    return jsonify(
+        [
+            {"id": row["id"], "content": row["content"], "created_at": row["created_at"]}
+            for row in rows
+        ]
+    )
+
+
+@app.post("/api/notes/saved")
+def save_note():
+    payload = request.get_json(silent=True) or {}
+    content = (payload.get("content") or "").strip()
+    if not content:
+        return jsonify({"error": "Note content is required."}), 400
+
+    db = get_db()
+    cursor = db.execute(
+        "INSERT INTO saved_notes (content) VALUES (?)",
+        (content,),
+    )
+    db.commit()
+    row = db.execute(
+        "SELECT id, content, created_at FROM saved_notes WHERE id = ?",
+        (cursor.lastrowid,),
+    ).fetchone()
+    return jsonify({"id": row["id"], "content": row["content"], "created_at": row["created_at"]}), 201
+
+
+@app.delete("/api/notes/saved/<int:note_id>")
+def delete_saved_note(note_id):
+    db = get_db()
+    cursor = db.execute("DELETE FROM saved_notes WHERE id = ?", (note_id,))
+    db.commit()
+    if cursor.rowcount == 0:
+        return jsonify({"error": "Note not found."}), 404
+    return ("", 204)
 
 
 @app.get("/api/rss/feeds")

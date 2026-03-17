@@ -31,6 +31,7 @@
     </script>
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <script>
 
@@ -500,11 +501,11 @@
 
         #palette-overlay {
             opacity: 0;
-            transform-origin: left center;
-            transform: translateX(-16px) scale(0.92);
+            transform-origin: top center;
+            transform: translateY(-10px) scale(0.95);
             visibility: hidden;
             pointer-events: none;
-            transition: opacity 0.2s ease, transform 0.2s ease;
+            transition: opacity 0.35s ease, transform 0.35s ease;
             z-index: 50;
         }
         #palette-overlay.palette-open {
@@ -512,16 +513,16 @@
             pointer-events: auto;
             opacity: 1;
             transform: translateX(0) scale(1);
-            animation: palette-slide-right 0.28s ease-out;
+            animation: palette-slide-down 0.4s ease-out;
         }
-        @keyframes palette-slide-right {
+        @keyframes palette-slide-down {
             0% {
                 opacity: 0;
-                transform: translateX(-18px) scale(0.9);
+                transform: translateY(-12px) scale(0.92);
             }
             100% {
                 opacity: 1;
-                transform: translateX(0) scale(1);
+                transform: translateY(0) scale(1);
             }
         }
     </style>
@@ -562,39 +563,39 @@
 
                             </button>
 
-                            <div id="palette-overlay" class="absolute left-full top-0 ml-3 z-40 rounded-[1.5rem] border border-slate-200 bg-white/95 p-3 shadow-2xl backdrop-blur-xl dark:border-slate-700 dark:bg-slate-950/95">
+                            <div id="palette-overlay" class="absolute top-full left-0 mt-2 z-40 rounded-[1.5rem] border border-slate-200 bg-white/95 p-3 shadow-2xl backdrop-blur-xl dark:border-slate-700 dark:bg-slate-950/95">
 
-                                <div class="flex flex-row flex-wrap gap-2" id="palette-options">
+                                <div class="flex flex-row flex-wrap gap-1.5" id="palette-options">
 
-                                    <button type="button" data-palette="violet" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-violet-600 to-cyan-400"></button>
+                                    <button type="button" data-palette="violet" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-violet-600 to-cyan-400"></button>
 
-                                    <button type="button" data-palette="green" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-green-700 to-green-400"></button>
+                                    <button type="button" data-palette="green" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-green-700 to-green-400"></button>
 
-                                    <button type="button" data-palette="red" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-red-700 to-rose-400"></button>
+                                    <button type="button" data-palette="red" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-red-700 to-rose-400"></button>
 
-                                    <button type="button" data-palette="magenta" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-fuchsia-700 to-pink-400"></button>
+                                    <button type="button" data-palette="magenta" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-fuchsia-700 to-pink-400"></button>
 
-                                    <button type="button" data-palette="brown" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-amber-800 to-orange-300"></button>
+                                    <button type="button" data-palette="brown" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-amber-800 to-orange-300"></button>
 
-                                    <button type="button" data-palette="teal" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-teal-700 to-teal-300"></button>
+                                    <button type="button" data-palette="teal" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-teal-700 to-teal-300"></button>
 
-                                    <button type="button" data-palette="blue" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-blue-700 to-sky-400"></button>
+                                    <button type="button" data-palette="blue" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-blue-700 to-sky-400"></button>
 
-                                    <button type="button" data-palette="orange" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-orange-700 to-amber-300"></button>
+                                    <button type="button" data-palette="orange" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-orange-700 to-amber-300"></button>
 
-                                    <button type="button" data-palette="lime" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-lime-700 to-lime-300"></button>
+                                    <button type="button" data-palette="lime" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-lime-700 to-lime-300"></button>
 
-                                    <button type="button" data-palette="indigo" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-indigo-700 to-violet-300"></button>
+                                    <button type="button" data-palette="indigo" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-indigo-700 to-violet-300"></button>
 
-                                    <button type="button" data-palette="rose" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-rose-700 to-pink-300"></button>
+                                    <button type="button" data-palette="rose" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-rose-700 to-pink-300"></button>
 
-                                    <button type="button" data-palette="amber" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-amber-700 to-amber-300"></button>
+                                    <button type="button" data-palette="amber" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-amber-700 to-amber-300"></button>
 
-                                    <button type="button" data-palette="sky" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-sky-600 to-cyan-300"></button>
+                                    <button type="button" data-palette="sky" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-sky-600 to-cyan-300"></button>
 
-                                    <button type="button" data-palette="stone" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-stone-700 to-stone-300"></button>
+                                    <button type="button" data-palette="stone" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-stone-700 to-stone-300"></button>
 
-                                    <button type="button" data-palette="emerald" class="palette-option h-8 w-8 rounded-full bg-gradient-to-r from-emerald-700 to-lime-300"></button>
+                                    <button type="button" data-palette="emerald" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-emerald-700 to-lime-300"></button>
 
 
 
@@ -720,13 +721,11 @@
 
                                 <div>
 
-                                    <p class="text-xs uppercase tracking-[0.25em] text-slate-400">Next Tasks</p>
-
-                                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Fetch the next pending tasks from your saved list.</p>
+                                    <p class="text-xs uppercase tracking-[0.25em] text-slate-400">Suggested high priority task</p>
 
                                 </div>
 
-                                <button id="fetch-next-tasks" type="button" class="accent-button rounded-2xl border border-slate-300 px-4 py-2 text-sm text-slate-700 dark:border-slate-700 dark:text-slate-200">Fetch Next</button>
+                                <button id="fetch-next-tasks" type="button" class="hidden accent-button rounded-2xl border border-slate-300 px-4 py-2 text-sm text-slate-700 dark:border-slate-700 dark:text-slate-200">Fetch Next</button>
 
                             </div>
 
@@ -806,11 +805,59 @@
 
                         <div class="mt-8 rounded-[1.75rem] border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
 
-                            <textarea id="notes-area" rows="18" class="w-full resize-none bg-transparent text-sm leading-7 text-slate-700 outline-none dark:text-slate-200" placeholder="Write your notes here..."></textarea>
+                            <div class="flex items-center justify-between mb-4">
+
+                                <span class="text-xs uppercase tracking-[0.25em] text-slate-400">New Note</span>
+
+                                <div class="flex items-center gap-2">
+
+                                    <button type="button" id="md-bold" class="rounded border border-slate-200 px-2 py-1 text-sm font-bold text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">B</button>
+
+                                    <button type="button" id="md-italic" class="rounded border border-slate-200 px-2 py-1 text-sm italic text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">I</button>
+
+                                    <button type="button" id="md-link" class="rounded border border-slate-200 px-2 py-1 text-sm text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">🔗</button>
+
+                                    <button type="button" id="md-list" class="rounded border border-slate-200 px-2 py-1 text-sm text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">☰</button>
+
+                                    <button id="new-note-btn" type="button" class="rounded-lg border border-slate-200 px-3 py-1 text-sm text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">+ New</button>
+
+                                </div>
+
+                            </div>
+
+                            <div class="relative">
+
+                                <textarea id="notes-area" rows="8" class="w-full resize-none bg-transparent text-sm leading-7 text-slate-700 outline-none dark:text-slate-200" placeholder="Write your notes here... (Markdown supported)"></textarea>
+
+                                <button id="save-note-btn" type="button" class="absolute bottom-3 right-3 rounded-lg border border-slate-200 bg-white px-3 py-1 text-sm text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">Save</button>
+
+                            </div>
+
+                            <p class="mt-3 text-xs uppercase tracking-[0.25em] text-slate-400" id="notes-status">Loading notes...</p>
 
                         </div>
 
-                        <p class="mt-3 text-xs uppercase tracking-[0.25em] text-slate-400" id="notes-status">Loading notes...</p>
+                        <div class="mt-6">
+
+                            <div class="flex items-center justify-between mb-4">
+                                <p class="text-xs uppercase tracking-[0.25em] text-slate-400">Previous Notes</p>
+                                <button id="reload-notes-btn" class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors transition-transform" title="Reload notes">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-500"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
+                                </button>
+                            </div>
+
+                            <div id="notes-list" class="grid grid-cols-2 gap-3"></div>
+
+                        </div>
+
+                        <dialog id="delete-note-dialog" class="rounded-2xl border border-slate-200 bg-white p-6 shadow-xl dark:border-slate-700 dark:bg-slate-900 backdrop:bg-black/50">
+                            <p class="text-lg font-medium text-slate-800 dark:text-slate-100">Delete this note?</p>
+                            <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">This action cannot be undone.</p>
+                            <div class="mt-6 flex justify-end gap-3">
+                                <button id="cancel-delete-note" class="rounded-xl px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800">Cancel</button>
+                                <button id="confirm-delete-note" class="rounded-xl bg-red-500 px-4 py-2 text-sm font-medium text-white hover:bg-red-600">Delete</button>
+                            </div>
+                        </dialog>
 
                     </div>
 
@@ -868,7 +915,7 @@
 
                         <div class="mt-3 space-y-2" id="rss-errors"></div>
 
-                        <div class="mt-8 grid gap-6 xl:grid-cols-[0.2fr_0.25fr_0.55fr]">
+                        <div class="mt-8 grid gap-6 xl:grid-cols-[20%_25%_auto]">
 
                             <div class="min-h-[28rem] rounded-[1.75rem] border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
 
@@ -914,7 +961,7 @@
 
                                 <div id="rss-empty-state" class="flex h-full min-h-[22rem] items-center justify-center rounded-[1.5rem] border border-dashed border-slate-300 bg-white text-center text-sm text-slate-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-400">Select an article to view it here.</div>
 
-                                <iframe id="rss-viewer" class="hidden h-full w-full rounded-[1.5rem] border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950" referrerpolicy="no-referrer"></iframe>
+                                <iframe id="rss-viewer" class="hidden h-[90%] w-full rounded-[1.5rem] border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950" referrerpolicy="no-referrer"></iframe>
 
                             </div>
 
@@ -932,11 +979,11 @@
 
                         <p class="text-xs uppercase tracking-[0.35em] text-coral">Watchlist</p>
 
-                        <div class="flex items-center gap-4 mt-3">
+                        <div class="flex items-center justify-between mt-3">
 
                             <h2 class="text-3xl font-semibold tracking-tight">Videos</h2>
 
-                            <button type="button" id="youtube-favorites-toggle" class="rounded-2xl border border-slate-300 px-4 py-2 text-sm text-slate-700 dark:border-slate-700 dark:text-slate-200">Favorites</button>
+                            <button type="button" id="youtube-favorites-toggle" class="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-amber-500/25 hover:from-amber-600 hover:to-orange-600 hover:shadow-xl transition-all dark:from-amber-600 dark:to-orange-600">Favorites</button>
 
                         </div>
 
@@ -1624,7 +1671,7 @@
 
                 item.className = "accent-card rounded-2xl border px-3 py-3";
 
-                item.innerHTML = `<div class="flex items-center justify-between gap-3"><span class="text-xs uppercase tracking-[0.2em] text-slate-400">Top ${index + 1}</span><span class="rounded-full border px-2 py-1 text-[11px] ${task.priority === "high" ? "border-red-300 text-red-600 dark:border-red-800 dark:text-red-300" : task.priority === "medium" ? "border-amber-300 text-amber-600 dark:border-amber-800 dark:text-amber-300" : "border-emerald-300 text-emerald-600 dark:border-emerald-800 dark:text-emerald-300"}">${task.priority}</span></div><div class="mt-2 text-sm text-slate-700 dark:text-slate-200">${task.text}</div>`;
+                item.innerHTML = `<div class="flex items-center justify-between gap-3"><span class="rounded-full border px-2 py-1 text-[11px] ${task.priority === "high" ? "border-red-300 text-red-600 dark:border-red-800 dark:text-red-300" : task.priority === "medium" ? "border-amber-300 text-amber-600 dark:border-amber-800 dark:text-amber-300" : "border-emerald-300 text-emerald-600 dark:border-emerald-800 dark:text-emerald-300"}">${task.priority}</span></div><div class="mt-2 text-sm text-slate-700 dark:text-slate-200">${task.text}</div>`;
 
                 todayPriorityList.appendChild(item);
 
@@ -1652,7 +1699,7 @@
 
                 item.className = "accent-card rounded-2xl border px-4 py-3 text-sm";
 
-                item.innerHTML = `<span class="text-xs uppercase tracking-[0.2em] text-slate-400">Next ${index + 1}</span><div class="mt-2 text-slate-700 dark:text-slate-200">${task.text}</div>`;
+                item.innerHTML = `<div class="text-slate-700 dark:text-slate-200">${task.text}</div>`;
 
                 nextTaskList.appendChild(item);
 
@@ -2101,11 +2148,24 @@
 
         });
 
-
-
         const notesArea = document.getElementById("notes-area");
 
         const notesStatus = document.getElementById("notes-status");
+
+        const notesList = document.getElementById("notes-list");
+
+        const newNoteBtn = document.getElementById("new-note-btn");
+
+        const mdBold = document.getElementById("md-bold");
+        const mdItalic = document.getElementById("md-italic");
+        const mdLink = document.getElementById("md-link");
+        const mdList = document.getElementById("md-list");
+
+        const saveNoteBtn = document.getElementById("save-note-btn");
+
+        const reloadNotesBtn = document.getElementById("reload-notes-btn");
+
+        let savedNotes = [];
 
         let notesSaveTimer;
 
@@ -2117,10 +2177,170 @@
 
             notesArea.value = payload.content || "";
 
-            notesStatus.textContent = "Saved to backend";
+            const savedNotesData = await apiFetch("/api/notes/saved");
+
+            savedNotes = savedNotesData;
+
+            renderNotesList();
+
+            notesStatus.textContent = "Loaded from backend";
 
         }
 
+        reloadNotesBtn.addEventListener("click", async () => {
+            reloadNotesBtn.classList.add("animate-spin");
+            try {
+                const savedNotesData = await apiFetch("/api/notes/saved");
+                savedNotes = savedNotesData;
+                renderNotesList();
+                notesStatus.textContent = "Reloaded from backend";
+            } catch (error) {
+                console.error("Failed to reload notes:", error);
+                notesStatus.textContent = "Failed to reload";
+            } finally {
+                setTimeout(() => reloadNotesBtn.classList.remove("animate-spin"), 500);
+            }
+        });
+
+        const deleteNoteDialog = document.getElementById("delete-note-dialog");
+        const cancelDeleteNoteBtn = document.getElementById("cancel-delete-note");
+        const confirmDeleteNoteBtn = document.getElementById("confirm-delete-note");
+        let noteToDeleteId = null;
+
+        function renderNotesList() {
+
+            notesList.innerHTML = "";
+
+            savedNotes.forEach((note) => {
+
+                const item = document.createElement("div");
+
+                item.className = "rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 relative group";
+
+                const renderedContent = marked.parse(note.content || "");
+                item.innerHTML = `<div class="text-sm text-slate-700 dark:text-slate-200 line-clamp-4 prose prose-sm dark:prose-invert">${renderedContent}</div><p class="mt-2 text-xs text-slate-400">${new Date(note.created_at).toLocaleDateString()}</p><button class="delete-note-btn absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity p-1.5 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30" data-note-id="${note.id}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-500"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg></button>`;
+
+                item.addEventListener("click", (e) => {
+                    if (e.target.closest(".delete-note-btn")) return;
+                    notesArea.value = note.content;
+                });
+
+                notesList.appendChild(item);
+
+            });
+
+            document.querySelectorAll(".delete-note-btn").forEach((btn) => {
+                btn.addEventListener("click", async (e) => {
+                    e.stopPropagation();
+                    noteToDeleteId = parseInt(btn.dataset.noteId);
+                    if (document.documentElement.classList.contains("dark")) {
+                        deleteNoteDialog.classList.add("dark");
+                    } else {
+                        deleteNoteDialog.classList.remove("dark");
+                    }
+                    deleteNoteDialog.showModal();
+                });
+            });
+
+        }
+
+        cancelDeleteNoteBtn.addEventListener("click", () => {
+            deleteNoteDialog.close();
+            noteToDeleteId = null;
+        });
+
+        confirmDeleteNoteBtn.addEventListener("click", async () => {
+            if (noteToDeleteId) {
+                try {
+                    await apiFetch(`/api/notes/saved/${noteToDeleteId}`, { method: "DELETE" });
+                    savedNotes = savedNotes.filter(n => n.id !== noteToDeleteId);
+                    renderNotesList();
+                } catch (error) {
+                    console.error("Failed to delete note:", error);
+                }
+            }
+            deleteNoteDialog.close();
+            noteToDeleteId = null;
+        });
+
+        newNoteBtn.addEventListener("click", async () => {
+
+            const currentContent = notesArea.value.trim();
+
+            if (currentContent) {
+
+                try {
+
+                    const newNote = await apiFetch("/api/notes/saved", {
+                        method: "POST",
+                        body: JSON.stringify({ content: currentContent })
+                    });
+
+                    savedNotes.unshift(newNote);
+
+                    renderNotesList();
+
+                } catch (error) {
+
+                    console.error("Failed to save note:", error);
+
+                }
+
+            }
+
+            notesArea.value = "";
+
+            notesArea.focus();
+
+        });
+
+        saveNoteBtn.addEventListener("click", async () => {
+
+            const currentContent = notesArea.value.trim();
+
+            if (currentContent) {
+
+                try {
+
+                    const newNote = await apiFetch("/api/notes/saved", {
+                        method: "POST",
+                        body: JSON.stringify({ content: currentContent })
+                    });
+
+                    savedNotes.unshift(newNote);
+
+                    renderNotesList();
+
+                    notesArea.value = "";
+
+                    notesStatus.textContent = "Note saved";
+
+                } catch (error) {
+
+                    notesStatus.textContent = "Failed to save note";
+
+                }
+
+            }
+
+        });
+
+        function insertMarkdown(before, after = "") {
+            const start = notesArea.selectionStart;
+            const end = notesArea.selectionEnd;
+            const text = notesArea.value;
+            const selected = text.substring(start, end);
+            notesArea.value = text.substring(0, start) + before + selected + after + text.substring(end);
+            notesArea.focus();
+        }
+
+        mdBold.addEventListener("click", () => insertMarkdown("**", "**"));
+
+        mdItalic.addEventListener("click", () => insertMarkdown("*", "*"));
+
+        mdLink.addEventListener("click", () => insertMarkdown("[", "](url)"));
+
+        mdList.addEventListener("click", () => insertMarkdown("\n- "));
 
 
         notesArea.addEventListener("input", () => {
@@ -2313,6 +2533,8 @@
 
         let rssFeeds = [];
 
+        let selectedFeedId = null;
+
         let rssArticles = [];
 
         let activePresetCategory = "All";
@@ -2377,17 +2599,37 @@
 
             rssFeeds.forEach((feed) => {
 
-                const chip = document.createElement("div");
+                const isSelected = feed.id === selectedFeedId;
 
-                chip.className = "accent-chip flex items-center gap-2 rounded-full border px-4 py-2 text-sm";
+                const chip = document.createElement("button");
 
-                chip.innerHTML = `<span class="max-w-[18rem] truncate">${feed.title}</span><button class="rounded-full border border-slate-200 px-2 py-1 text-xs uppercase tracking-[0.2em] text-slate-500 dark:border-slate-700 dark:text-slate-400">Remove</button>`;
+                chip.type = "button";
 
-                chip.querySelector("button").addEventListener("click", async () => {
+                if (isSelected) {
+
+                    chip.className = "accent-gradient border-transparent shadow-xl text-white flex items-center gap-2 rounded-2xl px-3 py-2 text-sm w-full";
+
+                } else {
+
+                    chip.className = "accent-chip flex items-center gap-2 rounded-2xl border border-slate-200 bg-white/70 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200 w-full";
+
+                }
+
+                chip.innerHTML = `<span class="flex-1 truncate text-left font-semibold">${feed.title}</span><span class="delete-feed-btn rounded-full p-1 hover:bg-slate-200 dark:hover:bg-slate-700 ${isSelected ? 'text-white' : 'text-slate-400'}"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 7.5h12M9.75 7.5V6a.75.75 0 01.75-.75h3a.75.75 0 01.75.75v1.5m-6 0v10.125c0 .621.504 1.125 1.125 1.125h5.25c.621 0 1.125-.504 1.125-1.125V7.5M10.5 11.25v4.5M13.5 11.25v4.5" /></svg></span>`;
+
+                chip.querySelector(".delete-feed-btn").addEventListener("click", async (event) => {
+
+                    event.stopPropagation();
 
                     try {
 
                         await apiFetch(`/api/rss/feeds/${feed.id}`, { method: "DELETE" });
+
+                        if (selectedFeedId === feed.id) {
+
+                            selectedFeedId = null;
+
+                        }
 
                         await loadRss();
 
@@ -2396,6 +2638,16 @@
                         alert(error.message);
 
                     }
+
+                });
+
+                chip.addEventListener("click", () => {
+
+                    selectedFeedId = selectedFeedId === feed.id ? null : feed.id;
+
+                    renderFeedChips();
+
+                    renderArticles();
 
                 });
 
@@ -2521,9 +2773,13 @@
 
             rssArticleList.innerHTML = "";
 
-            rssCount.textContent = `${rssArticles.length} item${rssArticles.length === 1 ? "" : "s"}`;
+            const visibleArticles = selectedFeedId
+                ? rssArticles.filter(article => article.feed_id === selectedFeedId)
+                : rssArticles;
 
-            if (!rssArticles.length) {
+            rssCount.textContent = `${visibleArticles.length} item${visibleArticles.length === 1 ? "" : "s"}`;
+
+            if (!visibleArticles.length) {
 
                 rssArticleList.innerHTML = '<div class="rounded-2xl border border-dashed border-slate-300 p-4 text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">No articles available. Add a feed or refresh.</div>';
 
@@ -2539,7 +2795,7 @@
 
             }
 
-            rssArticles.forEach((article, index) => {
+            visibleArticles.forEach((article, index) => {
 
                 const item = document.createElement("button");
 
@@ -2568,6 +2824,14 @@
             rssFeeds = feedsPayload;
 
             rssArticles = articlesPayload.articles || [];
+
+            if (!selectedFeedId && rssFeeds.length > 0) {
+
+                const hnFeed = rssFeeds.find(f => f.title && f.title.toLowerCase().includes("hacker"));
+
+                selectedFeedId = hnFeed ? hnFeed.id : rssFeeds[0].id;
+
+            }
 
             renderFeedChips();
 
@@ -2985,7 +3249,7 @@
 
                 deleteButton.type = "button";
 
-                deleteButton.className = "inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition hover:border-slate-400 hover:text-slate-700 dark:border-slate-700 dark:text-slate-400 dark:hover:border-slate-500 dark:hover:text-slate-200";
+                deleteButton.className = "inline-flex h-8 w-8 items-center justify-center text-slate-500 transition hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200";
 
                 deleteButton.setAttribute("aria-label", "Delete channel");
 
@@ -3475,7 +3739,7 @@
 
                 const item = document.createElement("button");
 
-                item.className = "accent-card w-full rounded-2xl border border-slate-200 p-4 text-left transition hover:border-slate-400 hover:bg-slate-50 dark:border-slate-800 dark:hover:border-slate-600 dark:hover:bg-slate-800";
+                item.className = "accent-card w-full rounded-2xl border border-slate-200 p-4 text-left transition hover:border-slate-400 hover:bg-slate-50 dark:border-slate-800 dark:hover:border-slate-600 dark:hover:bg-slate-800 h-32 overflow-hidden";
 
                 item.innerHTML = `<p class="text-xs uppercase tracking-[0.2em] text-slate-400">${episode.feed_title}</p><h4 class="mt-2 text-sm font-semibold">${episode.title}</h4><p class="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">${stripHtml(episode.description) || "No description available."}</p><p class="mt-3 text-xs text-slate-400">${formatDate(episode.published_at)}</p>`;
 
