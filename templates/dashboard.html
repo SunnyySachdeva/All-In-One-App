@@ -8,7 +8,10 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>My Workspace</title>
+    <title>Nexus</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔮</text></svg>">
 
     <script>
 
@@ -561,7 +564,7 @@
 
                     <div>
 
-                        <h1 class="text-3xl font-semibold tracking-tight">Workspace</h1>
+                        <h1 class="text-3xl font-semibold tracking-tight">Nexus</h1>
 
                         <p class="mt-3 text-sm leading-6 text-slate-500 dark:text-slate-400">Persistent tools for tasks, reading, and media.</p>
 
@@ -866,7 +869,7 @@
                                 </button>
                             </div>
 
-                            <div id="notes-list" class="grid grid-cols-2 gap-3"></div>
+                            <div id="notes-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
 
                         </div>
 
@@ -3403,6 +3406,11 @@
 
             favoriteVideos = favoritesPayload || [];
 
+            // Log source information for debugging
+            if (videosPayload.sources) {
+                console.log("YouTube feed sources:", videosPayload.sources);
+            }
+
             if (!defaultChannelEnsured) {
 
                 const hasDefault = youtubeChannels.some((channel) => channel.channel_id === FREECODECAMP_CHANNEL_ID);
@@ -3455,7 +3463,16 @@
 
             renderYouTubeVideos();
 
-            youtubeStatus.textContent = youtubeChannels.length ? `Loaded ${youtubeChannels.length} channel${youtubeChannels.length === 1 ? "" : "s"}.` : "No channels loaded yet.";
+            // Update status message to include source information
+            const sourceSummary = videosPayload.sources ? Object.values(videosPayload.sources).reduce((acc, source) => {
+                acc[source] = (acc[source] || 0) + 1;
+                return acc;
+            }, {}) : {};
+            
+            const sourceText = Object.entries(sourceSummary).map(([source, count]) => `${count} from ${source}`).join(", ");
+            const sourceInfo = sourceText ? ` (${sourceText})` : "";
+            
+            youtubeStatus.textContent = youtubeChannels.length ? `Loaded ${youtubeChannels.length} channel${youtubeChannels.length === 1 ? "" : "s"}${sourceInfo}.` : "No channels loaded yet.";
 
         }
 

@@ -345,15 +345,23 @@ def fetch_youtube_channel_videos(channel_id, use_cache=True, force_refresh=False
     """Fetch YouTube channel videos with local cache support"""
     cache_file = YOUTUBE_CACHE_DIR / f"{channel_id}.json"
     cache_expiry = 3600 * 24  # 24 hours
+    cache_stale = 3600 * 48  # 48 hours - after this we force refresh
     
     # Try to load from cache if enabled and not forcing refresh
     if use_cache and not force_refresh and cache_file.exists():
         try:
             mtime = cache_file.stat().st_mtime
-            if time.time() - mtime < cache_expiry:
+            age = time.time() - mtime
+            if age < cache_expiry:
                 with open(cache_file, 'r', encoding='utf-8') as f:
-                    import json
                     cached_data = json.load(f)
+                cached_data['_source'] = 'cache'
+                return cached_data
+            elif age < cache_stale:
+                # Between 24-48 hours: use cache but mark as stale for potential refresh
+                with open(cache_file, 'r', encoding='utf-8') as f:
+                    cached_data = json.load(f)
+                cached_data['_source'] = 'cache_stale'
                 return cached_data
         except (json.JSONDecodeError, OSError):
             pass  # Fall back to fetching from network
@@ -385,11 +393,10 @@ def fetch_youtube_channel_videos(channel_id, use_cache=True, force_refresh=False
             }
         )
 
-    data = {"title": author_name or title, "videos": entries}
+    data = {"title": author_name or title, "videos": entries, "_source": "network"}
     
     # Save to cache
     try:
-        import json
         with open(cache_file, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
     except OSError:
@@ -982,11 +989,24 @@ def list_youtube_videos():
 
     videos = []
     errors = []
+    source_info = {}
 
     for row in rows:
+        # Check if cache file exists and is older than 24 hours
+        cache_file = YOUTUBE_CACHE_DIR / f"{row['channel_id']}.json"
+        should_force_refresh = force_refresh
+        if not force_refresh and cache_file.exists():
+            try:
+                cache_age = time.time() - cache_file.stat().st_mtime
+                # Automatically refresh if cache is older than 24 hours
+                if cache_age > 3600 * 24:
+                    should_force_refresh = True
+            except OSError:
+                pass
+        
         try:
             # Pass force_refresh to fetch_youtube_channel_videos
-            preview = fetch_youtube_channel_videos(row["channel_id"], force_refresh=force_refresh)
+            preview = fetch_youtube_channel_videos(row["channel_id"], force_refresh=should_force_refresh)
         except (urllib.error.HTTPError, urllib.error.URLError, ET.ParseError, ValueError) as exc:
             errors.append(
                 {
@@ -1004,6 +1024,9 @@ def list_youtube_videos():
             )
             db.commit()
 
+        # Store source info for this channel
+        source_info[row["channel_id"]] = preview.get("_source", "unknown")
+
         for video in preview["videos"]:
             videos.append(
                 {
@@ -1020,7 +1043,7 @@ def list_youtube_videos():
             )
 
     videos.sort(key=lambda video: video["published_at"], reverse=True)
-    return jsonify({"videos": videos, "errors": errors})
+    return jsonify({"videos": videos, "errors": errors, "sources": source_info})
 
 
 @app.get("/api/podcasts/feeds")
