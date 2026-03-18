@@ -1,3 +1,33 @@
+# Nexus Dashboard Application
+
+## Installation
+
+### Docker
+Pull and run the pre-built Docker image:
+```bash
+docker pull sunnysd22/nexus-dashboard
+docker run -p 5105:5105 sunnysd22/nexus-dashboard
+```
+
+### Manual
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/nexus-dashboard.git
+cd nexus-dashboard
+```
+
+2. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+3. Run the application:
+```bash
+python app.py
+```
+
+4. Open your browser to http://localhost:5105
+
 # TODO - Pending Tasks
 
 ## Uncompleted Features (from original list)
