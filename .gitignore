@@ -5,3 +5,7 @@ tmp_search.py
 tmp_snip2.py
 tmp_tasks_html.py
 task_console.db
+cache
+*.db
+favorite_videos.txt
+nul

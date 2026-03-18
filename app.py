@@ -616,11 +616,17 @@ def update_task(task_id):
 
     if "sort_order" in payload:
         try:
-            sort_order = int(payload.get("sort_order"))
+            sort_order_val = payload.get("sort_order")
+            if sort_order_val is not None and sort_order_val != "":
+                sort_order = int(sort_order_val)
+                updates.append("sort_order = ?")
+                values.append(sort_order)
+            else:
+                # If sort_order is empty string or None, set it to NULL
+                updates.append("sort_order = ?")
+                values.append(None)
         except (TypeError, ValueError):
             return jsonify({"error": "sort_order must be an integer."}), 400
-        updates.append("sort_order = ?")
-        values.append(sort_order)
 
     if not updates:
         return jsonify({"error": "No valid task fields provided."}), 400
