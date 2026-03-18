@@ -854,6 +854,10 @@ def add_youtube_channel():
     try:
         resolved = resolve_youtube_channel(source_url)
         preview = fetch_youtube_channel_videos(resolved["channel_id"])
+    except urllib.error.HTTPError as exc:
+        if exc.code == 404:
+            return jsonify({"error": f"Channel not found. The YouTube channel may not exist, may have been deleted, or may not have a public feed."}), 400
+        return jsonify({"error": f"Unable to add YouTube channel: HTTP Error {exc.code}: {exc.reason}"}), 400
     except (urllib.error.URLError, ET.ParseError, ValueError) as exc:
         return jsonify({"error": f"Unable to add YouTube channel: {exc}"}), 400
 
