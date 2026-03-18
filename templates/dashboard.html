@@ -3385,11 +3385,17 @@
 
 
 
-        async function loadYouTube() {
+        async function loadYouTube(forceRefresh = false) {
 
             youtubeStatus.textContent = "Loading channels and videos...";
 
-            const [channelsPayload, videosPayload, favoritesPayload] = await Promise.all([apiFetch("/api/youtube/channels"), apiFetch("/api/youtube/videos"), apiFetch("/api/youtube/favorites")]);
+            const refreshParam = forceRefresh ? "?refresh=true" : "";
+
+            const [channelsPayload, videosPayload, favoritesPayload] = await Promise.all([
+                apiFetch("/api/youtube/channels"), 
+                apiFetch(`/api/youtube/videos${refreshParam}`), 
+                apiFetch("/api/youtube/favorites")
+            ]);
 
             youtubeChannels = channelsPayload;
 
@@ -3495,7 +3501,9 @@
 
             try {
 
-                await loadYouTube();
+                youtubeStatus.textContent = "Refreshing feeds from network...";
+
+                await loadYouTube(true);
 
             } catch (error) {
 

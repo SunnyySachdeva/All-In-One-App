@@ -1,8 +1,10 @@
 import email.utils
+import json
 import os
 import re
 import sqlite3
 import subprocess
+import time
 import urllib.error
 import urllib.request
 import xml.etree.ElementTree as ET
@@ -15,6 +17,8 @@ from flask import Flask, Response, g, jsonify, render_template, request
 
 BASE_DIR = Path(__file__).resolve().parent
 DATABASE_PATH = BASE_DIR / "task_console.db"
+CACHE_DIR = BASE_DIR / "cache"
+YOUTUBE_CACHE_DIR = CACHE_DIR / "youtube"
 
 app = Flask(__name__)
 
@@ -33,7 +37,16 @@ def close_db(_error):
         db.close()
 
 
+def init_cache():
+    """Initialize cache directories"""
+    if not CACHE_DIR.exists():
+        CACHE_DIR.mkdir(parents=True)
+    if not YOUTUBE_CACHE_DIR.exists():
+        YOUTUBE_CACHE_DIR.mkdir(parents=True)
+
+
 def init_db():
+    init_cache()
     db = sqlite3.connect(DATABASE_PATH)
     cursor = db.cursor()
     cursor.execute(
@@ -328,7 +341,24 @@ def resolve_youtube_channel(channel_url):
     }
 
 
-def fetch_youtube_channel_videos(channel_id):
+def fetch_youtube_channel_videos(channel_id, use_cache=True, force_refresh=False):
+    """Fetch YouTube channel videos with local cache support"""
+    cache_file = YOUTUBE_CACHE_DIR / f"{channel_id}.json"
+    cache_expiry = 3600 * 24  # 24 hours
+    
+    # Try to load from cache if enabled and not forcing refresh
+    if use_cache and not force_refresh and cache_file.exists():
+        try:
+            mtime = cache_file.stat().st_mtime
+            if time.time() - mtime < cache_expiry:
+                with open(cache_file, 'r', encoding='utf-8') as f:
+                    import json
+                    cached_data = json.load(f)
+                return cached_data
+        except (json.JSONDecodeError, OSError):
+            pass  # Fall back to fetching from network
+    
+    # Fetch from YouTube
     feed_url = f"https://www.youtube.com/feeds/videos.xml?channel_id={channel_id}"
     payload, _, _ = fetch_url(feed_url, "application/atom+xml, application/xml, text/xml")
     root = ET.fromstring(payload)
@@ -355,7 +385,17 @@ def fetch_youtube_channel_videos(channel_id):
             }
         )
 
-    return {"title": author_name or title, "videos": entries}
+    data = {"title": author_name or title, "videos": entries}
+    
+    # Save to cache
+    try:
+        import json
+        with open(cache_file, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+    except OSError:
+        pass  # Cache write failed, but we can still return data
+    
+    return data
 
 
 def fetch_podcast_preview(url):
@@ -928,6 +968,9 @@ def delete_youtube_channel(channel_row_id):
 
 @app.get("/api/youtube/videos")
 def list_youtube_videos():
+    # Check for refresh parameter
+    force_refresh = request.args.get("refresh", "false").lower() == "true"
+    
     db = get_db()
     rows = db.execute(
         """
@@ -942,8 +985,9 @@ def list_youtube_videos():
 
     for row in rows:
         try:
-            preview = fetch_youtube_channel_videos(row["channel_id"])
-        except (urllib.error.URLError, ET.ParseError, ValueError) as exc:
+            # Pass force_refresh to fetch_youtube_channel_videos
+            preview = fetch_youtube_channel_videos(row["channel_id"], force_refresh=force_refresh)
+        except (urllib.error.HTTPError, urllib.error.URLError, ET.ParseError, ValueError) as exc:
             errors.append(
                 {
                     "channel_id": row["channel_id"],
