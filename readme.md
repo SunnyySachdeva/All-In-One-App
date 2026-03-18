@@ -1,3 +1,35 @@
+# TODO - Pending Tasks
+
+## Uncompleted Features (from original list)
+
+### High Priority
+- [ ] **Lists Tab** - Add new tab with horizontal sub-tabs (To Do, Movies, Series, Books, Links, +)
+- [ ] **Global Search** - Search functionality across tasks, notes, lists
+- [ ] **App Name** - Change page title and heading from "Workspace" to "Nexus"
+
+### Medium Priority
+- [ ] **Neon Color Picker** - Dropdown for selecting pill color for new list items
+- [ ] **Mini Media Player** - Fixed bar at top for controlling YouTube/Podcasts from any tab
+- [ ] **Favicon** - Add favicon with badge for pending task count
+- [ ] **Sidebar Collapse** - Toggle button to collapse/expand left panel
+- [ ] **Custom Lists** - '+' button to create custom lists with custom fields
+
+### New Features
+- [ ] **Cache Feature** - Load YouTube, RSS, podcast feeds from local storage quickly. Fetch new feeds only with refresh button and periodically once a day
+- [ ] **Learning Tab** - Bookmark important courses, Git repos, hacking links, Python links, etc.
+
+## Completed
+- [x] Make tabs draggable in left panel
+- [x] Add slide-up animation for tab switching
+- [x] Remove "LIVE" text from tab buttons
+
+## Notes
+- All tasks were partially implemented in a previous session but reverted to commit 52991bf
+- The Lists tab and custom lists feature requires adding database tables and API endpoints
+- Cache feature: Use localStorage/IndexedDB to store feeds with timestamps, refresh on demand and daily background sync
+- Learning Tab: Add new tab with categorization (Courses, Repos, Hacking, Python, etc.) with add/edit/delete functionality
+
+
 ## Inbuilt Pomodoro
 ![Pomodoro](https://github.com/SunnyySachdeva/All-In-One-App/blob/main/screenshots/Screenshot%202026-03-15%20175931.png)
 ## Manage Tasks.
