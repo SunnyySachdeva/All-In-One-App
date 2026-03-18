@@ -26,6 +26,7 @@
 - [x] **Favicon** - Added crystal ball emoji favicon
 - [x] **Responsive Notes Grid** - Updated to 1/2/4 columns based on screen size
 - [x] **YouTube Cache Status** - Display cache/network source in status message
+- [x] **Added Lists, Learning, Bookmarks tabs** - Added with 'Pending' badges to indicate future implementation
 
 ## Notes
 - All tasks were partially implemented in a previous session but reverted to commit 52991bf
