@@ -5,8 +5,8 @@
 ### Docker
 Pull and run the pre-built Docker image:
 ```bash
-docker pull sunnysd22/nexus-dashboard
-docker run -p 5105:5105 sunnysd22/nexus-dashboard
+docker pull sunnysd22/nexus-dashboard-amd
+docker run -p 5105:5105 sunnysd22/nexus-dashboard-amd
 ```
 
 ### Manual
