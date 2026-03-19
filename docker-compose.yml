@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  nexus:
+    build: .
+    ports:
+      - "5105:5105"
+    volumes:
+      - ./cache:/app/cache
+      - ./channels.db:/app/channels.db
+      - ./task_console.db:/app/task_console.db
+      - ./favorite_videos.txt:/app/favorite_videos.txt
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_RUN_HOST=0.0.0.0
+      - FLASK_RUN_PORT=5105
