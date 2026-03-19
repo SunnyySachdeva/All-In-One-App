@@ -28,6 +28,12 @@
 - [x] **YouTube Cache Status** - Display cache/network source in status message
 - [x] **Added Lists, Learning, Bookmarks tabs** - Added with 'Pending' badges to indicate future implementation
 
+## New Features (Upcoming)
+- [ ] **Dark Glass Theme** - Add a new dark glass theme with fancy black/gray look to theme selector
+- [ ] **Enhanced Dashy Tab** - Rename to 'Self hosted stuff', add '+' button for dynamic quick links with popup for link text
+- [ ] **Smart Terminal** - Remove hardcoded directory, use actual current directory, handle different OS types (Linux/Windows)
+- [ ] **Settings Panel** - Add settings button with Ollama endpoint and OpenAI API key configuration, integrate with Videos tab summary feature
+
 ## Notes
 - All tasks were partially implemented in a previous session but reverted to commit 52991bf
 - The Lists tab and custom lists feature requires adding database tables and API endpoints
