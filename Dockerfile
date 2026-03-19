@@ -5,20 +5,15 @@ FROM python:3.9-slim
 WORKDIR /app
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y \
-    gcc \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y
 
 # Copy requirements and install Python dependencies
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --default-timeout=100 Flask==3.0.0
 
 # Copy application code
 COPY app.py .
-COPY templates/ ./templates/
-COPY cache/ ./cache/
-COPY channels.db .
-COPY task_console.db .
+COPY templates/ ./templates
 COPY favorite_videos.txt .
 COPY TODO.md .
 COPY README.md .
