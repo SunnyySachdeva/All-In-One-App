@@ -29,8 +29,8 @@
 - [x] **Added Lists, Learning, Bookmarks tabs** - Added with 'Pending' badges to indicate future implementation
 
 ## New Features (Upcoming)
-- [ ] **Dark Glass Theme** - Add a new dark glass theme with fancy black/gray look to theme selector
-- [ ] **Enhanced Dashy Tab** - Rename to 'Self hosted stuff', add '+' button for dynamic quick links with popup for link text
+- [ ] **Dark Glass Theme** - Add a new dark glass theme with fancy black/gray look to theme selector (User requested redo)
+- [ ] **Enhanced Dashy Tab** - Rename to 'Self hosted stuff', add '+' button for dynamic quick links with popup for link text (Partially implemented)
 - [ ] **Smart Terminal** - Remove hardcoded directory, use actual current directory, handle different OS types (Linux/Windows)
 - [ ] **Settings Panel** - Add settings button with Ollama endpoint and OpenAI API key configuration, integrate with Videos tab summary feature
 

@@ -3732,7 +3732,7 @@
 
         let activePodcastCategory = "All";
 
-        let terminalCwd = "G:\\Git Repos\\codex";
+        let terminalCwd = null; // null means use default (BASE_DIR)
 
 
 
@@ -3994,16 +3994,22 @@
 
 
 
-        terminalClearButton.addEventListener("click", () => {
-
-            renderTerminalBanner();
-
-            terminalInput.focus();
-
-        });
-
-
-
+         terminalClearButton.addEventListener("click", () => {
+             renderTerminalBanner();
+             terminalInput.focus();
+         });
+        
+        // Fetch actual current working directory from backend
+        async function fetchTerminalCwd() {
+            try {
+                const response = await apiFetch("/api/terminal/cwd");
+                terminalCwd = response.cwd || "G:\\Git Repos\\codex";
+            } catch (error) {
+                console.error("Failed to fetch terminal CWD:", error);
+                terminalCwd = "G:\\Git Repos\\codex";
+            }
+        }
+        
         async function loadPodcasts() {
 
             podcastStatus.textContent = "Loading podcast feeds and episodes...";
@@ -4132,19 +4138,14 @@
 
             }
 
-            applyPaletteCollapseState();
-
-            applyTodayCollapseState();
-
-            terminalCwdLabel.textContent = terminalCwd;
-
-            renderTerminalBanner();
-
-            syncTimerDisplay();
-
-            activateTab("tasks");
-
-        }
+             applyPaletteCollapseState();
+             applyTodayCollapseState();
+             // Fetch actual current working directory from backend
+             fetchTerminalCwd();
+             renderTerminalBanner();
+             syncTimerDisplay();
+             activateTab("tasks");
+         }
 
 
 

@@ -1193,6 +1193,11 @@ def list_podcast_episodes():
     return jsonify({"episodes": episodes, "errors": errors})
 
 
+@app.get("/api/terminal/cwd")
+def get_terminal_cwd():
+    return jsonify({"cwd": str(BASE_DIR)})
+
+
 @app.post("/api/terminal/execute")
 def execute_terminal_command():
     payload = request.get_json(silent=True) or {}
