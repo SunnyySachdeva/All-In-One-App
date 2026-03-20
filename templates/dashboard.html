@@ -502,6 +502,7 @@
 
 
 
+        /* Previous palette style - commented out
         #palette-overlay {
             opacity: 0;
             transform-origin: top center;
@@ -527,6 +528,136 @@
                 opacity: 1;
                 transform: translateY(0) scale(1);
             }
+        }
+        */
+
+        /* New circular palette style */
+        /* Circular palette styles */
+        #palette-overlay {
+            z-index: 99999;
+        }
+        #palette-overlay.palette-open {
+            transform: translateY(0) !important;
+            opacity: 1 !important;
+            pointer-events: auto;
+        }
+        #palette-circle {
+            position: relative;
+        }
+        .palette-option {
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease;
+        }
+        .palette-option:hover {
+            transform: scale(1.25) !important;
+            z-index: 20;
+        }
+        .palette-option.selected {
+            box-shadow: 0 0 0 3px white, 0 0 15px rgba(255,255,255,0.5) !important;
+        }
+        #palette-overlay.palette-open {
+            display: block;
+        }
+        #palette-circle {
+            width: 160px;
+            height: 160px;
+            position: relative;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+            animation: palette-drop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            transform-origin: center top;
+        }
+        @keyframes palette-drop-in {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.3);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        #palette-center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 11px;
+            font-medium: 600;
+            text-transform: capitalize;
+            color: rgba(0,0,0,0.7);
+            z-index: 10;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+        }
+        .dark #palette-center-text {
+            color: rgba(255,255,255,0.9);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+        #palette-options {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .palette-option {
+            position: absolute;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.25), 0 0 0 2px rgba(255,255,255,0.4);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+        }
+        #palette-overlay.palette-open .palette-option {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .palette-option:hover {
+            transform: translate(-50%, -50%) scale(1.3) !important;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.35), 0 0 0 3px rgba(255,255,255,0.6);
+            z-index: 20;
+        }
+        .palette-option.selected {
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.95), 0 0 20px rgba(255,255,255,0.5);
+            z-index: 15;
+        }
+        /* Position circles around the center - 12 colors in a circle */
+        #palette-overlay.palette-open .palette-option:nth-child(1) { transform: translate(-50%, -50%) translate(0px, -55px) scale(1); }
+        #palette-overlay.palette-open .palette-option:nth-child(2) { transform: translate(-50%, -50%) translate(27px, -48px) scale(1); }
+        #palette-overlay.palette-open .palette-option:nth-child(3) { transform: translate(-50%, -50%) translate(48px, -27px) scale(1); }
+        #palette-overlay.palette-open .palette-option:nth-child(4) { transform: translate(-50%, -50%) translate(55px, 0px) scale(1); }
+        #palette-overlay.palette-open .palette-option:nth-child(5) { transform: translate(-50%, -50%) translate(48px, 27px) scale(1); }
+        #palette-overlay.palette-open .palette-option:nth-child(6) { transform: translate(-50%, -50%) translate(27px, 48px) scale(1); }
+        #palette-overlay.palette-open .palette-option:nth-child(7) { transform: translate(-50%, -50%) translate(0px, 55px) scale(1); }
+        #palette-overlay.palette-open .palette-option:nth-child(8) { transform: translate(-50%, -50%) translate(-27px, 48px) scale(1); }
+        #palette-overlay.palette-open .palette-option:nth-child(9) { transform: translate(-50%, -50%) translate(-48px, 27px) scale(1); }
+        #palette-overlay.palette-open .palette-option:nth-child(10) { transform: translate(-50%, -50%) translate(-55px, 0px) scale(1); }
+        #palette-overlay.palette-open .palette-option:nth-child(11) { transform: translate(-50%, -50%) translate(-48px, -27px) scale(1); }
+        #palette-overlay.palette-open .palette-option:nth-child(12) { transform: translate(-50%, -50%) translate(-27px, -48px) scale(1); }
+        
+        .palette-option:nth-child(1):hover { transform: translate(-50%, -50%) translate(0px, -55px) scale(1.2) !important; }
+        .palette-option:nth-child(2):hover { transform: translate(-50%, -50%) translate(27px, -48px) scale(1.2) !important; }
+        .palette-option:nth-child(3):hover { transform: translate(-50%, -50%) translate(48px, -27px) scale(1.2) !important; }
+        .palette-option:nth-child(4):hover { transform: translate(-50%, -50%) translate(55px, 0px) scale(1.2) !important; }
+        .palette-option:nth-child(5):hover { transform: translate(-50%, -50%) translate(48px, 27px) scale(1.2) !important; }
+        .palette-option:nth-child(6):hover { transform: translate(-50%, -50%) translate(27px, 48px) scale(1.2) !important; }
+        .palette-option:nth-child(7):hover { transform: translate(-50%, -50%) translate(0px, 55px) scale(1.2) !important; }
+        .palette-option:nth-child(8):hover { transform: translate(-50%, -50%) translate(-27px, 48px) scale(1.2) !important; }
+        .palette-option:nth-child(9):hover { transform: translate(-50%, -50%) translate(-48px, 27px) scale(1.2) !important; }
+        .palette-option:nth-child(10):hover { transform: translate(-50%, -50%) translate(-55px, 0px) scale(1.2) !important; }
+        .palette-option:nth-child(11):hover { transform: translate(-50%, -50%) translate(-48px, -27px) scale(1.2) !important; }
+        .palette-option:nth-child(12):hover { transform: translate(-50%, -50%) translate(-27px, -48px) scale(1.2) !important; }
+        
+        /* Dark mode adjustments */
+        .dark #palette-circle {
+            background: rgba(15, 23, 42, 0.5);
+            border-color: rgba(255, 255, 255, 0.15);
         }
 
         .tab-panel {
@@ -586,47 +717,16 @@
 
                             </button>
 
-                            <div id="palette-overlay" class="absolute top-full left-0 mt-2 z-40 rounded-[1.5rem] border border-slate-200 bg-white/95 p-3 shadow-2xl backdrop-blur-xl dark:border-slate-700 dark:bg-slate-950/95">
 
-                                <div class="flex flex-row flex-wrap gap-1.5" id="palette-options">
-
-                                    <button type="button" data-palette="violet" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-violet-600 to-cyan-400"></button>
-
-                                    <button type="button" data-palette="green" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-green-700 to-green-400"></button>
-
-                                    <button type="button" data-palette="red" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-red-700 to-rose-400"></button>
-
-                                    <button type="button" data-palette="magenta" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-fuchsia-700 to-pink-400"></button>
-
-                                    <button type="button" data-palette="brown" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-amber-800 to-orange-300"></button>
-
-                                    <button type="button" data-palette="teal" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-teal-700 to-teal-300"></button>
-
-                                    <button type="button" data-palette="blue" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-blue-700 to-sky-400"></button>
-
-                                    <button type="button" data-palette="orange" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-orange-700 to-amber-300"></button>
-
-                                    <button type="button" data-palette="lime" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-lime-700 to-lime-300"></button>
-
-                                    <button type="button" data-palette="indigo" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-indigo-700 to-violet-300"></button>
-
-                                    <button type="button" data-palette="rose" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-rose-700 to-pink-300"></button>
-
-                                    <button type="button" data-palette="amber" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-amber-700 to-amber-300"></button>
-
-                                    <button type="button" data-palette="sky" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-sky-600 to-cyan-300"></button>
-
-                                    <button type="button" data-palette="stone" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-stone-700 to-stone-300"></button>
-
-                                    <button type="button" data-palette="emerald" class="palette-option h-6 w-6 rounded-md bg-gradient-to-r from-emerald-700 to-lime-300"></button>
-
-
-
-                                </div>
-
-                            </div>
 
                         </div>
+
+                        <!-- Glass theme button hidden for now -->
+                        <!-- <button id="glass-theme-btn" type="button" class="rounded-2xl border border-slate-200 bg-white/80 p-3 text-slate-700 transition hover:border-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-slate-500" aria-label="Toggle glass theme" title="Glass Theme">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+                            </svg>
+                        </button> -->
 
                         <button id="theme-toggle" type="button" class="rounded-2xl border border-slate-200 bg-white/80 p-3 text-slate-700 transition hover:border-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-slate-500" aria-label="Toggle theme">
 
@@ -672,7 +772,7 @@
 
                     <button class="tab-trigger nav-idle flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-left text-sm text-slate-700 transition dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-200" data-tab="terminal" draggable="true"><span><span class="flex items-center gap-3"><svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg><span>Terminal</span></span></span><span class="text-xs uppercase tracking-[0.2em] opacity-70"></span></button>
 
-                    <button class="tab-trigger nav-idle flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-left text-sm text-slate-700 transition dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-200" data-tab="dashy" draggable="true"><span><span class="flex items-center gap-3"><svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg><span>Dashy</span></span></span><span class="text-xs uppercase tracking-[0.2em] opacity-70"></span></button>
+                    <button class="tab-trigger nav-idle flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-left text-sm text-slate-700 transition dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-200" data-tab="dashy" draggable="true"><span><span class="flex items-center gap-3"><svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg><span>Self hosted stuff</span></span></span><span class="text-xs uppercase tracking-[0.2em] opacity-70"></span></button>
 
                 </nav>
 
@@ -697,6 +797,13 @@
                     </div>
 
                 </div>
+
+                <button id="settings-btn" type="button" class="mt-4 flex w-full items-center gap-3 rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-left text-sm text-slate-700 transition hover:border-slate-400 dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:border-slate-600">
+                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.056-.407 1.807 1.267 1.18 2.03.542.67.65 1.557.2 2.275l-.405.642a.525.525 0 01-.453.29A3.001 3.001 0 0112.018 15a3.001 3.001 0 01-2.053-.726A3 3 0 016.88 15a.525.525 0 01-.453-.29l-.405-.642a1.244 1.244 0 00.2-2.275c-.627-.763.124-1.736 1.18-2.03a1.724 1.724 0 012.573-1.066zM12 15a3 3 0 100-6 3 3 0 000 6z" />
+                    </svg>
+                    <span>Settings</span>
+                </button>
 
             </aside>
 
@@ -1012,7 +1119,7 @@
 
                             <h2 class="text-3xl font-semibold tracking-tight">Videos</h2>
 
-                            <button type="button" id="youtube-favorites-toggle" class="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-amber-500/25 hover:from-amber-600 hover:to-orange-600 hover:shadow-xl transition-all dark:from-amber-600 dark:to-orange-600">Favorites</button>
+                            <button type="button" id="youtube-favorites-toggle" class="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-rose-500 to-pink-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-rose-500/25 hover:from-rose-600 hover:to-pink-600 hover:shadow-xl transition-all dark:from-rose-600 dark:to-pink-600">Favorites</button>
 
                         </div>
 
@@ -1022,7 +1129,7 @@
 
                             <input id="youtube-url-input" type="url" placeholder="https://www.youtube.com/@channelname" class="flex-1 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-aurora dark:border-slate-700 dark:bg-slate-900" required>
 
-                            <button type="submit" class="rounded-2xl bg-gradient-to-r from-coral to-aurora px-6 py-3 text-sm font-medium text-white">Add Channel</button>
+                            <button type="submit" class="accent-gradient rounded-2xl px-6 py-3 text-sm font-medium text-white">Add Channel</button>
 
                             <button type="button" id="youtube-refresh" class="rounded-2xl border border-slate-300 px-6 py-3 text-sm text-slate-700 dark:border-slate-700 dark:text-slate-200">Refresh Videos</button>
 
@@ -1042,7 +1149,7 @@
 
                                 <div class="mb-3 flex items-center justify-between">
 
-                                    <h3 class="text-sm uppercase tracking-[0.25em] text-slate-400">Latest videos</h3>
+                                    <h3 id="youtube-video-list-header" class="text-sm uppercase tracking-[0.25em] text-slate-400">Latest videos</h3>
 
                                     <span id="youtube-count" class="text-xs text-slate-400">0 items</span>
 
@@ -1066,7 +1173,11 @@
 
                                         <a id="youtube-open-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex rounded-2xl bg-slate-900 px-4 py-2 text-sm text-white dark:bg-white dark:text-slate-900">Open on YouTube</a>
 
-                                        <button id="youtube-like-btn" type="button" class="rounded-2xl border border-slate-300 px-4 py-2 text-sm text-slate-700 dark:border-slate-700 dark:text-slate-200">Like</button>
+                                        <button id="youtube-like-btn" type="button" class="rounded-full p-2 text-slate-400 hover:text-rose-500 transition-colors">
+                                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                            </svg>
+                                        </button>
 
                                     </div>
 
@@ -1216,41 +1327,29 @@
 
                                 <h2 class="mt-3 text-3xl font-semibold tracking-tight">Terminal</h2>
 
-                                <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-600 dark:text-slate-300">Run PowerShell commands inside the app. The current working directory is tracked between commands and output stays in a single scrollable console.</p>
-
-                            </div>
-
-                            <div class="accent-card rounded-[1.5rem] border px-5 py-4 text-sm text-slate-600 dark:text-slate-300">
-
-                                <div class="text-xs uppercase tracking-[0.25em] text-slate-400">Working Directory</div>
-
-                                <div id="terminal-cwd" class="mt-2 break-all font-mono text-xs text-slate-700 dark:text-slate-200">G:\Git Repos\codex</div>
-
                             </div>
 
                         </div>
 
-                        <div class="mt-8 overflow-hidden rounded-[1.75rem] border border-slate-200 bg-slate-950 shadow-2xl shadow-slate-950/25 dark:border-slate-700">
+                        <div class="mt-6 overflow-hidden rounded-[1.5rem] border border-slate-200 bg-slate-950 shadow-2xl shadow-slate-950/25 dark:border-slate-700">
 
-                            <div class="flex items-center justify-between border-b border-slate-800 bg-slate-900 px-4 py-3 text-xs uppercase tracking-[0.25em] text-slate-400">
+                            <div class="flex items-center justify-between border-b border-slate-800 bg-slate-900 px-3 py-2 text-xs uppercase tracking-[0.2em] text-slate-400">
 
                                 <span>Integrated shell</span>
 
-                                <button id="terminal-clear" type="button" class="rounded-full border border-slate-700 px-3 py-1 text-[11px] text-slate-300 transition hover:border-slate-500 hover:text-white">Clear</button>
+                                <button id="terminal-clear" type="button" class="rounded-full border border-slate-700 px-2 py-0.5 text-[10px] text-slate-300 transition hover:border-slate-500 hover:text-white">Clear</button>
 
                             </div>
 
-                            <div id="terminal-output" class="h-[900px] overflow-y-auto bg-slate-950 px-4 py-4 font-mono text-sm leading-7 text-slate-200"></div>
+                            <div id="terminal-output" class="h-[500px] overflow-y-auto bg-slate-950 px-3 py-2 font-mono text-xs leading-5 text-slate-200"></div>
 
-                            <form id="terminal-form" class="border-t border-slate-800 bg-slate-900 p-4">
+                            <form id="terminal-form" class="border-t border-slate-800 bg-slate-900 p-3">
 
-                                <label class="mb-3 block text-xs uppercase tracking-[0.25em] text-slate-500" for="terminal-input">Command</label>
+                                <div class="flex flex-col gap-2 xl:flex-row">
 
-                                <div class="flex flex-col gap-3 xl:flex-row">
+                                    <input id="terminal-input" type="text" autocomplete="off" spellcheck="false" placeholder="Get-ChildItem" class="flex-1 rounded-xl border border-slate-700 bg-slate-950 px-3 py-2 font-mono text-xs text-slate-100 outline-none transition focus:border-slate-500">
 
-                                    <input id="terminal-input" type="text" autocomplete="off" spellcheck="false" placeholder="Get-ChildItem" class="flex-1 rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 font-mono text-sm text-slate-100 outline-none transition focus:border-slate-500">
-
-                                    <button type="submit" class="accent-gradient rounded-2xl px-6 py-3 text-sm font-medium text-white">Run Command</button>
+                                    <button type="submit" class="accent-gradient rounded-xl px-4 py-2 text-xs font-medium text-white">Run</button>
 
                                 </div>
 
@@ -1268,27 +1367,22 @@
 
                         <div class="flex items-center gap-3 mb-4">
 
-                            <input id="dashy-url-input" type="url" placeholder="Enter URL and press Enter..." value="http://192.168.1.22:8888" class="flex-1 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm outline-none transition focus:border-aurora dark:border-slate-700 dark:bg-slate-900 dark:text-white">
-
-                            <div class="flex items-center gap-2">
-
-                                <button type="button" class="quick-link-btn rounded-full px-4 py-1.5 text-xs text-slate-600 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700" data-url="http://192.168.1.25:8081">Glance</button>
-
-                                <button type="button" class="quick-link-btn rounded-full px-4 py-1.5 text-xs text-slate-600 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700" data-url="http://192.168.1.25:5231">perplexica</button>
-
-                                <button type="button" class="quick-link-btn rounded-full px-4 py-1.5 text-xs text-slate-600 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700" data-url="http://192.168.1.25:5230">memos</button>
-
-                                <button type="button" class="quick-link-btn rounded-full px-4 py-1.5 text-slate-600 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700" data-url="http://192.168.1.22:8888">
-
-                                    <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
-
+                            <div class="relative flex-1">
+                                <input id="dashy-url-input" type="url" placeholder="Enter URL..." class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 pr-10 text-sm outline-none transition focus:border-aurora dark:border-slate-700 dark:bg-slate-900 dark:text-white">
+                                <button id="dashy-go-btn" type="button" class="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg p-1 text-slate-400 hover:text-aurora">
+                                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                    </svg>
                                 </button>
-
                             </div>
+
+                            <button id="dashy-add-link-btn" type="button" class="rounded-full px-3 py-2 text-sm accent-gradient text-white font-medium">+</button>
+
+                            <div class="flex items-center gap-2" id="dashy-quick-links"></div>
 
                         </div>
 
-                        <iframe id="dashy-iframe" src="http://192.168.1.22:8888" class="h-[calc(100vh-140px)] w-full rounded-xl border-4 border-slate-800" allow="fullscreen"></iframe>
+                        <iframe id="dashy-iframe" class="h-[calc(100vh-140px)] w-full rounded-xl border-4 border-slate-800" allow="fullscreen"></iframe>
 
                     </div>
 
@@ -1403,6 +1497,7 @@
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
 
         const baseTriggerClass = "tab-trigger flex w-full items-center justify-between rounded-2xl border px-4 py-3 text-left text-sm transition";
 
@@ -1425,6 +1520,8 @@
         const paletteToggle = document.getElementById("palette-toggle");
 
         const paletteOptions = document.getElementById("palette-options");
+
+
 
         const todayToggle = document.getElementById("today-toggle");
 
@@ -1453,61 +1550,211 @@
 
             });
 
+            if (tabId === "dashy" && quickLinks.length === 0) {
+                loadQuickLinks();
+            }
+
         }
 
 
 
         tabTriggers.forEach((trigger) => trigger.addEventListener("click", () => activateTab(trigger.dataset.tab)));
 
-        dashyUrlInput.addEventListener("keydown", (event) => {
+        let quickLinks = [];
+        let dashyHomeUrl = localStorage.getItem("nexus_dashy_home") || "";
+        let activeQuickLinkId = null;
 
-            if (event.key === "Enter") {
-
-                event.preventDefault();
-
-                let url = dashyUrlInput.value.trim();
-
-                if (!url) return;
-
-                if (!url.startsWith("http://") && !url.startsWith("https://")) {
-
-                    url = "http://" + url;
-
-                }
-
-                dashyIframe.src = url;
-
+        async function loadQuickLinks() {
+            try {
+                const links = await apiFetch("/api/quick-links");
+                quickLinks = links;
+                const homeSetting = await apiFetch("/api/settings/dashy_home");
+                dashyHomeUrl = homeSetting.value || "";
+                renderQuickLinks();
+            } catch (error) {
+                console.error("Failed to load quick links:", error);
             }
+        }
 
+        async function saveDashyHome(url) {
+            try {
+                await apiFetch("/api/settings/dashy_home", {
+                    method: "PUT",
+                    body: JSON.stringify({ value: url })
+                });
+                dashyHomeUrl = url;
+                renderQuickLinks();
+            } catch (error) {
+                console.error("Failed to save home URL:", error);
+            }
+        }
+
+        function renderQuickLinks() {
+            const container = document.getElementById("dashy-quick-links");
+            container.innerHTML = "";
+            
+            const homeBtn = document.createElement("button");
+            homeBtn.type = "button";
+            homeBtn.className = `rounded-full p-2 ${dashyHomeUrl ? "text-slate-600 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700" : "text-white accent-gradient"}`;
+            homeBtn.title = dashyHomeUrl ? "Home" : "Set home page";
+            homeBtn.innerHTML = `<svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>`;
+            homeBtn.addEventListener("click", () => {
+                if (!dashyHomeUrl) {
+                    const url = prompt("Enter home URL (e.g., http://192.168.1.22:8888):");
+                    if (url) {
+                        let homeUrl = url.trim();
+                        if (!homeUrl.startsWith("http://") && !homeUrl.startsWith("https://")) {
+                            homeUrl = "http://" + homeUrl;
+                        }
+                        saveDashyHome(homeUrl);
+                    }
+                } else {
+                    dashyUrlInput.value = dashyHomeUrl;
+                    dashyIframe.src = dashyHomeUrl;
+                }
+            });
+            container.appendChild(homeBtn);
+            
+            quickLinks.forEach((link) => {
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = `quick-link-btn rounded-full px-4 py-1.5 text-xs text-slate-600 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700${activeQuickLinkId === link.id ? " accent-gradient text-white" : ""}`;
+                btn.dataset.linkId = link.id;
+                btn.dataset.url = link.url;
+                btn.textContent = link.title || link.url;
+                
+                btn.addEventListener("click", () => {
+                    const url = btn.dataset.url;
+                    dashyUrlInput.value = url;
+                    dashyIframe.src = url;
+                    activeQuickLinkId = link.id;
+                    renderQuickLinks();
+                });
+                
+                const deleteBtn = document.createElement("button");
+                deleteBtn.type = "button";
+                deleteBtn.className = "ml-1 rounded-full p-0.5 text-slate-400 hover:text-red-500";
+                deleteBtn.innerHTML = `<svg class="h-3 w-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>`;
+                deleteBtn.addEventListener("click", async (e) => {
+                    e.stopPropagation();
+                    try {
+                        await apiFetch(`/api/quick-links/${link.id}`, { method: "DELETE" });
+                        quickLinks = quickLinks.filter(l => l.id !== link.id);
+                        if (activeQuickLinkId === link.id) activeQuickLinkId = null;
+                        renderQuickLinks();
+                    } catch (error) {
+                        console.error("Failed to delete quick link:", error);
+                    }
+                });
+                
+                const linkWrapper = document.createElement("span");
+                linkWrapper.className = "flex items-center";
+                linkWrapper.appendChild(btn);
+                linkWrapper.appendChild(deleteBtn);
+                container.appendChild(linkWrapper);
+            });
+        }
+
+        function loadUrl(url) {
+            if (!url) return;
+            if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                url = "http://" + url;
+            }
+            dashyIframe.src = url;
+        }
+
+        document.getElementById("dashy-go-btn").addEventListener("click", () => {
+            loadUrl(dashyUrlInput.value.trim());
         });
 
-        document.querySelectorAll(".quick-link-btn").forEach((btn) => {
+        dashyUrlInput.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                loadUrl(dashyUrlInput.value.trim());
+            }
+        });
 
-            btn.addEventListener("click", () => {
+        const addLinkModalHTML = `
+        <div id="dashy-add-link-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black/50 backdrop-blur-sm">
+            <div class="relative w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-700 dark:bg-slate-900">
+                <div class="mb-6 flex items-center justify-between">
+                    <h2 class="text-xl font-semibold text-slate-800 dark:text-slate-100">Add Quick Link</h2>
+                    <button id="dashy-add-link-close" type="button" class="rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-200">
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <label for="dashy-add-link-url" class="block text-sm font-medium text-slate-700 dark:text-slate-300">URL</label>
+                        <input type="text" id="dashy-add-link-url" placeholder="https://example.com" class="mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 transition focus:border-aurora focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200">
+                    </div>
+                    <div>
+                        <label for="dashy-add-link-name" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Name</label>
+                        <input type="text" id="dashy-add-link-name" placeholder="My Link" class="mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 transition focus:border-aurora focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200">
+                    </div>
+                </div>
+                <div class="mt-6 flex justify-end gap-3">
+                    <button id="dashy-add-link-cancel" type="button" class="rounded-xl border border-slate-200 px-5 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">Cancel</button>
+                    <button id="dashy-add-link-save" type="button" class="rounded-xl px-5 py-2.5 text-sm font-medium text-white accent-gradient">Save</button>
+                </div>
+            </div>
+        </div>`;
+        document.body.insertAdjacentHTML("beforeend", addLinkModalHTML);
 
-                const url = btn.dataset.url;
+        const addLinkModal = document.getElementById("dashy-add-link-modal");
+        const addLinkUrlInput = document.getElementById("dashy-add-link-url");
+        const addLinkNameInput = document.getElementById("dashy-add-link-name");
 
-                dashyUrlInput.value = url;
+        function openAddLinkModal() {
+            addLinkUrlInput.value = dashyUrlInput.value.trim();
+            addLinkNameInput.value = "";
+            addLinkModal.classList.remove("hidden");
+            addLinkNameInput.focus();
+        }
 
-                dashyIframe.src = url;
+        function closeAddLinkModal() {
+            addLinkModal.classList.add("hidden");
+        }
 
-                document.querySelectorAll(".quick-link-btn").forEach(b => {
-                    b.classList.remove("accent-gradient", "text-white");
-                    b.classList.add("bg-slate-100", "dark:bg-slate-800");
+        document.getElementById("dashy-add-link-btn").addEventListener("click", openAddLinkModal);
+        document.getElementById("dashy-add-link-close").addEventListener("click", closeAddLinkModal);
+        document.getElementById("dashy-add-link-cancel").addEventListener("click", closeAddLinkModal);
+        addLinkModal.addEventListener("click", (e) => {
+            if (e.target === addLinkModal) closeAddLinkModal();
+        });
+
+        document.getElementById("dashy-add-link-save").addEventListener("click", async () => {
+            let url = addLinkUrlInput.value.trim();
+            const name = addLinkNameInput.value.trim() || url;
+            
+            if (!url) {
+                addLinkUrlInput.focus();
+                return;
+            }
+            
+            if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                url = "http://" + url;
+            }
+            
+            try {
+                const newLink = await apiFetch("/api/quick-links", {
+                    method: "POST",
+                    body: JSON.stringify({ url, title: name })
                 });
-                btn.classList.remove("bg-slate-100", "dark:bg-slate-800");
-                btn.classList.add("accent-gradient", "text-white");
+                quickLinks.push(newLink);
+                renderQuickLinks();
+                closeAddLinkModal();
+            } catch (error) {
+                console.error("Failed to add quick link:", error);
+            }
+        });
 
-                const textSpan = dashyTabButton.querySelector("span > span > span:last-child");
-
-                if (textSpan) {
-
-                    textSpan.textContent = btn.textContent;
-
-                }
-
-            });
-
+        addLinkNameInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                document.getElementById("dashy-add-link-save").click();
+            }
         });
 
         themeToggle.addEventListener("click", () => {
@@ -1517,6 +1764,8 @@
             localStorage.setItem("task-console-theme", isDark ? "dark" : "light");
 
         });
+
+        const paletteCenterText = document.getElementById("palette-center-text");
 
         paletteButtons.forEach((button) => {
 
@@ -1528,15 +1777,20 @@
 
                 localStorage.setItem("task-console-palette", palette);
 
-                paletteButtons.forEach((entry) => entry.classList.remove("ring-2", "ring-offset-2", "ring-slate-900", "dark:ring-white"));
+                paletteButtons.forEach((entry) => entry.classList.remove("selected"));
 
-                button.classList.add("ring-2", "ring-offset-2", "ring-slate-900", "dark:ring-white");
+                button.classList.add("selected");
+
+                paletteCenterText.textContent = palette;
+
+                // Keep palette open after selecting color
 
             });
 
             if (button.dataset.palette === document.documentElement.dataset.palette) {
 
-                button.classList.add("ring-2", "ring-offset-2", "ring-slate-900", "dark:ring-white");
+                button.classList.add("selected");
+                paletteCenterText.textContent = button.dataset.palette;
 
             }
 
@@ -1549,31 +1803,32 @@
 
 
         function setPaletteOpen(open) {
-
-            paletteOverlay.classList.toggle('palette-open', open);
-
-            localStorage.setItem('task-console-palette-collapsed', open ? 'false' : 'true');
-
+            if (open) {
+                const rect = paletteToggle.getBoundingClientRect();
+                paletteOverlay.style.top = (rect.bottom + 8) + 'px';
+                paletteOverlay.style.left = (rect.left + rect.width / 2 - 80) + 'px';
+                paletteOverlay.classList.remove('hidden');
+                requestAnimationFrame(() => {
+                    paletteOverlay.classList.add('palette-open');
+                });
+            } else {
+                paletteOverlay.classList.remove('palette-open');
+                setTimeout(() => {
+                    if (!paletteOverlay.classList.contains('palette-open')) {
+                        paletteOverlay.classList.add('hidden');
+                    }
+                }, 300);
+            }
         }
 
-
-
         function applyPaletteCollapseState() {
-
-            const collapsed = localStorage.getItem('task-console-palette-collapsed');
-
-            const isCollapsed = collapsed === 'true' || collapsed === null;
-
-            paletteOverlay.classList.toggle('palette-open', !isCollapsed);
-
+            // Don't auto-open on load
         }
 
 
 
         paletteToggle.addEventListener('click', () => {
-
             setPaletteOpen(!paletteOverlay.classList.contains('palette-open'));
-
         });
 
 
@@ -3110,6 +3365,8 @@
 
         const youtubeVideoList = document.getElementById("youtube-video-list");
 
+        const youtubeVideoListHeader = document.getElementById("youtube-video-list-header");
+
         const youtubeEmptyState = document.getElementById("youtube-empty-state");
 
         const youtubePlayer = document.getElementById("youtube-player");
@@ -3134,6 +3391,16 @@
 
         const youtubeSummaryRefresh = document.getElementById("youtube-summary-refresh");
 
+        function setLikeButtonLiked(isLiked) {
+            if (isLiked) {
+                youtubeLikeBtn.innerHTML = `<svg class="h-6 w-6 fill-rose-500 text-rose-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>`;
+                youtubeLikeBtn.classList.add("text-rose-500");
+            } else {
+                youtubeLikeBtn.innerHTML = `<svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>`;
+                youtubeLikeBtn.classList.remove("text-rose-500");
+            }
+        }
+
         youtubeLikeBtn.addEventListener("click", async () => {
 
             if (!currentVideo) return;
@@ -3150,9 +3417,7 @@
 
                     favoriteVideos = favoriteVideos.filter(f => f.video_id !== currentVideo.video_id);
 
-                    youtubeLikeBtn.textContent = "Like";
-
-                    youtubeLikeBtn.classList.remove("bg-slate-200", "dark:bg-slate-700");
+                    setLikeButtonLiked(false);
 
                 } catch (error) {
 
@@ -3194,9 +3459,9 @@
 
                     }
 
-                    youtubeLikeBtn.textContent = "Liked";
-
-                    youtubeLikeBtn.classList.add("bg-slate-200", "dark:bg-slate-700");
+                    setLikeButtonLiked(true);
+                    
+                    animateHeartToFavorites();
 
                 } catch (error) {
 
@@ -3207,6 +3472,44 @@
             }
 
         });
+
+        function animateHeartToFavorites() {
+            const likeBtn = youtubeLikeBtn;
+            const favoritesBtn = youtubeFavoritesToggle;
+            
+            if (!likeBtn || !favoritesBtn) return;
+            
+            const likeRect = likeBtn.getBoundingClientRect();
+            const favRect = favoritesBtn.getBoundingClientRect();
+            
+            const heart = document.createElement("div");
+            heart.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`;
+            heart.style.cssText = `
+                position: fixed;
+                z-index: 9999;
+                left: ${likeRect.left + likeRect.width / 2 - 12}px;
+                top: ${likeRect.top + likeRect.height / 2 - 12}px;
+                pointer-events: none;
+                transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            `;
+            document.body.appendChild(heart);
+            
+            requestAnimationFrame(() => {
+                heart.style.left = `${favRect.left + favRect.width / 2 - 12}px`;
+                heart.style.top = `${favRect.top + favRect.height / 2 - 12}px`;
+                heart.style.transform = "scale(0.3)";
+                heart.style.opacity = "0.5";
+            });
+            
+            setTimeout(() => {
+                heart.remove();
+                favoritesBtn.style.transform = "scale(1.3)";
+                favoritesBtn.style.transition = "transform 0.2s ease-out";
+                setTimeout(() => {
+                    favoritesBtn.style.transform = "scale(1)";
+                }, 200);
+            }, 600);
+        }
 
         youtubeSummaryRefresh.addEventListener("click", async () => {
 
@@ -3220,9 +3523,16 @@
 
             showingFavorites = !showingFavorites;
 
-            youtubeFavoritesToggle.classList.toggle("bg-slate-200", showingFavorites);
+            youtubeVideoListHeader.textContent = showingFavorites ? "Your Favorite Videos" : "Latest videos";
 
-            youtubeFavoritesToggle.classList.toggle("dark:bg-slate-700", showingFavorites);
+            youtubeFavoritesToggle.style.transition = "transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
+            youtubeFavoritesToggle.style.transform = "scale(0.85)";
+            setTimeout(() => {
+                youtubeFavoritesToggle.style.transform = "scale(1.1)";
+                setTimeout(() => {
+                    youtubeFavoritesToggle.style.transform = "scale(1)";
+                }, 100);
+            }, 100);
 
             if (showingFavorites) {
 
@@ -3278,11 +3588,7 @@
 
             const isFavorite = favoriteVideos.some(f => f.video_id === video.video_id);
 
-            youtubeLikeBtn.textContent = isFavorite ? "Liked" : "Like";
-
-            youtubeLikeBtn.classList.toggle("bg-slate-200", isFavorite);
-
-            youtubeLikeBtn.classList.toggle("dark:bg-slate-700", isFavorite);
+            setLikeButtonLiked(isFavorite);
 
             youtubePlayer.src = video.video_id ? `https://www.youtube.com/embed/${video.video_id}?rel=0&modestbranding=1&autoplay=1` : "about:blank";
 
@@ -3297,7 +3603,7 @@
             youtubeSummaryContent.innerHTML = `<div class="flex items-center gap-2"><svg class="h-4 w-4 animate-spin text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg><span class="text-sm text-slate-500">Generating summary...</span></div>`;
 
             try {
-
+                const settings = getSettings();
                 const result = await apiFetch("/api/ai/summary", {
 
                     method: "POST",
@@ -3308,7 +3614,8 @@
 
                         channel: video.channel_title,
 
-                        video_id: video.video_id
+                        video_id: video.video_id,
+                        ollama_endpoint: settings.ollamaEndpoint
 
                     })
 
@@ -4138,16 +4445,29 @@
 
             }
 
-             applyPaletteCollapseState();
-             applyTodayCollapseState();
-             // Fetch actual current working directory from backend
-             fetchTerminalCwd();
-             renderTerminalBanner();
-             syncTimerDisplay();
-             activateTab("tasks");
-         }
+              applyPaletteCollapseState();
+              applyTodayCollapseState();
+              // Fetch actual current working directory from backend
+              fetchTerminalCwd();
+              renderTerminalBanner();
+              syncTimerDisplay();
+              activateTab("tasks");
+          }
 
-
+        const settingsBtn = document.getElementById("settings-btn");
+        const DEFAULT_OLLAMA_ENDPOINT = "http://localhost:11434";
+        
+        function getSettings() {
+            return {
+                ollamaEndpoint: localStorage.getItem("nexus_ollama_endpoint") || DEFAULT_OLLAMA_ENDPOINT,
+                openaiKey: localStorage.getItem("nexus_openai_key") || ""
+            };
+        }
+        
+        function saveSettings(settings) {
+            localStorage.setItem("nexus_ollama_endpoint", settings.ollamaEndpoint);
+            localStorage.setItem("nexus_openai_key", settings.openaiKey);
+        }
 
         initializeApp();
 
@@ -4189,7 +4509,171 @@
             });
         });
 
+        const settingsModalHTML = `
+    <div id="settings-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black/50 backdrop-blur-sm">
+        <div class="relative w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-700 dark:bg-slate-900" style="animation: slideUp 0.3s ease-out;">
+            <div class="mb-6 flex items-center justify-between">
+                <h2 class="text-xl font-semibold text-slate-800 dark:text-slate-100">Settings</h2>
+                <button id="settings-close" type="button" class="rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-200">
+                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="space-y-5">
+                <div class="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800/50">
+                    <h3 class="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-2">AI Settings</h3>
+                    <div class="space-y-3">
+                        <div>
+                            <label for="settings-ollama-endpoint" class="block text-xs font-medium text-slate-600 dark:text-slate-400">Ollama Endpoint</label>
+                            <input type="text" id="settings-ollama-endpoint" placeholder="http://localhost:11434" class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 transition focus:border-aurora focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">
+                        </div>
+                        <div>
+                            <label for="settings-openai-key" class="block text-xs font-medium text-slate-600 dark:text-slate-400">OpenAI API Key</label>
+                            <input type="password" id="settings-openai-key" placeholder="sk-..." class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 transition focus:border-aurora focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800/50">
+                    <h3 class="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-2">Configuration</h3>
+                    <div class="flex gap-2">
+                        <button id="settings-export-config" type="button" class="flex-1 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800">
+                            Export to config.yml
+                        </button>
+                        <button id="settings-import-config" type="button" class="flex-1 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800">
+                            Import from config.yml
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800/50">
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Settings are synced to the server database. Export creates a config.yml file.</p>
+                </div>
+            </div>
+            
+            <div class="mt-6 flex justify-end gap-3">
+                <button id="settings-cancel" type="button" class="rounded-xl border border-slate-200 px-5 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">Cancel</button>
+                <button id="settings-save" type="button" class="accent-gradient rounded-xl px-5 py-2.5 text-sm font-medium text-white">Save Settings</button>
+            </div>
+        </div>
+    </div>
+        `;
+
+        document.body.insertAdjacentHTML("beforeend", settingsModalHTML);
+        
+        const settingsModal = document.getElementById("settings-modal");
+        
+        async function loadServerSettings() {
+            try {
+                const ollama = await apiFetch("/api/settings/ollama_endpoint");
+                const openai = await apiFetch("/api/settings/openai_api_key");
+                return {
+                    ollamaEndpoint: ollama.value || DEFAULT_OLLAMA_ENDPOINT,
+                    openaiKey: openai.value || ""
+                };
+            } catch (error) {
+                return getSettings();
+            }
+        }
+        
+        async function openSettingsModal() {
+            const serverSettings = await loadServerSettings();
+            document.getElementById("settings-ollama-endpoint").value = serverSettings.ollamaEndpoint;
+            document.getElementById("settings-openai-key").value = serverSettings.openaiKey;
+            settingsModal.classList.remove("hidden");
+        }
+        
+        function closeSettingsModal() {
+            settingsModal.classList.add("hidden");
+        }
+        
+        settingsBtn.addEventListener("click", openSettingsModal);
+        document.getElementById("settings-close").addEventListener("click", closeSettingsModal);
+        document.getElementById("settings-cancel").addEventListener("click", closeSettingsModal);
+        
+        document.getElementById("settings-save").addEventListener("click", async () => {
+            const ollamaEndpoint = document.getElementById("settings-ollama-endpoint").value.trim() || DEFAULT_OLLAMA_ENDPOINT;
+            const openaiKey = document.getElementById("settings-openai-key").value.trim();
+            
+            try {
+                await apiFetch("/api/settings/ollama_endpoint", {
+                    method: "PUT",
+                    body: JSON.stringify({ value: ollamaEndpoint })
+                });
+                await apiFetch("/api/settings/openai_api_key", {
+                    method: "PUT",
+                    body: JSON.stringify({ value: openaiKey })
+                });
+                saveSettings({ ollamaEndpoint, openaiKey });
+                closeSettingsModal();
+            } catch (error) {
+                console.error("Failed to save settings:", error);
+            }
+        });
+        
+        document.getElementById("settings-export-config").addEventListener("click", async () => {
+            try {
+                await apiFetch("/api/settings/ollama_endpoint", {
+                    method: "PUT",
+                    body: JSON.stringify({ value: document.getElementById("settings-ollama-endpoint").value.trim() || DEFAULT_OLLAMA_ENDPOINT })
+                });
+                await apiFetch("/api/settings/openai_api_key", {
+                    method: "PUT",
+                    body: JSON.stringify({ value: document.getElementById("settings-openai-key").value.trim() })
+                });
+                const result = await apiFetch("/api/config/export");
+                alert("Config exported to config.yml");
+            } catch (error) {
+                console.error("Export failed:", error);
+                alert("Export failed: " + error.message);
+            }
+        });
+        
+        document.getElementById("settings-import-config").addEventListener("click", async () => {
+            if (!confirm("This will import configuration from config.yml. Continue?")) return;
+            try {
+                const result = await apiFetch("/api/config/import", {
+                    method: "POST",
+                    body: JSON.stringify({ path: "config.yml" })
+                });
+                alert("Config imported! Refreshing settings...");
+                await openSettingsModal();
+                if (dashyHomeUrl) loadQuickLinks();
+            } catch (error) {
+                console.error("Import failed:", error);
+                alert("Import failed: " + error.message);
+            }
+        });
+        
+        settingsModal.addEventListener("click", (e) => {
+            if (e.target === settingsModal) closeSettingsModal();
+        });
+
+        });
+
     </script>
+
+    <div id="palette-overlay" class="fixed z-[99999] hidden pointer-events-none" style="transform: translateY(-10px); opacity: 0; transition: transform 0.3s ease, opacity 0.3s ease;">
+        <div id="palette-circle" class="relative bg-white/30 dark:bg-slate-900/40 backdrop-blur-xl border border-white/20 dark:border-slate-700/30 rounded-full shadow-2xl" style="width: 160px; height: 160px;">
+            <span id="palette-center-text" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs font-semibold capitalize text-slate-700 dark:text-slate-200 z-10">violet</span>
+            <div id="palette-options" class="absolute inset-0">
+                <button type="button" data-palette="violet" class="palette-option absolute w-7 h-7 rounded-full shadow-md cursor-pointer" style="background: linear-gradient(135deg, #7c3aed, #06b6d4); top: 50%; left: 50%;"></button>
+                <button type="button" data-palette="green" class="palette-option absolute w-7 h-7 rounded-full shadow-md cursor-pointer" style="background: linear-gradient(135deg, #15803d, #22c55e); top: 50%; left: 50%;"></button>
+                <button type="button" data-palette="red" class="palette-option absolute w-7 h-7 rounded-full shadow-md cursor-pointer" style="background: linear-gradient(135deg, #b91c1c, #fb7185); top: 50%; left: 50%;"></button>
+                <button type="button" data-palette="magenta" class="palette-option absolute w-7 h-7 rounded-full shadow-md cursor-pointer" style="background: linear-gradient(135deg, #c026d3, #f472b6); top: 50%; left: 50%;"></button>
+                <button type="button" data-palette="brown" class="palette-option absolute w-7 h-7 rounded-full shadow-md cursor-pointer" style="background: linear-gradient(135deg, #92400e, #fbbf24); top: 50%; left: 50%;"></button>
+                <button type="button" data-palette="teal" class="palette-option absolute w-7 h-7 rounded-full shadow-md cursor-pointer" style="background: linear-gradient(135deg, #0f766e, #5eead4); top: 50%; left: 50%;"></button>
+                <button type="button" data-palette="blue" class="palette-option absolute w-7 h-7 rounded-full shadow-md cursor-pointer" style="background: linear-gradient(135deg, #1d4ed8, #38bdf8); top: 50%; left: 50%;"></button>
+                <button type="button" data-palette="orange" class="palette-option absolute w-7 h-7 rounded-full shadow-md cursor-pointer" style="background: linear-gradient(135deg, #c2410c, #f59e0b); top: 50%; left: 50%;"></button>
+                <button type="button" data-palette="lime" class="palette-option absolute w-7 h-7 rounded-full shadow-md cursor-pointer" style="background: linear-gradient(135deg, #4d7c0f, #a3e635); top: 50%; left: 50%;"></button>
+                <button type="button" data-palette="indigo" class="palette-option absolute w-7 h-7 rounded-full shadow-md cursor-pointer" style="background: linear-gradient(135deg, #4338ca, #a78bfa); top: 50%; left: 50%;"></button>
+                <button type="button" data-palette="rose" class="palette-option absolute w-7 h-7 rounded-full shadow-md cursor-pointer" style="background: linear-gradient(135deg, #be123c, #f472b6); top: 50%; left: 50%;"></button>
+                <button type="button" data-palette="amber" class="palette-option absolute w-7 h-7 rounded-full shadow-md cursor-pointer" style="background: linear-gradient(135deg, #b45309, #fcd34d); top: 50%; left: 50%;"></button>
+            </div>
+        </div>
+    </div>
 
 </body>
 

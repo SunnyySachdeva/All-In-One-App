@@ -8,6 +8,7 @@ import time
 import urllib.error
 import urllib.request
 import xml.etree.ElementTree as ET
+import yaml
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
@@ -151,6 +152,24 @@ def init_db():
             thumbnail TEXT,
             published_at TEXT,
             created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )
+        """
+    )
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS quick_links (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            url TEXT NOT NULL,
+            title TEXT,
+            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )
+        """
+    )
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS settings (
+            key TEXT PRIMARY KEY,
+            value TEXT NOT NULL
         )
         """
     )
@@ -1220,6 +1239,7 @@ def generate_video_summary():
     video_title = (payload.get("title") or "").strip()
     video_channel = (payload.get("channel") or "").strip()
     video_id = (payload.get("video_id") or "").strip()
+    ollama_endpoint = (payload.get("ollama_endpoint") or os.environ.get("OLLAMA_ENDPOINT", "http://localhost:11434")).strip().rstrip("/")
     
     if not video_title:
         return jsonify({"error": "Video title is required."}), 400
@@ -1247,7 +1267,7 @@ Provide a 2-3 sentence summary describing what the video is about, the main topi
         }
         
         request_obj = urllib.request.Request(
-            "http://localhost:11434/api/generate",
+            f"{ollama_endpoint}/api/generate",
             data=json.dumps(ollama_request).encode("utf-8"),
             headers={"Content-Type": "application/json"}
         )
@@ -1371,6 +1391,221 @@ def delete_favorite_video(favorite_id):
 
 
 init_db()
+
+
+@app.get("/api/quick-links")
+def list_quick_links():
+    db = get_db()
+    rows = db.execute(
+        "SELECT id, url, title, created_at FROM quick_links ORDER BY created_at DESC"
+    ).fetchall()
+    return jsonify(
+        [
+            {
+                "id": row["id"],
+                "url": row["url"],
+                "title": row["title"] or row["url"],
+                "created_at": row["created_at"],
+            }
+            for row in rows
+        ]
+    )
+
+
+@app.post("/api/quick-links")
+def add_quick_link():
+    payload = request.get_json(silent=True) or {}
+    url = (payload.get("url") or "").strip()
+    title = (payload.get("title") or "").strip()
+    
+    if not url:
+        return jsonify({"error": "URL is required."}), 400
+    
+    try:
+        parsed = urlparse(url)
+        if not parsed.scheme:
+            url = "http://" + url
+    except Exception:
+        return jsonify({"error": "Invalid URL."}), 400
+    
+    db = get_db()
+    cursor = db.execute(
+        "INSERT INTO quick_links (url, title) VALUES (?, ?)",
+        (url, title or None),
+    )
+    db.commit()
+    row = db.execute(
+        "SELECT id, url, title, created_at FROM quick_links WHERE id = ?",
+        (cursor.lastrowid,),
+    ).fetchone()
+    return (
+        jsonify(
+            {
+                "id": row["id"],
+                "url": row["url"],
+                "title": row["title"] or row["url"],
+                "created_at": row["created_at"],
+            }
+        ),
+        201,
+    )
+
+
+@app.delete("/api/quick-links/<int:link_id>")
+def delete_quick_link(link_id):
+    db = get_db()
+    cursor = db.execute("DELETE FROM quick_links WHERE id = ?", (link_id,))
+    db.commit()
+    if cursor.rowcount == 0:
+        return jsonify({"error": "Quick link not found."}), 404
+    return ("", 204)
+
+
+@app.get("/api/settings/<key>")
+def get_setting(key):
+    db = get_db()
+    row = db.execute("SELECT value FROM settings WHERE key = ?", (key,)).fetchone()
+    return jsonify({"key": key, "value": row["value"] if row else None})
+
+
+@app.put("/api/settings/<key>")
+def set_setting(key):
+    payload = request.get_json(silent=True) or {}
+    value = (payload.get("value") or "").strip()
+    
+    db = get_db()
+    db.execute(
+        "INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)",
+        (key, value),
+    )
+    db.commit()
+    return jsonify({"key": key, "value": value})
+
+
+@app.get("/api/config/export")
+def export_config():
+    import yaml
+    
+    db = get_db()
+    
+    appearance_theme = db.execute("SELECT value FROM settings WHERE key = 'theme'").fetchone()
+    appearance_palette = db.execute("SELECT value FROM settings WHERE key = 'palette'").fetchone()
+    ollama_endpoint = db.execute("SELECT value FROM settings WHERE key = 'ollama_endpoint'").fetchone()
+    openai_api_key = db.execute("SELECT value FROM settings WHERE key = 'openai_api_key'").fetchone()
+    dashy_home = db.execute("SELECT value FROM settings WHERE key = 'dashy_home'").fetchone()
+    
+    quick_links = db.execute("SELECT url, title FROM quick_links ORDER BY created_at").fetchall()
+    
+    rss_feeds = db.execute("SELECT url, title FROM rss_feeds ORDER BY created_at").fetchall()
+    podcasts = db.execute("SELECT url, title FROM podcast_feeds ORDER BY created_at").fetchall()
+    
+    youtube_channels = db.execute("SELECT channel_id, title FROM youtube_channels ORDER BY created_at").fetchall()
+    
+    config = {
+        "appearance": {
+            "theme": appearance_theme["value"] if appearance_theme else "light",
+            "palette": appearance_palette["value"] if appearance_palette else "aurora",
+        },
+        "ai": {
+            "ollama_endpoint": ollama_endpoint["value"] if ollama_endpoint else "http://localhost:11434",
+            "openai_api_key": openai_api_key["value"] if openai_api_key else "",
+        },
+        "self_hosted": {
+            "home_url": dashy_home["value"] if dashy_home else "",
+            "quick_links": [{"url": row["url"], "title": row["title"]} for row in quick_links],
+        },
+        "rss": {
+            "feeds": [{"url": row["url"], "title": row["title"] or row["url"]} for row in rss_feeds],
+        },
+        "podcasts": {
+            "feeds": [{"url": row["url"], "title": row["title"] or row["url"]} for row in podcasts],
+        },
+        "youtube": {
+            "channels": [{"channel_id": row["channel_id"], "title": row["title"]} for row in youtube_channels],
+        },
+    }
+    
+    config_path = Path("config.yml")
+    with open(config_path, "w", encoding="utf-8") as f:
+        yaml.dump(config, f, default_flow_style=False, sort_keys=False)
+    
+    return jsonify({"message": "Config exported to config.yml", "path": str(config_path)})
+
+
+@app.post("/api/config/import")
+def import_config():
+    import yaml
+    
+    payload = request.get_json(silent=True) or {}
+    file_path = payload.get("path", "config.yml")
+    
+    config_path = Path(file_path)
+    if not config_path.exists():
+        return jsonify({"error": f"Config file not found: {file_path}"}), 404
+    
+    try:
+        with open(config_path, "r", encoding="utf-8") as f:
+            config = yaml.safe_load(f)
+    except Exception as e:
+        return jsonify({"error": f"Failed to parse config: {str(e)}"}), 400
+    
+    db = get_db()
+    imported = {"settings": [], "quick_links": 0, "rss_feeds": 0, "podcasts": 0, "youtube_channels": 0}
+    
+    if "appearance" in config:
+        if "theme" in config["appearance"]:
+            db.execute("INSERT OR REPLACE INTO settings (key, value) VALUES ('theme', ?)", (config["appearance"]["theme"],))
+            imported["settings"].append("theme")
+        if "palette" in config["appearance"]:
+            db.execute("INSERT OR REPLACE INTO settings (key, value) VALUES ('palette', ?)", (config["appearance"]["palette"],))
+            imported["settings"].append("palette")
+    
+    if "ai" in config:
+        if "ollama_endpoint" in config["ai"]:
+            db.execute("INSERT OR REPLACE INTO settings (key, value) VALUES ('ollama_endpoint', ?)", (config["ai"]["ollama_endpoint"],))
+            imported["settings"].append("ollama_endpoint")
+        if "openai_api_key" in config["ai"]:
+            db.execute("INSERT OR REPLACE INTO settings (key, value) VALUES ('openai_api_key', ?)", (config["ai"]["openai_api_key"],))
+            imported["settings"].append("openai_api_key")
+    
+    if "self_hosted" in config:
+        if "home_url" in config["self_hosted"]:
+            db.execute("INSERT OR REPLACE INTO settings (key, value) VALUES ('dashy_home', ?)", (config["self_hosted"]["home_url"],))
+            imported["settings"].append("dashy_home")
+        if "quick_links" in config["self_hosted"]:
+            for link in config["self_hosted"]["quick_links"]:
+                try:
+                    db.execute("INSERT INTO quick_links (url, title) VALUES (?, ?)", (link.get("url", ""), link.get("title", "")))
+                    imported["quick_links"] += 1
+                except Exception:
+                    pass
+    
+    if "rss" in config and "feeds" in config["rss"]:
+        for feed in config["rss"]["feeds"]:
+            try:
+                db.execute("INSERT INTO rss_feeds (url, title) VALUES (?, ?)", (feed.get("url", ""), feed.get("title", "")))
+                imported["rss_feeds"] += 1
+            except Exception:
+                pass
+    
+    if "podcasts" in config and "feeds" in config["podcasts"]:
+        for podcast in config["podcasts"]["feeds"]:
+            try:
+                db.execute("INSERT INTO podcast_feeds (url, title) VALUES (?, ?)", (podcast.get("url", ""), podcast.get("title", "")))
+                imported["podcasts"] += 1
+            except Exception:
+                pass
+    
+    if "youtube" in config and "channels" in config["youtube"]:
+        for channel in config["youtube"]["channels"]:
+            try:
+                db.execute("INSERT INTO youtube_channels (channel_id, title) VALUES (?, ?)", (channel.get("channel_id", ""), channel.get("title", "")))
+                imported["youtube_channels"] += 1
+            except Exception:
+                pass
+    
+    db.commit()
+    return jsonify({"message": "Config imported successfully", "imported": imported})
 
 
 if __name__ == "__main__":
