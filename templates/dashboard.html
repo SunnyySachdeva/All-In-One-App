@@ -660,6 +660,113 @@
             border-color: rgba(255, 255, 255, 0.15);
         }
 
+        /* Sidebar collapse state - desktop */
+        @media (min-width: 768px) {
+            #sidebar {
+                width: 320px;
+                flex-shrink: 0;
+                z-index: 10;
+            }
+            #sidebar.sidebar-collapsed {
+                margin-left: -320px;
+            }
+            #sidebar-toggle {
+                left: 0;
+                transition: left 0.3s ease;
+                z-index: 20;
+            }
+            #sidebar-toggle:not(.sidebar-visible) {
+                left: 0;
+                border-left-0 rounded-l-none;
+            }
+            #sidebar-toggle.sidebar-visible {
+                left: 316px;
+                border-left: 1px solid;
+                border-radius: 8px;
+            }
+        }
+        
+        /* Sidebar mobile drawer */
+        @media (max-width: 767px) {
+            #sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                height: 100vh;
+                z-index: 45;
+                width: 100%;
+                max-width: 320px;
+                transform: translateX(-100%);
+            }
+            #sidebar.sidebar-open {
+                transform: translateX(0);
+            }
+            #sidebar-overlay.sidebar-overlay-visible {
+                display: block;
+            }
+            #sidebar-burger {
+                z-index: 50;
+                position: sticky;
+                top: 0;
+                float: left;
+            }
+        }
+        
+        /* Sidebar collapse state - desktop */
+        @media (min-width: 768px) {
+            #sidebar {
+                width: 320px;
+                flex-shrink: 0;
+                z-index: 10;
+            }
+            #sidebar.sidebar-collapsed {
+                margin-left: -320px;
+            }
+            #sidebar-toggle {
+                left: 300px !important;
+                top: 30px;
+                z-index: 20;
+                transition: left 0.3s ease;
+            }
+            #sidebar.sidebar-collapsed ~ #sidebar-toggle {
+                left: 0 !important;
+            }
+        }
+        
+        /* Sidebar mobile drawer */
+        @media (max-width: 767px) {
+            #sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                height: 100vh;
+                z-index: 45;
+                width: 85%;
+                max-width: 320px;
+                transform: translateX(-100%);
+                margin: 0;
+            }
+            #sidebar:not(.sidebar-open) {
+                visibility: hidden;
+            }
+            #sidebar.sidebar-open {
+                transform: translateX(0);
+                visibility: visible;
+            }
+            #sidebar-overlay.sidebar-overlay-visible {
+                display: block;
+            }
+            #sidebar-burger {
+                position: sticky;
+                top: 0;
+                z-index: 50;
+                align-self: flex-start;
+            }
+            #sidebar-toggle {
+                display: none !important;
+            }
+        }
+
         .tab-panel {
             animation: slideUp 0.3s ease-out;
         }
@@ -689,7 +796,15 @@
 
         <div class="flex min-h-screen w-full flex-col md:flex-row">
 
-            <aside class="w-full border-b border-slate-200/80 bg-white/75 p-6 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/70 md:sticky md:top-0 md:h-screen md:max-w-xs md:border-b-0 md:border-r">
+            <button id="sidebar-burger" type="button" class="fixed left-4 top-4 z-50 rounded-xl border border-slate-200 bg-white/90 p-2 text-slate-600 shadow-md backdrop-blur-sm transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/90 dark:text-slate-300 dark:hover:bg-slate-800 md:hidden" aria-label="Open menu">
+                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+
+            <div id="sidebar-overlay" class="fixed inset-0 z-40 hidden bg-black/50 md:hidden"></div>
+
+            <aside id="sidebar" class="relative w-full border-b border-slate-200/80 bg-white/75 p-6 pt-16 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/70 md:sticky md:top-0 md:h-screen md:max-w-xs md:border-b-0 md:border-r md:pt-6 transition-all duration-300">
 
                 <div class="flex items-start justify-between gap-4">
 
@@ -807,6 +922,9 @@
 
             </aside>
 
+            <button id="sidebar-toggle" type="button" class="fixed top-[30px] left-[300px] z-40 hidden rounded-lg bg-white/50 p-1 text-slate-600 shadow-md transition-all duration-300 hover:bg-slate-100 md:block" aria-label="Toggle sidebar">
+                <img src="https://cdn-icons-png.freepik.com/512/7168/7168076.png" alt="Toggle" class="h-7 w-7" />
+            </button>
 
 
             <main class="flex-1 p-6 md:p-8 xl:p-10">
@@ -1521,6 +1639,49 @@
 
         const paletteOptions = document.getElementById("palette-options");
 
+        const sidebar = document.getElementById("sidebar");
+        const sidebarToggle = document.getElementById("sidebar-toggle");
+        const sidebarBurger = document.getElementById("sidebar-burger");
+        const sidebarOverlay = document.getElementById("sidebar-overlay");
+
+        function toggleSidebar(show) {
+            const isMobile = window.innerWidth < 768;
+            if (isMobile) {
+                if (show === undefined) show = !sidebar.classList.contains("sidebar-open");
+                sidebar.classList.toggle("sidebar-open", show);
+                sidebarOverlay.classList.toggle("sidebar-overlay-visible", show);
+                document.body.classList.toggle("overflow-hidden", show);
+            } else {
+                if (show === undefined) show = !sidebar.classList.contains("sidebar-collapsed");
+                sidebar.classList.toggle("sidebar-collapsed", show);
+                localStorage.setItem("nexus-sidebar-collapsed", show);
+            }
+        }
+
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener("click", () => toggleSidebar());
+        }
+        if (sidebarBurger) {
+            sidebarBurger.addEventListener("click", () => toggleSidebar(true));
+        }
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener("click", () => toggleSidebar(false));
+        }
+
+        if (window.innerWidth >= 768) {
+            const savedCollapsed = localStorage.getItem("nexus-sidebar-collapsed") === "true";
+            if (savedCollapsed) {
+                sidebar.classList.add("sidebar-collapsed");
+            }
+        }
+
+        window.addEventListener("resize", () => {
+            if (window.innerWidth >= 768) {
+                sidebarOverlay.classList.remove("sidebar-overlay-visible");
+                document.body.classList.remove("overflow-hidden");
+                sidebar.classList.remove("sidebar-open");
+            }
+        });
 
 
         const todayToggle = document.getElementById("today-toggle");
