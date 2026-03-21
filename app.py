@@ -173,8 +173,79 @@ def init_db():
         )
         """
     )
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS list_definitions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            type TEXT NOT NULL,
+            pill_color TEXT DEFAULT 'violet',
+            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )
+        """
+    )
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS list_items (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            list_id INTEGER NOT NULL,
+            data TEXT NOT NULL,
+            pill_color TEXT DEFAULT 'violet',
+            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (list_id) REFERENCES list_definitions(id) ON DELETE CASCADE
+        )
+        """
+    )
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS list_fields (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            list_id INTEGER NOT NULL,
+            field_name TEXT NOT NULL,
+            field_type TEXT DEFAULT 'text',
+            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (list_id) REFERENCES list_definitions(id) ON DELETE CASCADE
+        )
+        """
+    )
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS bookmarks (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            url TEXT NOT NULL,
+            folders TEXT DEFAULT 'General',
+            description TEXT,
+            tags TEXT,
+            is_favorite INTEGER DEFAULT 0,
+            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )
+        """
+    )
+    existing_lists = cursor.execute("SELECT type FROM list_definitions WHERE type IN ('movies', 'series', 'books', 'links', 'software')").fetchall()
+    existing_types = set(row[0] for row in existing_lists)
+    print(f"[DB] Existing list types: {existing_types}")
+    
+    default_lists = [
+        ('Movies', 'movies', 'violet'),
+        ('Series', 'series', 'blue'),
+        ('Books', 'books', 'green'),
+        ('Links', 'links', 'amber'),
+        ('Software', 'software', 'rose'),
+    ]
+    for name, list_type, color in default_lists:
+        if list_type not in existing_types:
+            print(f"[DB] Adding list: {name}")
+            cursor.execute(
+                "INSERT INTO list_definitions (name, type, pill_color) VALUES (?, ?, ?)",
+                (name, list_type, color)
+            )
+        else:
+            print(f"[DB] Skipping list: {name} (already exists)")
     db.commit()
     db.close()
+    print("[DB] Database initialized successfully")
 
 
 def row_to_task(row):
@@ -1233,14 +1304,76 @@ def execute_terminal_command():
     return jsonify(result)
 
 
+@app.get("/api/ai/models")
+def get_available_models():
+    models = {"ollama": [], "openai": []}
+    
+    db = get_db()
+    ollama_endpoint = db.execute("SELECT value FROM settings WHERE key = 'ollama_endpoint'").fetchone()
+    openai_key = db.execute("SELECT value FROM settings WHERE key = 'openai_api_key'").fetchone()
+    
+    ollama_url = (ollama_endpoint["value"] if ollama_endpoint else "http://localhost:11434").strip().rstrip("/")
+    api_key = openai_key["value"] if openai_key else ""
+    
+    try:
+        req = urllib.request.Request(f"{ollama_url}/api/tags", headers={"Content-Type": "application/json"})
+        with urllib.request.urlopen(req, timeout=10) as response:
+            result = json.loads(response.read().decode("utf-8"))
+            models["ollama"] = [m["name"] for m in result.get("models", [])]
+    except Exception:
+        models["ollama"] = ["llama3:latest", "llama3.1:latest", "llama3.2:latest", "mistral:latest", "codellama:latest", "phi3:latest"]
+    
+    if api_key:
+        try:
+            req = urllib.request.Request(
+                "https://api.openai.com/v1/models",
+                headers={"Authorization": f"Bearer {api_key}"}
+            )
+            with urllib.request.urlopen(req, timeout=15) as response:
+                result = json.loads(response.read().decode("utf-8"))
+                gpt_models = [m["id"] for m in result.get("data", []) if m["id"].startswith("gpt-")]
+                models["openai"] = sorted(gpt_models, reverse=True)[:20]
+        except Exception:
+            models["openai"] = ["gpt-4o", "gpt-4o-mini", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo"]
+    else:
+        models["openai"] = ["gpt-4o", "gpt-4o-mini", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo"]
+    
+    return jsonify(models)
+
+
 @app.post("/api/ai/summary")
 def generate_video_summary():
     payload = request.get_json(silent=True) or {}
     video_title = (payload.get("title") or "").strip()
     video_channel = (payload.get("channel") or "").strip()
     video_id = (payload.get("video_id") or "").strip()
-    ollama_endpoint = (payload.get("ollama_endpoint") or os.environ.get("OLLAMA_ENDPOINT", "http://localhost:11434")).strip().rstrip("/")
+    selected_model = (payload.get("model") or "").strip()
     
+    print(f"[AI] Summary request - title: {video_title[:50] if video_title else 'None'}, model: {selected_model or 'default'}")
+    
+    db = get_db()
+    ollama_setting = db.execute("SELECT value FROM settings WHERE key = 'ollama_endpoint'").fetchone()
+    openai_setting = db.execute("SELECT value FROM settings WHERE key = 'openai_api_key'").fetchone()
+    default_model_setting = db.execute("SELECT value FROM settings WHERE key = 'default_summary_model'").fetchone()
+    
+    if not selected_model:
+        selected_model = default_model_setting["value"] if default_model_setting else "llama3:latest"
+        print(f"[AI] Using default model: {selected_model}")
+    
+    ollama_endpoint = (ollama_setting["value"] if ollama_setting else "http://localhost:11434").strip().rstrip("/")
+    api_key = openai_setting["value"] if openai_setting else ""
+    
+    model_lower = selected_model.lower()
+    
+    if ":" in selected_model or "/" in selected_model:
+        is_openai = False
+    else:
+        known_openai_patterns = [
+            "gpt-", "text-", "davinci", "ada", "babbage", "curie", "o1-", "o3-", "o4-"
+        ]
+        is_openai = any(model_lower.startswith(p) for p in known_openai_patterns)
+    
+    print(f"[AI] Using Ollama endpoint: {ollama_endpoint}, is OpenAI: {is_openai}, model: {selected_model}")
     if not video_title:
         return jsonify({"error": "Video title is required."}), 400
     
@@ -1256,33 +1389,84 @@ Provide a 2-3 sentence summary describing what the video is about, the main topi
         import urllib.request
         import json
         
-        ollama_request = {
-            "model": "llama3:latest",
-            "prompt": prompt,
-            "stream": False,
-            "options": {
-                "temperature": 0.3,
-                "num_predict": 300
-            }
-        }
-        
-        request_obj = urllib.request.Request(
-            f"{ollama_endpoint}/api/generate",
-            data=json.dumps(ollama_request).encode("utf-8"),
-            headers={"Content-Type": "application/json"}
-        )
-        
-        with urllib.request.urlopen(request_obj, timeout=120) as response:
-            result = json.loads(response.read().decode("utf-8"))
+        if is_openai:
+            if not api_key:
+                return jsonify({"error": "OpenAI API key required for GPT models."}), 400
             
-        summary = result.get("response", "").strip()
+            uses_completion_tokens = any(x in selected_model.lower() for x in ["o1-", "o3-", "o4-", "gpt-4.5", "gpt-5"])
+            
+            if uses_completion_tokens:
+                openai_request = {
+                    "model": selected_model,
+                    "messages": [{"role": "user", "content": prompt}],
+                    "max_completion_tokens": 300
+                }
+            else:
+                openai_request = {
+                    "model": selected_model,
+                    "messages": [{"role": "user", "content": prompt}],
+                    "max_tokens": 300,
+                    "temperature": 0.3
+                }
+            
+            endpoint = "https://api.openai.com/v1/chat/completions"
+            result_key = ("choices", 0, "message", "content")
+            
+            request_obj = urllib.request.Request(
+                endpoint,
+                data=json.dumps(openai_request).encode("utf-8"),
+                headers={"Content-Type": "application/json", "Authorization": f"Bearer {api_key}"}
+            )
+            
+            try:
+                with urllib.request.urlopen(request_obj, timeout=120) as response:
+                    result = json.loads(response.read().decode("utf-8"))
+                summary = result
+                for key in result_key:
+                    summary = summary[key]
+                summary = summary.strip()
+            except urllib.error.HTTPError as e:
+                error_body = e.read().decode("utf-8")
+                print(f"[AI] OpenAI HTTP Error {e.code}: {error_body}")
+                try:
+                    error_data = json.loads(error_body)
+                    error_msg = error_data.get("error", {}).get("message", error_body)
+                except:
+                    error_msg = error_body
+                return jsonify({"error": f"OpenAI API Error: {error_msg}"}), e.code
+        else:
+            ollama_request = {
+                "model": selected_model if selected_model else "llama3:latest",
+                "prompt": prompt,
+                "stream": False,
+                "options": {
+                    "temperature": 0.3,
+                    "num_predict": 300
+                }
+            }
+            
+            url = f"{ollama_endpoint}/api/generate"
+            print(f"[AI] Sending request to: {url}")
+            print(f"[AI] Request body: {json.dumps(ollama_request)}")
+            
+            request_obj = urllib.request.Request(
+                url,
+                data=json.dumps(ollama_request).encode("utf-8"),
+                headers={"Content-Type": "application/json"}
+            )
+            
+            with urllib.request.urlopen(request_obj, timeout=120) as response:
+                result = json.loads(response.read().decode("utf-8"))
+            
+            summary = result.get("response", "").strip()
         
         if not summary:
             return jsonify({"error": "No summary generated."}), 500
             
         return jsonify({"summary": summary})
-        
+            
     except Exception as exc:
+        print(f"[AI] Summary error: {exc}")
         return jsonify({"error": f"Failed to generate summary: {str(exc)}"}), 500
 
 
@@ -1482,6 +1666,170 @@ def set_setting(key):
     return jsonify({"key": key, "value": value})
 
 
+@app.get("/api/lists")
+def get_lists():
+    db = get_db()
+    lists = db.execute("SELECT * FROM list_definitions ORDER BY created_at").fetchall()
+    return jsonify([dict(row) for row in lists])
+
+
+@app.post("/api/lists")
+def create_list():
+    db = get_db()
+    data = request.get_json()
+    name = data.get("name")
+    list_type = data.get("type", "custom")
+    pill_color = data.get("pill_color", "violet")
+    
+    cursor = db.execute(
+        "INSERT INTO list_definitions (name, type, pill_color) VALUES (?, ?, ?)",
+        (name, list_type, pill_color)
+    )
+    list_id = cursor.lastrowid
+    
+    custom_fields = data.get("fields", [])
+    for field in custom_fields:
+        db.execute(
+            "INSERT INTO list_fields (list_id, field_name, field_type) VALUES (?, ?, ?)",
+            (list_id, field["name"], field.get("type", "text"))
+        )
+    
+    db.commit()
+    
+    new_list = db.execute("SELECT * FROM list_definitions WHERE id = ?", (list_id,)).fetchone()
+    fields = db.execute("SELECT * FROM list_fields WHERE list_id = ?", (list_id,)).fetchall()
+    
+    return jsonify({
+        "list": dict(new_list),
+        "fields": [dict(f) for f in fields]
+    }), 201
+
+
+@app.get("/api/lists/<int:list_id>")
+def get_list(list_id):
+    db = get_db()
+    lst = db.execute("SELECT * FROM list_definitions WHERE id = ?", (list_id,)).fetchone()
+    if not lst:
+        return jsonify({"error": "List not found"}), 404
+    
+    fields = db.execute("SELECT * FROM list_fields WHERE list_id = ?", (list_id,)).fetchall()
+    items = db.execute("SELECT * FROM list_items WHERE list_id = ? ORDER BY created_at DESC", (list_id,)).fetchall()
+    
+    return jsonify({
+        "list": dict(lst),
+        "fields": [dict(f) for f in fields],
+        "items": [dict(item) for item in items]
+    })
+
+
+@app.put("/api/lists/<int:list_id>")
+def update_list(list_id):
+    db = get_db()
+    data = request.get_json()
+    
+    if "name" in data:
+        db.execute("UPDATE list_definitions SET name = ? WHERE id = ?", (data["name"], list_id))
+    if "pill_color" in data:
+        db.execute("UPDATE list_definitions SET pill_color = ? WHERE id = ?", (data["pill_color"], list_id))
+    
+    db.commit()
+    
+    lst = db.execute("SELECT * FROM list_definitions WHERE id = ?", (list_id,)).fetchone()
+    return jsonify(dict(lst))
+
+
+@app.delete("/api/lists/<int:list_id>")
+def delete_list(list_id):
+    db = get_db()
+    db.execute("DELETE FROM list_items WHERE list_id = ?", (list_id,))
+    db.execute("DELETE FROM list_fields WHERE list_id = ?", (list_id,))
+    db.execute("DELETE FROM list_definitions WHERE id = ?", (list_id,))
+    db.commit()
+    return jsonify({"success": True})
+
+
+@app.get("/api/lists/<int:list_id>/items")
+def get_list_items(list_id):
+    db = get_db()
+    items = db.execute("SELECT * FROM list_items WHERE list_id = ? ORDER BY created_at DESC", (list_id,)).fetchall()
+    return jsonify([dict(item) for item in items])
+
+
+@app.post("/api/lists/<int:list_id>/items")
+def create_list_item(list_id):
+    db = get_db()
+    data = request.get_json()
+    item_data = data.get("data", {})
+    pill_color = data.get("pill_color", "violet")
+    
+    import json as json_lib
+    cursor = db.execute(
+        "INSERT INTO list_items (list_id, data, pill_color) VALUES (?, ?, ?)",
+        (list_id, json_lib.dumps(item_data), pill_color)
+    )
+    db.commit()
+    
+    item = db.execute("SELECT * FROM list_items WHERE id = ?", (cursor.lastrowid,)).fetchone()
+    return jsonify(dict(item)), 201
+
+
+@app.put("/api/lists/<int:list_id>/items/<int:item_id>")
+def update_list_item(list_id, item_id):
+    db = get_db()
+    data = request.get_json()
+    
+    if "data" in data:
+        import json as json_lib
+        db.execute("UPDATE list_items SET data = ? WHERE id = ? AND list_id = ?", 
+                   (json_lib.dumps(data["data"]), item_id, list_id))
+    if "pill_color" in data:
+        db.execute("UPDATE list_items SET pill_color = ? WHERE id = ? AND list_id = ?", 
+                   (data["pill_color"], item_id, list_id))
+    
+    db.commit()
+    
+    item = db.execute("SELECT * FROM list_items WHERE id = ?", (item_id,)).fetchone()
+    return jsonify(dict(item))
+
+
+@app.delete("/api/lists/<int:list_id>/items/<int:item_id>")
+def delete_list_item(list_id, item_id):
+    db = get_db()
+    db.execute("DELETE FROM list_items WHERE id = ? AND list_id = ?", (item_id, list_id))
+    db.commit()
+    return jsonify({"success": True})
+
+
+@app.get("/api/lists/<int:list_id>/fields")
+def get_list_fields(list_id):
+    db = get_db()
+    fields = db.execute("SELECT * FROM list_fields WHERE list_id = ?", (list_id,)).fetchall()
+    return jsonify([dict(f) for f in fields])
+
+
+@app.post("/api/lists/<int:list_id>/fields")
+def add_list_field(list_id):
+    db = get_db()
+    data = request.get_json()
+    
+    cursor = db.execute(
+        "INSERT INTO list_fields (list_id, field_name, field_type) VALUES (?, ?, ?)",
+        (list_id, data["field_name"], data.get("field_type", "text"))
+    )
+    db.commit()
+    
+    field = db.execute("SELECT * FROM list_fields WHERE id = ?", (cursor.lastrowid,)).fetchone()
+    return jsonify(dict(field)), 201
+
+
+@app.delete("/api/lists/<int:list_id>/fields/<int:field_id>")
+def delete_list_field(list_id, field_id):
+    db = get_db()
+    db.execute("DELETE FROM list_fields WHERE id = ? AND list_id = ?", (field_id, list_id))
+    db.commit()
+    return jsonify({"success": True})
+
+
 @app.get("/api/config/export")
 def export_config():
     import yaml
@@ -1606,6 +1954,150 @@ def import_config():
     
     db.commit()
     return jsonify({"message": "Config imported successfully", "imported": imported})
+
+
+@app.get("/api/bookmarks")
+def list_bookmarks():
+    db = get_db()
+    folder = request.args.get("folder", "")
+    favorites_only = request.args.get("favorites", "false").lower() == "true"
+    
+    try:
+        rows = db.execute("SELECT * FROM bookmarks").fetchall()
+        print(f"[BOOKMARKS] Found {len(rows)} bookmarks in database")
+    except Exception as e:
+        print(f"[BOOKMARKS] Error querying bookmarks: {e}")
+        return jsonify([])
+    
+    query = "SELECT * FROM bookmarks WHERE 1=1"
+    params = []
+    
+    if folder and folder != "all":
+        query += " AND folders LIKE ?"
+        params.append(f"%{folder}%")
+    
+    if favorites_only:
+        query += " AND is_favorite = 1"
+    
+    query += " ORDER BY is_favorite DESC, created_at DESC"
+    
+    rows = db.execute(query, params).fetchall()
+    result = []
+    for row in rows:
+        row_dict = dict(row)
+        row_dict["folders"] = [f.strip() for f in row_dict.get("folders", "").split("|") if f.strip()]
+        result.append(row_dict)
+    print(f"[BOOKMARKS] Returning {len(result)} bookmarks")
+    return jsonify(result)
+
+
+@app.get("/api/bookmarks/folders")
+def list_bookmark_folders():
+    db = get_db()
+    rows = db.execute("SELECT folders FROM bookmarks").fetchall()
+    all_folders = set()
+    for row in rows:
+        folders_str = row["folders"] or ""
+        for f in folders_str.split("|"):
+            f = f.strip()
+            if f:
+                all_folders.add(f)
+    return jsonify(sorted(all_folders))
+
+
+@app.post("/api/bookmarks")
+def create_bookmark():
+    db = get_db()
+    data = request.get_json() or {}
+    
+    name = (data.get("name") or "").strip()
+    url = (data.get("url") or "").strip()
+    folder_input = (data.get("folder") or "General").strip()
+    description = (data.get("description") or "").strip()
+    
+    folders_list = [f.strip() for f in folder_input.split(",") if f.strip()]
+    if not folders_list:
+        folders_list = ["General"]
+    folders_str = "|".join(folders_list)
+    
+    print(f"[BOOKMARKS] Creating bookmark: name={name}, url={url}, folders={folders_str}")
+    
+    if not name or not url:
+        return jsonify({"error": "Name and URL are required"}), 400
+    
+    cursor = db.execute(
+        "INSERT INTO bookmarks (name, url, folders, description) VALUES (?, ?, ?, ?)",
+        (name, url, folders_str, description)
+    )
+    db.commit()
+    print(f"[BOOKMARKS] Inserted bookmark with id: {cursor.lastrowid}")
+    
+    bookmark = db.execute("SELECT * FROM bookmarks WHERE id = ?", (cursor.lastrowid,)).fetchone()
+    bookmark_dict = dict(bookmark)
+    bookmark_dict["folders"] = folders_list
+    return jsonify(bookmark_dict), 201
+
+
+@app.put("/api/bookmarks/<int:bookmark_id>")
+def update_bookmark(bookmark_id):
+    db = get_db()
+    data = request.get_json() or {}
+    
+    bookmark = db.execute("SELECT * FROM bookmarks WHERE id = ?", (bookmark_id,)).fetchone()
+    if not bookmark:
+        return jsonify({"error": "Bookmark not found"}), 404
+    
+    name = (data.get("name") or bookmark["name"]).strip()
+    url = (data.get("url") or bookmark["url"]).strip()
+    folder_input = (data.get("folder") or bookmark.get("folders", "General") or "General").strip()
+    description = (data.get("description") or bookmark["description"] or "").strip()
+    is_favorite = data.get("is_favorite", bookmark["is_favorite"])
+    
+    folders_list = [f.strip() for f in folder_input.split(",") if f.strip()]
+    if not folders_list:
+        folders_list = ["General"]
+    folders_str = "|".join(folders_list)
+    
+    db.execute(
+        "UPDATE bookmarks SET name = ?, url = ?, folders = ?, description = ?, is_favorite = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
+        (name, url, folders_str, description, is_favorite, bookmark_id)
+    )
+    db.commit()
+    
+    updated = db.execute("SELECT * FROM bookmarks WHERE id = ?", (bookmark_id,)).fetchone()
+    updated_dict = dict(updated)
+    updated_dict["folders"] = folders_list
+    return jsonify(updated_dict)
+
+
+@app.put("/api/bookmarks/<int:bookmark_id>/favorite")
+def toggle_bookmark_favorite(bookmark_id):
+    db = get_db()
+    
+    bookmark = db.execute("SELECT * FROM bookmarks WHERE id = ?", (bookmark_id,)).fetchone()
+    if not bookmark:
+        return jsonify({"error": "Bookmark not found"}), 404
+    
+    new_favorite = 0 if bookmark["is_favorite"] else 1
+    db.execute("UPDATE bookmarks SET is_favorite = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?", (new_favorite, bookmark_id))
+    db.commit()
+    
+    updated = db.execute("SELECT * FROM bookmarks WHERE id = ?", (bookmark_id,)).fetchone()
+    return jsonify(dict(updated))
+
+
+@app.delete("/api/bookmarks/<int:bookmark_id>")
+def delete_bookmark(bookmark_id):
+    db = get_db()
+    
+    bookmark = db.execute("SELECT * FROM bookmarks WHERE id = ?", (bookmark_id,)).fetchone()
+    if not bookmark:
+        return jsonify({"error": "Bookmark not found"}), 404
+    
+    db.execute("DELETE FROM bookmarks WHERE id = ?", (bookmark_id,))
+    db.commit()
+    
+    return jsonify({"message": "Bookmark deleted"})
 
 
 if __name__ == "__main__":

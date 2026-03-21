@@ -354,6 +354,16 @@
 
         }
 
+        :root[data-palette="bw"] {
+            --accent-start: #111;
+            --accent-end: #555;
+            --accent-solid: #333;
+            --accent-soft: rgba(0, 0, 0, 0.08);
+            --dark-base-top: #0a0a0a;
+            --dark-base-bottom: #1a1a1a;
+            --dark-secondary-soft: rgba(255, 255, 255, 0.03);
+        }
+
         .app-shell {
 
             background:
@@ -580,22 +590,6 @@
                 transform: translateY(0) scale(1);
             }
         }
-        #palette-center-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 11px;
-            font-medium: 600;
-            text-transform: capitalize;
-            color: rgba(0,0,0,0.7);
-            z-index: 10;
-            text-shadow: 0 1px 2px rgba(255,255,255,0.8);
-        }
-        .dark #palette-center-text {
-            color: rgba(255,255,255,0.9);
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-        }
         #palette-options {
             position: absolute;
             top: 0;
@@ -627,32 +621,34 @@
             box-shadow: 0 0 0 3px rgba(255,255,255,0.95), 0 0 20px rgba(255,255,255,0.5);
             z-index: 15;
         }
-        /* Position circles around the center - 12 colors in a circle */
-        #palette-overlay.palette-open .palette-option:nth-child(1) { transform: translate(-50%, -50%) translate(0px, -55px) scale(1); }
-        #palette-overlay.palette-open .palette-option:nth-child(2) { transform: translate(-50%, -50%) translate(27px, -48px) scale(1); }
-        #palette-overlay.palette-open .palette-option:nth-child(3) { transform: translate(-50%, -50%) translate(48px, -27px) scale(1); }
-        #palette-overlay.palette-open .palette-option:nth-child(4) { transform: translate(-50%, -50%) translate(55px, 0px) scale(1); }
-        #palette-overlay.palette-open .palette-option:nth-child(5) { transform: translate(-50%, -50%) translate(48px, 27px) scale(1); }
-        #palette-overlay.palette-open .palette-option:nth-child(6) { transform: translate(-50%, -50%) translate(27px, 48px) scale(1); }
-        #palette-overlay.palette-open .palette-option:nth-child(7) { transform: translate(-50%, -50%) translate(0px, 55px) scale(1); }
-        #palette-overlay.palette-open .palette-option:nth-child(8) { transform: translate(-50%, -50%) translate(-27px, 48px) scale(1); }
-        #palette-overlay.palette-open .palette-option:nth-child(9) { transform: translate(-50%, -50%) translate(-48px, 27px) scale(1); }
-        #palette-overlay.palette-open .palette-option:nth-child(10) { transform: translate(-50%, -50%) translate(-55px, 0px) scale(1); }
-        #palette-overlay.palette-open .palette-option:nth-child(11) { transform: translate(-50%, -50%) translate(-48px, -27px) scale(1); }
-        #palette-overlay.palette-open .palette-option:nth-child(12) { transform: translate(-50%, -50%) translate(-27px, -48px) scale(1); }
+        /* Position circles around the center - 13 colors in a circle */
+        #palette-overlay.palette-open .palette-option:nth-child(1) { transform: translate(-50%, -50%) translate(0px, -65px) scale(1); }
+        #palette-overlay.palette-open .palette-option:nth-child(2) { transform: translate(-50%, -50%) translate(31px, -57px) scale(1); }
+        #palette-overlay.palette-open .palette-option:nth-child(3) { transform: translate(-50%, -50%) translate(57px, -31px) scale(1); }
+        #palette-overlay.palette-open .palette-option:nth-child(4) { transform: translate(-50%, -50%) translate(65px, 0px) scale(1); }
+        #palette-overlay.palette-open .palette-option:nth-child(5) { transform: translate(-50%, -50%) translate(57px, 31px) scale(1); }
+        #palette-overlay.palette-open .palette-option:nth-child(6) { transform: translate(-50%, -50%) translate(31px, 57px) scale(1); }
+        #palette-overlay.palette-open .palette-option:nth-child(7) { transform: translate(-50%, -50%) translate(0px, 65px) scale(1); }
+        #palette-overlay.palette-open .palette-option:nth-child(8) { transform: translate(-50%, -50%) translate(-31px, 57px) scale(1); }
+        #palette-overlay.palette-open .palette-option:nth-child(9) { transform: translate(-50%, -50%) translate(-57px, 31px) scale(1); }
+        #palette-overlay.palette-open .palette-option:nth-child(10) { transform: translate(-50%, -50%) translate(-65px, 0px) scale(1); }
+        #palette-overlay.palette-open .palette-option:nth-child(11) { transform: translate(-50%, -50%) translate(-57px, -31px) scale(1); }
+        #palette-overlay.palette-open .palette-option:nth-child(12) { transform: translate(-50%, -50%) translate(-31px, -57px) scale(1); }
+        #palette-overlay.palette-open .palette-option:nth-child(13) { transform: translate(-50%, -50%) translate(0px, 0px) scale(1); }
         
-        .palette-option:nth-child(1):hover { transform: translate(-50%, -50%) translate(0px, -55px) scale(1.2) !important; }
-        .palette-option:nth-child(2):hover { transform: translate(-50%, -50%) translate(27px, -48px) scale(1.2) !important; }
-        .palette-option:nth-child(3):hover { transform: translate(-50%, -50%) translate(48px, -27px) scale(1.2) !important; }
-        .palette-option:nth-child(4):hover { transform: translate(-50%, -50%) translate(55px, 0px) scale(1.2) !important; }
-        .palette-option:nth-child(5):hover { transform: translate(-50%, -50%) translate(48px, 27px) scale(1.2) !important; }
-        .palette-option:nth-child(6):hover { transform: translate(-50%, -50%) translate(27px, 48px) scale(1.2) !important; }
-        .palette-option:nth-child(7):hover { transform: translate(-50%, -50%) translate(0px, 55px) scale(1.2) !important; }
-        .palette-option:nth-child(8):hover { transform: translate(-50%, -50%) translate(-27px, 48px) scale(1.2) !important; }
-        .palette-option:nth-child(9):hover { transform: translate(-50%, -50%) translate(-48px, 27px) scale(1.2) !important; }
-        .palette-option:nth-child(10):hover { transform: translate(-50%, -50%) translate(-55px, 0px) scale(1.2) !important; }
-        .palette-option:nth-child(11):hover { transform: translate(-50%, -50%) translate(-48px, -27px) scale(1.2) !important; }
-        .palette-option:nth-child(12):hover { transform: translate(-50%, -50%) translate(-27px, -48px) scale(1.2) !important; }
+        .palette-option:nth-child(1):hover { transform: translate(-50%, -50%) translate(0px, -65px) scale(1.2) !important; }
+        .palette-option:nth-child(2):hover { transform: translate(-50%, -50%) translate(31px, -57px) scale(1.2) !important; }
+        .palette-option:nth-child(3):hover { transform: translate(-50%, -50%) translate(57px, -31px) scale(1.2) !important; }
+        .palette-option:nth-child(4):hover { transform: translate(-50%, -50%) translate(65px, 0px) scale(1.2) !important; }
+        .palette-option:nth-child(5):hover { transform: translate(-50%, -50%) translate(57px, 31px) scale(1.2) !important; }
+        .palette-option:nth-child(6):hover { transform: translate(-50%, -50%) translate(31px, 57px) scale(1.2) !important; }
+        .palette-option:nth-child(7):hover { transform: translate(-50%, -50%) translate(0px, 65px) scale(1.2) !important; }
+        .palette-option:nth-child(8):hover { transform: translate(-50%, -50%) translate(-31px, 57px) scale(1.2) !important; }
+        .palette-option:nth-child(9):hover { transform: translate(-50%, -50%) translate(-57px, 31px) scale(1.2) !important; }
+        .palette-option:nth-child(10):hover { transform: translate(-50%, -50%) translate(-65px, 0px) scale(1.2) !important; }
+        .palette-option:nth-child(11):hover { transform: translate(-50%, -50%) translate(-57px, -31px) scale(1.2) !important; }
+        .palette-option:nth-child(12):hover { transform: translate(-50%, -50%) translate(-31px, -57px) scale(1.2) !important; }
+        .palette-option:nth-child(13):hover { transform: translate(-50%, -50%) translate(0px, 0px) scale(1.2) !important; }
         
         /* Dark mode adjustments */
         .dark #palette-circle {
@@ -669,20 +665,6 @@
             }
             #sidebar.sidebar-collapsed {
                 margin-left: -320px;
-            }
-            #sidebar-toggle {
-                left: 0;
-                transition: left 0.3s ease;
-                z-index: 20;
-            }
-            #sidebar-toggle:not(.sidebar-visible) {
-                left: 0;
-                border-left-0 rounded-l-none;
-            }
-            #sidebar-toggle.sidebar-visible {
-                left: 316px;
-                border-left: 1px solid;
-                border-radius: 8px;
             }
         }
         
@@ -722,14 +704,26 @@
             #sidebar.sidebar-collapsed {
                 margin-left: -320px;
             }
-            #sidebar-toggle {
-                left: 300px !important;
-                top: 30px;
-                z-index: 20;
-                transition: left 0.3s ease;
+            #sidebar-mini {
+                display: none;
             }
-            #sidebar.sidebar-collapsed ~ #sidebar-toggle {
-                left: 0 !important;
+            #sidebar.sidebar-collapsed ~ #sidebar-mini {
+                display: flex;
+            }
+            #sidebar.sidebar-collapsed ~ main {
+                margin-left: 53px;
+            }
+            #sidebar-mini .mini-tab-btn {
+                padding: 0.5rem;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .mini-tab-btn.active, .mini-tab-btn:hover {
+                background: var(--accent-bg, rgba(99, 102, 241, 0.1));
+                color: var(--accent-color, #6364f1);
             }
         }
         
@@ -812,8 +806,6 @@
 
                         <h1 class="text-3xl font-semibold tracking-tight">Nexus</h1>
 
-                        <p class="mt-3 text-sm leading-6 text-slate-500 dark:text-slate-400">Persistent tools for tasks, reading, and media.</p>
-
                     </div>
 
                     <div class="relative z-30 flex items-start gap-2">
@@ -859,6 +851,10 @@
 
                         </button>
 
+                        <button id="sidebar-toggle" type="button" class="rounded-2xl border border-slate-200 bg-white/80 p-3 text-slate-700 transition hover:border-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-slate-500" aria-label="Collapse sidebar" title="Collapse Sidebar">
+                            <img src="https://cdn-icons-png.freepik.com/512/7168/7168076.png" alt="Collapse" class="h-5 w-5 dark:brightness-0 dark:opacity-90" />
+                        </button>
+
                     </div>
 
                 </div>
@@ -873,17 +869,17 @@
 
                     <button class="tab-trigger nav-idle flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-left text-sm text-slate-700 transition dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-200" data-tab="notes" draggable="true"><span><span class="flex items-center gap-3"><svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg><span>Quick Notes</span></span></span><span class="text-xs uppercase tracking-[0.2em] opacity-70"></span></button>
 
-                    <button class="tab-trigger nav-idle flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-left text-sm text-slate-700 transition dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-200" data-tab="rss" draggable="true"><span><span class="flex items-center gap-3"><svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7c0 3.86-3.14 7-7 7m0-10a3 3 0 013 3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg><span>RSS Reader</span></span></span><span class="text-xs uppercase tracking-[0.2em] opacity-70"></span></button>
+                    <button class="tab-trigger nav-idle flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-left text-sm text-slate-700 transition dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-200" data-tab="rss" draggable="true"><span><span class="flex items-center gap-3"><svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg><span>RSS Reader</span></span></span><span class="text-xs uppercase tracking-[0.2em] opacity-70"></span></button>
 
                     <button class="tab-trigger nav-idle flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-left text-sm text-slate-700 transition dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-200" data-tab="videos" draggable="true"><span><span class="flex items-center gap-3"><svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg><span>Videos</span></span></span><span class="text-xs uppercase tracking-[0.2em] opacity-70"></span></button>
 
                     <button class="tab-trigger nav-idle flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-left text-sm text-slate-700 transition dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-200" data-tab="podcasts" draggable="true"><span><span class="flex items-center gap-3"><svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg><span>Podcasts</span></span></span><span class="text-xs uppercase tracking-[0.2em] opacity-70"></span></button>
 
-                    <button class="tab-trigger nav-idle flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-left text-sm text-slate-700 transition dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-200" data-tab="lists" draggable="true"><span><span class="flex items-center gap-3"><svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg><span>Lists <span class="ml-1 px-1.5 py-0.5 rounded-full text-xs bg-slate-300 dark:bg-slate-600">Pending</span></span></span><span class="text-xs uppercase tracking-[0.2em] opacity-70"></span></button>
+                    <button class="tab-trigger nav-idle flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-left text-sm text-slate-700 transition dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-200" data-tab="lists" draggable="true"><span><span class="flex items-center gap-3"><svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg><span>Lists</span></span><span class="text-xs uppercase tracking-[0.2em] opacity-70"></span></button>
 
                     <button class="tab-trigger nav-idle flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-left text-sm text-slate-700 transition dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-200" data-tab="learning" draggable="true"><span><span class="flex items-center gap-3"><svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg><span>Learning <span class="ml-1 px-1.5 py-0.5 rounded-full text-xs bg-slate-300 dark:bg-slate-600">Pending</span></span></span><span class="text-xs uppercase tracking-[0.2em] opacity-70"></span></button>
 
-                    <button class="tab-trigger nav-idle flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-left text-sm text-slate-700 transition dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-200" data-tab="bookmarks" draggable="true"><span><span class="flex items-center gap-3"><svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg><span>Bookmarks <span class="ml-1 px-1.5 py-0.5 rounded-full text-xs bg-slate-300 dark:bg-slate-600">Pending</span></span></span><span class="text-xs uppercase tracking-[0.2em] opacity-70"></span></button>
+                    <button class="tab-trigger nav-idle flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-left text-sm text-slate-700 transition dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-200" data-tab="bookmarks" draggable="true"><span><span class="flex items-center gap-3"><svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg><span>Bookmarks</span></span><span class="text-xs uppercase tracking-[0.2em] opacity-70"></span></button>
 
                     <button class="tab-trigger nav-idle flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-left text-sm text-slate-700 transition dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-200" data-tab="terminal" draggable="true"><span><span class="flex items-center gap-3"><svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg><span>Terminal</span></span></span><span class="text-xs uppercase tracking-[0.2em] opacity-70"></span></button>
 
@@ -922,9 +918,59 @@
 
             </aside>
 
-            <button id="sidebar-toggle" type="button" class="fixed top-[30px] left-[300px] z-40 hidden rounded-lg bg-white/50 p-1 text-slate-600 shadow-md transition-all duration-300 hover:bg-slate-100 md:block" aria-label="Toggle sidebar">
-                <img src="https://cdn-icons-png.freepik.com/512/7168/7168076.png" alt="Toggle" class="h-7 w-7" />
-            </button>
+            <div id="sidebar-mini" class="fixed left-0 top-0 hidden h-screen w-[53px] flex-col items-center border-r border-slate-200 bg-white/90 pt-6 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/90 md:flex">
+                <button id="mini-expand-btn" class="mb-3 rounded-xl bg-white dark:bg-slate-800 p-1.5 text-slate-600 dark:text-slate-300 shadow transition hover:bg-slate-100 dark:hover:bg-slate-700" title="Expand Sidebar">
+                    <img src="https://cdn-icons-png.freepik.com/512/7168/7168076.png" alt="Expand" class="h-5 w-5 dark:brightness-0 dark:opacity-90" />
+                </button>
+                <div class="w-full" style="height: 32px;"></div>
+                <div class="flex flex-col items-center overflow-y-auto flex-1 px-1" style="gap: 8px;">
+                    <button class="mini-tab-btn rounded-xl p-2 text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" data-tab="tasks" title="Daily Tasks">
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg>
+                    </button>
+                    <button class="mini-tab-btn rounded-xl p-2 text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" data-tab="pomodoro" title="Pomodoro">
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </button>
+                    <button class="mini-tab-btn rounded-xl p-2 text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" data-tab="notes" title="Quick Notes">
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                    </button>
+                    <button class="mini-tab-btn rounded-xl p-2 text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" data-tab="rss" title="RSS Reader">
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+                    </button>
+                    <button class="mini-tab-btn rounded-xl p-2 text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" data-tab="videos" title="Videos">
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                    </button>
+                    <button class="mini-tab-btn rounded-xl p-2 text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" data-tab="podcasts" title="Podcasts">
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
+                    </button>
+                    <button class="mini-tab-btn rounded-xl p-2 text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" data-tab="lists" title="Lists">
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>
+                    </button>
+                    <button class="mini-tab-btn rounded-xl p-2 text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" data-tab="learning" title="Learning">
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                    </button>
+                    <button class="mini-tab-btn rounded-xl p-2 text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" data-tab="bookmarks" title="Bookmarks">
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
+                    </button>
+                    <button class="mini-tab-btn rounded-xl p-2 text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" data-tab="terminal" title="Terminal">
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                    </button>
+                    <button class="mini-tab-btn rounded-xl p-2 text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" data-tab="dashy" title="Self hosted stuff">
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+                    </button>
+                </div>
+                <div class="mt-auto flex flex-col items-center gap-1 px-1">
+                    <button id="mini-palette-btn" class="rounded-xl p-2 text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" title="Color Palette">
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18z" /><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 10.5h.01M16.5 10.5h.01M9 15h6M8 7.5h.01M16 7.5h.01" /></svg>
+                    </button>
+                    <button id="mini-theme-btn" class="rounded-xl p-2 text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" title="Toggle Theme">
+                        <svg class="h-5 w-5 dark:hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3c0 .34.02.68.05 1.01A7 7 0 0021 12.79z" /></svg>
+                        <svg class="hidden h-5 w-5 dark:block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25M12 18.75V21M4.97 4.97l1.59 1.59M17.44 17.44l1.59 1.59M3 12h2.25M18.75 12H21M4.97 19.03l1.59-1.59M17.44 6.56l1.59-1.59M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" /></svg>
+                    </button>
+                    <button id="mini-settings-btn" class="rounded-full p-2 text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" title="Settings">
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    </button>
+                </div>
+            </div>
 
 
             <main class="flex-1 p-6 md:p-8 xl:p-10">
@@ -1453,7 +1499,10 @@
 
                             <div class="flex items-center justify-between border-b border-slate-800 bg-slate-900 px-3 py-2 text-xs uppercase tracking-[0.2em] text-slate-400">
 
-                                <span>Integrated shell</span>
+                                <div class="flex items-center gap-2">
+                                    <span>Integrated shell</span>
+                                    <span id="terminal-cwd" class="rounded border border-slate-700 px-2 py-0.5 text-[10px] text-slate-300"></span>
+                                </div>
 
                                 <button id="terminal-clear" type="button" class="rounded-full border border-slate-700 px-2 py-0.5 text-[10px] text-slate-300 transition hover:border-slate-500 hover:text-white">Clear</button>
 
@@ -1516,24 +1565,12 @@
 
                         <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-600 dark:text-slate-300">Create and manage custom lists for movies, series, books, links, and more.</p>
 
-                        <div class="mt-8 rounded-[1.75rem] border border-slate-200 bg-white/80 p-6 dark:border-slate-800 dark:bg-slate-900/80">
+                        <div id="lists-subtabs" class="mt-8 flex flex-wrap items-center gap-2 border-b border-slate-200 pb-4 dark:border-slate-700"></div>
 
-                            <div class="flex items-center justify-between mb-4">
+                        <div id="lists-content" class="mt-6"></div>
 
-                                <p class="text-xs uppercase tracking-[0.25em] text-slate-400">Your Lists</p>
-
-                            </div>
-
-                            <div class="space-y-3">
-
-                                <div class="rounded-2xl border border-dashed border-slate-300 px-4 py-8 text-center text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">
-
-                                    No lists yet. Create your first list to get started.
-
-                                </div>
-
-                            </div>
-
+                        <div id="lists-empty" class="mt-8 hidden rounded-[1.75rem] border border-dashed border-slate-300 bg-white/80 p-8 text-center dark:border-slate-700 dark:bg-slate-900/80">
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Loading lists...</p>
                         </div>
 
                     </div>
@@ -1584,24 +1621,53 @@
 
                         <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-600 dark:text-slate-300">Save and organize your favorite links and resources for quick access.</p>
 
-                        <div class="mt-8 rounded-[1.75rem] border border-slate-200 bg-white/80 p-6 dark:border-slate-800 dark:bg-slate-900/80">
-
-                            <div class="flex items-center justify-between mb-4">
-
-                                <p class="text-xs uppercase tracking-[0.25em] text-slate-400">Saved Bookmarks</p>
-
-                            </div>
-
-                            <div class="space-y-3">
-
-                                <div class="rounded-2xl border border-dashed border-slate-300 px-4 py-8 text-center text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">
-
-                                    No bookmarks yet. Save your first bookmark to get started.
-
+                        <div class="mt-8 rounded-[1.75rem] border border-slate-200 bg-white/80 dark:border-slate-800 dark:bg-slate-900/80">
+                            <button id="bookmark-add-toggle" type="button" class="flex w-full items-center justify-between p-4 text-left">
+                                <p class="text-xs uppercase tracking-[0.25em] text-slate-400">Add New Bookmark</p>
+                                <svg id="bookmark-add-icon" class="h-4 w-4 text-slate-400 transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+                            </button>
+                            <form id="bookmark-form" class="hidden grid gap-4 p-6 pt-0 sm:grid-cols-2 lg:grid-cols-4">
+                                <div>
+                                    <label class="mb-1 block text-xs text-slate-500 dark:text-slate-400">Name *</label>
+                                    <input type="text" id="bookmark-name" required placeholder="Google" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm transition dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
                                 </div>
+                                <div>
+                                    <label class="mb-1 block text-xs text-slate-500 dark:text-slate-400">URL *</label>
+                                    <input type="url" id="bookmark-url" required placeholder="https://google.com" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm transition dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+                                </div>
+                                <div>
+                                    <label class="mb-1 block text-xs text-slate-500 dark:text-slate-400">Folders</label>
+                                    <input type="text" id="bookmark-folder" placeholder="IT, Social, Work" list="folder-suggestions" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm transition dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+                                    <datalist id="folder-suggestions"></datalist>
+                                </div>
+                                <div>
+                                    <label class="mb-1 block text-xs text-slate-500 dark:text-slate-400">Description</label>
+                                    <input type="text" id="bookmark-description" placeholder="Brief description" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm transition dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+                                </div>
+                                <div class="sm:col-span-2 lg:col-span-4">
+                                    <button type="submit" class="accent-gradient rounded-xl px-6 py-2.5 text-sm font-medium text-white transition hover:opacity-90">Add Bookmark</button>
+                                </div>
+                            </form>
+                        </div>
 
+                        <div class="mt-6 rounded-[1.75rem] border border-slate-200 bg-white/80 p-6 dark:border-slate-800 dark:bg-slate-900/80">
+                            <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+                                <p class="text-xs uppercase tracking-[0.25em] text-slate-400">All Bookmarks</p>
+                                <div class="flex items-center gap-2">
+                                    <select id="bookmark-filter" class="rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">
+                                        <option value="all">All Folders</option>
+                                    </select>
+                                    <button id="bookmark-favorites-filter" class="rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-600 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">
+                                        <svg class="inline h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                        Favorites
+                                    </button>
+                                </div>
                             </div>
-
+                            <div id="bookmarks-list" class="space-y-2">
+                                <div class="rounded-2xl border border-dashed border-slate-300 px-4 py-8 text-center text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">
+                                    No bookmarks yet. Add your first bookmark above.
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -1623,6 +1689,11 @@
 
         const idleTriggerClass = `${baseTriggerClass} nav-idle border-slate-200 bg-white/80 text-slate-700 dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-200`;
 
+        function escapeHtml(text) {
+            const div = document.createElement("div");
+            div.textContent = text;
+            return div.innerHTML;
+        }
 
 
         const tabTriggers = document.querySelectorAll(".tab-trigger");
@@ -1705,6 +1776,10 @@
 
             });
 
+            document.querySelectorAll(".mini-tab-btn").forEach((btn) => {
+                btn.classList.toggle("active", btn.dataset.tab === tabId);
+            });
+
             tabPanels.forEach((panel) => {
 
                 panel.classList.toggle("hidden", panel.dataset.tabPanel !== tabId);
@@ -1715,11 +1790,44 @@
                 loadQuickLinks();
             }
 
+            if (tabId === "lists" && customLists.length === 0) {
+                loadLists();
+            }
+
         }
 
 
 
         tabTriggers.forEach((trigger) => trigger.addEventListener("click", () => activateTab(trigger.dataset.tab)));
+
+        document.querySelectorAll(".mini-tab-btn").forEach((btn) => {
+            btn.addEventListener("click", () => activateTab(btn.dataset.tab));
+        });
+
+        document.getElementById("mini-expand-btn")?.addEventListener("click", () => {
+            toggleSidebar(false);
+        });
+
+        document.getElementById("mini-palette-btn")?.addEventListener("click", () => {
+            const miniPaletteBtn = document.getElementById("mini-palette-btn");
+            if (sidebar.classList.contains("sidebar-collapsed")) {
+                const rect = miniPaletteBtn.getBoundingClientRect();
+                paletteOverlay.style.top = (rect.bottom + 8 - 150) + 'px';
+                paletteOverlay.style.left = (rect.right + 8) + 'px';
+                paletteOverlay.classList.remove('hidden');
+                requestAnimationFrame(() => {
+                    paletteOverlay.classList.add('palette-open');
+                });
+            } else {
+                setPaletteOpen(!paletteOverlay.classList.contains('palette-open'));
+            }
+        });
+        document.getElementById("mini-theme-btn")?.addEventListener("click", () => {
+            document.getElementById("theme-toggle")?.click();
+        });
+        document.getElementById("mini-settings-btn")?.addEventListener("click", () => {
+            openSettingsModal();
+        });
 
         let quickLinks = [];
         let dashyHomeUrl = localStorage.getItem("nexus_dashy_home") || "";
@@ -1918,6 +2026,571 @@
             }
         });
 
+        const pillColors = [
+            { name: "violet", gradient: "from-violet-500 to-cyan-500" },
+            { name: "blue", gradient: "from-blue-500 to-sky-400" },
+            { name: "green", gradient: "from-emerald-500 to-green-400" },
+            { name: "amber", gradient: "from-amber-500 to-yellow-400" },
+            { name: "rose", gradient: "from-rose-500 to-pink-400" },
+            { name: "purple", gradient: "from-purple-500 to-fuchsia-400" },
+            { name: "teal", gradient: "from-teal-500 to-cyan-400" },
+            { name: "orange", gradient: "from-orange-500 to-amber-400" },
+            { name: "indigo", gradient: "from-indigo-500 to-purple-400" },
+            { name: "lime", gradient: "from-lime-500 to-green-400" },
+        ];
+
+        const defaultFields = {
+            movies: [
+                { name: "name", label: "Movie Name", type: "text" },
+                { name: "year", label: "Year", type: "text" },
+                { name: "status", label: "Status", type: "select", options: ["Unwatched", "Watching", "Watched", "Must Watch", "To Download"] },
+                { name: "rating", label: "Rating", type: "select", options: ["1", "2", "3", "4", "5"] },
+                { name: "notes", label: "Notes", type: "textarea" }
+            ],
+            series: [
+                { name: "name", label: "Series Name", type: "text" },
+                { name: "year", label: "Year", type: "text" },
+                { name: "seasons", label: "Seasons", type: "text" },
+                { name: "status", label: "Status", type: "select", options: ["Unwatched", "Watching", "Watched", "Paused", "To Download"] },
+                { name: "notes", label: "Notes", type: "textarea" }
+            ],
+            books: [
+                { name: "title", label: "Book Title", type: "text" },
+                { name: "author", label: "Author", type: "text" },
+                { name: "status", label: "Status", type: "select", options: ["To Read", "Reading", "Read", "Must Read"] },
+                { name: "pages", label: "Pages", type: "text" },
+                { name: "notes", label: "Notes", type: "textarea" }
+            ],
+            links: [
+                { name: "name", label: "Name", type: "text" },
+                { name: "url", label: "URL", type: "url" },
+                { name: "category", label: "Category", type: "text" },
+                { name: "description", label: "Description", type: "textarea" }
+            ],
+            software: [
+                { name: "name", label: "Software Name", type: "text" },
+                { name: "version", label: "Version", type: "text" },
+                { name: "platform", label: "Platform", type: "text" },
+                { name: "status", label: "Status", type: "select", options: ["To Install", "Installed", "Update Available", "Deprecated"] },
+                { name: "url", label: "Download URL", type: "url" }
+            ]
+        };
+
+        let customLists = [];
+        let activeListId = null;
+
+        async function loadLists() {
+            try {
+                customLists = await apiFetch("/api/lists");
+                renderListTabs();
+                if (customLists.length > 0) {
+                    selectList(customLists[0].id);
+                } else {
+                    document.getElementById("lists-empty").classList.remove("hidden");
+                }
+            } catch (error) {
+                console.error("Failed to load lists:", error);
+            }
+        }
+
+        function renderListTabs() {
+            const container = document.getElementById("lists-subtabs");
+            container.innerHTML = "";
+
+            customLists.forEach((list) => {
+                const tab = document.createElement("button");
+                tab.type = "button";
+                tab.dataset.listId = list.id;
+                tab.className = `lists-subtab px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                    activeListId === list.id 
+                        ? "accent-gradient text-white shadow-md" 
+                        : "bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+                }`;
+                tab.textContent = list.name;
+                tab.addEventListener("click", () => selectList(list.id));
+                container.appendChild(tab);
+            });
+
+            const addTab = document.createElement("button");
+            addTab.type = "button";
+            addTab.className = "lists-add-tab px-4 py-2 rounded-full text-sm font-medium bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-600 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-300 transition-all";
+            addTab.innerHTML = `<svg class="h-4 w-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg> Add`;
+            addTab.addEventListener("click", openCreateListModal);
+            container.appendChild(addTab);
+        }
+
+        async function selectList(listId) {
+            activeListId = listId;
+            renderListTabs();
+            await renderListContent(listId);
+        }
+
+        async function renderListContent(listId) {
+            const container = document.getElementById("lists-content");
+            container.innerHTML = '<div class="flex items-center justify-center py-12"><div class="h-8 w-8 animate-spin rounded-full border-2 border-slate-200 border-t-aurora"></div></div>';
+
+            try {
+                const data = await apiFetch(`/api/lists/${listId}`);
+                const list = data.list;
+                const fields = data.fields;
+                const items = data.items;
+                
+                const listFields = list.type === "custom" && fields.length > 0 
+                    ? fields.map(f => ({ name: f.field_name, label: f.field_name, type: f.field_type }))
+                    : (defaultFields[list.type] || []);
+
+                const randomColor = pillColors[Math.floor(Math.random() * pillColors.length)];
+
+                container.innerHTML = `
+                    <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <select id="list-pill-color" class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm dark:border-slate-700 dark:bg-slate-800">
+                                ${pillColors.map(c => `<option value="${c.name}" ${c.name === randomColor.name ? 'selected' : ''}>${c.name}</option>`).join('')}
+                            </select>
+                            <button id="list-add-item" type="button" class="accent-gradient rounded-xl px-4 py-2 text-sm font-medium text-white shadow-md transition-all hover:shadow-lg">
+                                <svg class="h-4 w-4 inline mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+                                Add Item
+                            </button>
+                            ${list.type === 'custom' ? `
+                                <button id="list-manage-fields" type="button" class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">
+                                    <svg class="h-4 w-4 inline mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" /></svg>
+                                    Manage Fields
+                                </button>
+                            ` : ''}
+                            <button id="list-delete" type="button" class="rounded-lg border border-red-200 bg-white px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:border-red-800 dark:bg-slate-800 dark:text-red-400 dark:hover:bg-red-900/20">
+                                <svg class="h-4 w-4 inline mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                    <div id="list-items" class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                        ${items.length === 0 ? `
+                            <div class="col-span-full rounded-2xl border border-dashed border-slate-300 p-8 text-center dark:border-slate-700">
+                                <p class="text-sm text-slate-500 dark:text-slate-400">No items yet. Click "Add Item" to get started.</p>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+
+                const itemsContainer = document.getElementById("list-items");
+                items.forEach(item => {
+                    const itemData = JSON.parse(item.data || "{}");
+                    const color = pillColors.find(c => c.name === item.pill_color) || randomColor;
+                    const card = createListItemCard(item, itemData, listFields, list, color);
+                    itemsContainer.appendChild(card);
+                });
+
+                setTimeout(() => {
+                    document.getElementById("list-add-item").addEventListener("click", () => openAddItemModal(listId, listFields, list));
+                    
+                    if (list.type === 'custom') {
+                        const manageFieldsBtn = document.getElementById("list-manage-fields");
+                        if (manageFieldsBtn) {
+                            manageFieldsBtn.addEventListener("click", () => openManageFieldsModal(listId, fields));
+                        }
+                    }
+
+                    const deleteBtn = document.getElementById("list-delete");
+                    if (deleteBtn) {
+                        deleteBtn.addEventListener("click", () => openDeleteListModal(listId, list.name));
+                    }
+                }, 0);
+            } catch (error) {
+                console.error("Failed to load list content:", error);
+                container.innerHTML = '<div class="text-center text-slate-500">Failed to load list</div>';
+            }
+        }
+
+        function openDeleteListModal(listId, listName) {
+            const modal = document.createElement("div");
+            modal.id = "delete-list-modal";
+            modal.className = "fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm";
+            
+            modal.innerHTML = `
+                <div class="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-700 dark:bg-slate-900">
+                    <div class="mb-4 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30">
+                                <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                </svg>
+                            </div>
+                            <h2 class="text-xl font-semibold text-slate-800 dark:text-slate-100">Delete "${listName}"?</h2>
+                        </div>
+                        <button id="delete-list-close" type="button" class="rounded-lg p-2 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <p class="mb-4 text-sm text-slate-600 dark:text-slate-300">This will permanently delete the list and all its items. This action cannot be undone.</p>
+                    <div class="mb-4">
+                        <p class="mb-2 text-sm font-medium text-slate-700 dark:text-slate-200">Type the code below to confirm:</p>
+                        <div id="delete-confirm-code" class="mb-3 rounded-lg bg-slate-100 px-4 py-2 font-mono text-lg font-bold text-center tracking-widest text-slate-800 dark:bg-slate-800 dark:text-slate-200"></div>
+                        <input type="text" id="delete-confirm-input" placeholder="Enter code here" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200" autocomplete="off">
+                    </div>
+                    <div class="flex justify-end gap-3">
+                        <button id="delete-list-cancel" type="button" class="rounded-xl border border-slate-200 px-4 py-2 text-sm dark:border-slate-700">Cancel</button>
+                        <button id="delete-list-confirm" type="button" class="rounded-xl bg-red-500 px-4 py-2 text-sm font-medium text-white hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed" disabled>Delete List</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+
+            const code = Math.random().toString(36).substring(2, 8).toUpperCase();
+            document.getElementById("delete-confirm-code").textContent = code;
+            
+            const input = document.getElementById("delete-confirm-input");
+            const confirmBtn = document.getElementById("delete-list-confirm");
+            
+            input.addEventListener("input", () => {
+                confirmBtn.disabled = input.value.toUpperCase() !== code;
+            });
+
+            document.getElementById("delete-list-close").addEventListener("click", () => modal.remove());
+            document.getElementById("delete-list-cancel").addEventListener("click", () => modal.remove());
+            
+            confirmBtn.addEventListener("click", async () => {
+                try {
+                    await apiFetch(`/api/lists/${listId}`, { method: "DELETE" });
+                    customLists = customLists.filter(l => l.id !== listId);
+                    renderListTabs();
+                    if (customLists.length > 0) {
+                        selectList(customLists[0].id);
+                    } else {
+                        activeListId = null;
+                        document.getElementById("lists-content").innerHTML = "";
+                    }
+                    modal.remove();
+                } catch (error) {
+                    console.error("Failed to delete list:", error);
+                    alert("Failed to delete list");
+                }
+            });
+
+            modal.addEventListener("click", (e) => {
+                if (e.target === modal) modal.remove();
+            });
+        }
+
+        function createListItemCard(item, itemData, fields, list, color) {
+            const card = document.createElement("div");
+            
+            const neonColors = {
+                violet: { light: { bg: '#f5f3ff', border: '#8b5cf6', text: '#7c3aed', title: '#1e1b4b' }, dark: { bg: '#0f0a1a', border: '#8b5cf6', text: '#c4b5fd', title: '#f5f3ff' } },
+                blue: { light: { bg: '#eff6ff', border: '#3b82f6', text: '#2563eb', title: '#1e3a5f' }, dark: { bg: '#0a1628', border: '#3b82f6', text: '#93c5fd', title: '#eff6ff' } },
+                green: { light: { bg: '#f0fdf4', border: '#22c55e', text: '#16a34a', title: '#14532d' }, dark: { bg: '#071a0d', border: '#22c55e', text: '#86efac', title: '#f0fdf4' } },
+                amber: { light: { bg: '#fffbeb', border: '#f59e0b', text: '#d97706', title: '#451a03' }, dark: { bg: '#1a0f00', border: '#f59e0b', text: '#fcd34d', title: '#fffbeb' } },
+                rose: { light: { bg: '#fff1f2', border: '#f43f5e', text: '#e11d48', title: '#4c0519' }, dark: { bg: '#1f0509', border: '#f43f5e', text: '#fda4af', title: '#fff1f2' } },
+                purple: { light: { bg: '#faf5ff', border: '#a855f7', text: '#9333ea', title: '#3b0764' }, dark: { bg: '#130620', border: '#a855f7', text: '#d8b4fe', title: '#faf5ff' } },
+                teal: { light: { bg: '#f0fdfa', border: '#14b8a6', text: '#0d9488', title: '#042f2e' }, dark: { bg: '#021514', border: '#14b8a6', text: '#5eead4', title: '#f0fdfa' } },
+                orange: { light: { bg: '#fff7ed', border: '#f97316', text: '#ea580c', title: '#431407' }, dark: { bg: '#1a0800', border: '#f97316', text: '#fdba74', title: '#fff7ed' } },
+                indigo: { light: { bg: '#eef2ff', border: '#6366f1', text: '#4f46e5', title: '#1e1b4b' }, dark: { bg: '#0c0c1e', border: '#6366f1', text: '#a5b4fc', title: '#eef2ff' } },
+                lime: { light: { bg: '#f7fee7', border: '#84cc16', text: '#65a30d', title: '#1a2e05' }, dark: { bg: '#0a1003', border: '#84cc16', text: '#bef264', title: '#f7fee7' } },
+                bw: { light: { bg: '#fafafa', border: '#333', text: '#111', title: '#000' }, dark: { bg: '#1a1a1a', border: '#888', text: '#eee', title: '#fff' } },
+            };
+            
+            const colorSet = neonColors[color.name] || neonColors.violet;
+            const isDarkMode = document.documentElement.classList.contains('dark');
+            const selectedColors = isDarkMode ? colorSet.dark : colorSet.light;
+            
+            card.style.cssText = `background-color: ${selectedColors.bg} !important; border: 3px solid ${selectedColors.border} !important;`;
+            card.className = `list-item-card rounded-2xl p-4 shadow-sm hover:shadow-md transition-all`;
+            card.dataset.itemId = item.id;
+
+            let content = `<div class="flex items-start justify-between gap-2 mb-3">`;
+            let title = "";
+            if (list.type === "movies" && itemData.name) {
+                title = itemData.name;
+            } else if (list.type === "series" && itemData.name) {
+                title = itemData.name;
+            } else if (list.type === "books" && itemData.title) {
+                title = itemData.title;
+            } else if (list.type === "links" && itemData.name) {
+                title = itemData.name;
+            } else if (list.type === "software" && itemData.name) {
+                title = itemData.name;
+            } else {
+                title = itemData.name || itemData.title || "Untitled";
+            }
+            content += `<h4 class="font-semibold" style="color: ${selectedColors.title}">${title}</h4>`;
+            content += `<button type="button" class="list-item-delete ${isDarkMode ? 'text-slate-400 hover:text-red-400' : 'text-slate-500 hover:text-red-600'} transition-colors">
+                <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+            </button></div>`;
+
+            content += `<div class="space-y-1 text-sm">`;
+            fields.forEach(field => {
+                if (field.name === "name" || field.name === "title") return;
+                if (itemData[field.name]) {
+                    const displayValue = field.name === "url" 
+                        ? `<a href="${itemData[field.name]}" target="_blank" style="color: ${selectedColors.text}" class="hover:underline truncate block max-w-[180px]">${itemData[field.name]}</a>`
+                        : itemData[field.name];
+                    content += `<div class="flex gap-2"><span class="${isDarkMode ? 'text-slate-400' : 'text-slate-500'} capitalize">${field.label}:</span><span class="${isDarkMode ? 'text-slate-200' : 'text-slate-700'}">${displayValue}</span></div>`;
+                }
+            });
+            content += `</div>`;
+
+            card.innerHTML = content;
+
+            card.querySelector(".list-item-delete").addEventListener("click", async () => {
+                if (confirm("Delete this item?")) {
+                    await apiFetch(`/api/lists/${list.id}/items/${item.id}`, { method: "DELETE" });
+                    renderListContent(list.id);
+                }
+            });
+
+            return card;
+        }
+
+        function openCreateListModal() {
+            const modal = document.createElement("div");
+            modal.id = "create-list-modal";
+            modal.className = "fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm";
+            modal.innerHTML = `
+                <div class="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-700 dark:bg-slate-900">
+                    <div class="mb-6 flex items-center justify-between">
+                        <h2 class="text-xl font-semibold text-slate-800 dark:text-slate-100">Create New List</h2>
+                        <button id="create-list-close" type="button" class="rounded-lg p-2 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <label for="create-list-name" class="block text-sm font-medium text-slate-700 dark:text-slate-300">List Name</label>
+                            <input type="text" id="create-list-name" placeholder="My Custom List" class="mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Pill Color</label>
+                            <div class="mt-2 flex flex-wrap gap-2">
+                                ${pillColors.map(c => `
+                                    <button type="button" class="color-option h-8 w-8 rounded-full bg-gradient-to-br ${c.gradient} border-2 border-transparent hover:border-slate-400" data-color="${c.name}"></button>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div id="custom-fields-section" class="hidden">
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Custom Fields</label>
+                            <div id="custom-fields-list" class="space-y-2"></div>
+                            <button id="add-custom-field" type="button" class="mt-2 text-sm text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">
+                                <svg class="h-4 w-4 inline mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+                                Add Field
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-end gap-3">
+                        <button id="create-list-cancel" type="button" class="rounded-xl border border-slate-200 px-4 py-2 text-sm dark:border-slate-700">Cancel</button>
+                        <button id="create-list-save" type="button" class="accent-gradient rounded-xl px-4 py-2 text-sm font-medium text-white">Create List</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+
+            let selectedColor = "violet";
+            modal.querySelectorAll(".color-option").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    modal.querySelectorAll(".color-option").forEach(b => b.classList.remove("border-slate-400"));
+                    btn.classList.add("border-slate-400");
+                    selectedColor = btn.dataset.color;
+                });
+            });
+            modal.querySelector(".color-option").classList.add("border-slate-400");
+
+            function addCustomField() {
+                const fieldDiv = document.createElement("div");
+                fieldDiv.className = "flex gap-2 items-center";
+                fieldDiv.innerHTML = `
+                    <input type="text" class="custom-field-name flex-1 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm dark:border-slate-700 dark:bg-slate-800" placeholder="Field name">
+                    <select class="custom-field-type rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-sm dark:border-slate-700 dark:bg-slate-800">
+                        <option value="text">Text</option>
+                        <option value="url">URL</option>
+                        <option value="email">Email</option>
+                        <option value="number">Number</option>
+                        <option value="date">Date</option>
+                        <option value="textarea">Long Text</option>
+                        <option value="checkbox">Checkbox</option>
+                        <option value="select">Dropdown</option>
+                    </select>
+                    <button type="button" class="remove-field text-slate-400 hover:text-red-500">
+                        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                `;
+                fieldDiv.querySelector(".remove-field").addEventListener("click", () => fieldDiv.remove());
+                document.getElementById("custom-fields-list").appendChild(fieldDiv);
+            }
+
+            document.getElementById("add-custom-field").addEventListener("click", addCustomField);
+            document.getElementById("custom-fields-section").classList.remove("hidden");
+
+            document.getElementById("create-list-close").addEventListener("click", () => modal.remove());
+            document.getElementById("create-list-cancel").addEventListener("click", () => modal.remove());
+
+            document.getElementById("create-list-save").addEventListener("click", async () => {
+                const name = document.getElementById("create-list-name").value.trim();
+                if (!name) return;
+
+                const fields = [];
+                document.querySelectorAll("#custom-fields-list .custom-field-name").forEach((input, i) => {
+                    const fieldName = input.value.trim();
+                    if (fieldName) {
+                        const type = document.querySelectorAll("#custom-fields-list .custom-field-type")[i].value;
+                        fields.push({ name: fieldName, type });
+                    }
+                });
+
+                try {
+                    const result = await apiFetch("/api/lists", {
+                        method: "POST",
+                        body: JSON.stringify({ name, type: "custom", pill_color: selectedColor, fields })
+                    });
+                    customLists.push(result.list);
+                    renderListTabs();
+                    selectList(result.list.id);
+                    modal.remove();
+                } catch (error) {
+                    console.error("Failed to create list:", error);
+                }
+            });
+        }
+
+        function openAddItemModal(listId, fields, list) {
+            const modal = document.createElement("div");
+            modal.id = "add-item-modal";
+            modal.className = "fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm";
+            
+            let formHTML = `<div class="mb-6 flex items-center justify-between">
+                <h2 class="text-xl font-semibold text-slate-800 dark:text-slate-100">Add Item</h2>
+                <button id="add-item-close" type="button" class="rounded-lg p-2 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div><div class="space-y-4 max-h-[60vh] overflow-y-auto pr-2">`;
+
+            fields.forEach(field => {
+                formHTML += `<div class="flex items-start gap-3">
+                    <label for="item-${field.name}" class="mt-3 block text-sm font-medium text-slate-700 dark:text-slate-300 capitalize min-w-24">${field.label}</label>
+                    <div class="flex-1">`;
+                
+                if (field.type === "textarea") {
+                    formHTML += `<textarea id="item-${field.name}" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200" rows="2"></textarea>`;
+                } else if (field.type === "checkbox") {
+                    formHTML += `<div class="mt-2"><input type="checkbox" id="item-${field.name}" class="h-5 w-5 rounded border-slate-300 text-indigo-500 focus:ring-indigo-500"></label></div>`;
+                } else if (field.type === "select") {
+                    formHTML += `<select id="item-${field.name}" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200">
+                        <option value="">Select...</option>
+                        ${(field.options || []).map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+                    </select>`;
+                } else {
+                    formHTML += `<input type="${field.type}" id="item-${field.name}" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200">`;
+                }
+                formHTML += `</div></div>`;
+            });
+
+            formHTML += `</div><div class="mt-6 flex justify-end gap-3">
+                <button id="add-item-cancel" type="button" class="rounded-xl border border-slate-200 px-4 py-2 text-sm dark:border-slate-700">Cancel</button>
+                <button id="add-item-save" type="button" class="accent-gradient rounded-xl px-4 py-2 text-sm font-medium text-white">Add Item</button>
+            </div>`;
+
+            modal.innerHTML = `<div class="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-700 dark:bg-slate-900">${formHTML}</div>`;
+            document.body.appendChild(modal);
+
+            document.getElementById("add-item-close").addEventListener("click", () => modal.remove());
+            document.getElementById("add-item-cancel").addEventListener("click", () => modal.remove());
+
+            document.getElementById("add-item-save").addEventListener("click", async () => {
+                const data = {};
+                fields.forEach(field => {
+                    const el = document.getElementById(`item-${field.name}`);
+                    if (el && el.value) {
+                        data[field.name] = el.value;
+                    }
+                });
+
+                if (Object.keys(data).length === 0) return;
+
+                try {
+                    await apiFetch(`/api/lists/${listId}/items`, {
+                        method: "POST",
+                        body: JSON.stringify({ data, pill_color: document.getElementById("list-pill-color").value })
+                    });
+                    renderListContent(listId);
+                    modal.remove();
+                } catch (error) {
+                    console.error("Failed to add item:", error);
+                }
+            });
+        }
+
+        function openManageFieldsModal(listId, existingFields) {
+            const modal = document.createElement("div");
+            modal.id = "manage-fields-modal";
+            modal.className = "fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm";
+            modal.innerHTML = `
+                <div class="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-700 dark:bg-slate-900">
+                    <div class="mb-6 flex items-center justify-between">
+                        <h2 class="text-xl font-semibold text-slate-800 dark:text-slate-100">Manage Fields</h2>
+                        <button id="manage-fields-close" type="button" class="rounded-lg p-2 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
+                    </div>
+                    <div id="manage-fields-list" class="space-y-2"></div>
+                    <button id="manage-add-field" type="button" class="mt-3 text-sm text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">
+                        <svg class="h-4 w-4 inline mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+                        Add Field
+                    </button>
+                    <div class="mt-6 flex justify-end gap-3">
+                        <button id="manage-fields-cancel" type="button" class="rounded-xl border border-slate-200 px-4 py-2 text-sm dark:border-slate-700">Done</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+
+            function renderFields() {
+                const container = document.getElementById("manage-fields-list");
+                container.innerHTML = "";
+                existingFields.forEach((field, i) => {
+                    const div = document.createElement("div");
+                    div.className = "flex gap-2 items-center";
+                    div.innerHTML = `
+                        <span class="flex-1 text-sm text-slate-700 dark:text-slate-200">${field.field_name}</span>
+                        <button type="button" class="delete-field text-slate-400 hover:text-red-500" data-field-id="${field.id}">
+                            <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                        </button>
+                    `;
+                    div.querySelector(".delete-field").addEventListener("click", async () => {
+                        await apiFetch(`/api/lists/${listId}/fields/${field.id}`, { method: "DELETE" });
+                        existingFields.splice(i, 1);
+                        renderFields();
+                    });
+                    container.appendChild(div);
+                });
+            }
+
+            document.getElementById("manage-add-field").addEventListener("click", async () => {
+                const name = prompt("Enter field name:");
+                if (name && name.trim()) {
+                    try {
+                        const field = await apiFetch(`/api/lists/${listId}/fields`, {
+                            method: "POST",
+                            body: JSON.stringify({ field_name: name.trim(), field_type: "text" })
+                        });
+                        existingFields.push(field);
+                        renderFields();
+                    } catch (error) {
+                        console.error("Failed to add field:", error);
+                    }
+                }
+            });
+
+            document.getElementById("manage-fields-close").addEventListener("click", () => modal.remove());
+            document.getElementById("manage-fields-cancel").addEventListener("click", () => modal.remove());
+            renderFields();
+        }
+
+        document.getElementById("lists-subtabs").addEventListener("DOMNodeInserted", () => {
+            if (activeListId) {
+                const tab = document.querySelector(`.lists-subtab[data-list-id="${activeListId}"]`);
+                if (tab) tab.classList.add("accent-gradient", "text-white");
+            }
+        });
+
         themeToggle.addEventListener("click", () => {
 
             const isDark = document.documentElement.classList.toggle("dark");
@@ -1925,8 +2598,6 @@
             localStorage.setItem("task-console-theme", isDark ? "dark" : "light");
 
         });
-
-        const paletteCenterText = document.getElementById("palette-center-text");
 
         paletteButtons.forEach((button) => {
 
@@ -1942,17 +2613,12 @@
 
                 button.classList.add("selected");
 
-                paletteCenterText.textContent = palette;
-
                 // Keep palette open after selecting color
 
             });
 
             if (button.dataset.palette === document.documentElement.dataset.palette) {
-
                 button.classList.add("selected");
-                paletteCenterText.textContent = button.dataset.palette;
-
             }
 
         });
@@ -3394,6 +4060,170 @@
 
         }
 
+        let bookmarks = [];
+        let bookmarkFilter = "all";
+        let showFavoritesOnly = false;
+
+        async function loadBookmarks() {
+            console.log("Loading bookmarks...");
+            try {
+                const params = new URLSearchParams();
+                if (bookmarkFilter !== "all") {
+                    params.append("folder", bookmarkFilter);
+                }
+                if (showFavoritesOnly) {
+                    params.append("favorites", "true");
+                }
+                const queryString = params.toString();
+                const url = "/api/bookmarks" + (queryString ? "?" + queryString : "");
+                console.log("Fetching:", url);
+                bookmarks = await apiFetch(url);
+                console.log("Loaded bookmarks:", bookmarks);
+                renderBookmarks();
+                await loadBookmarkFolders();
+            } catch (error) {
+                console.error("Failed to load bookmarks:", error);
+            }
+        }
+
+        async function loadBookmarkFolders() {
+            try {
+                const folders = await apiFetch("/api/bookmarks/folders");
+                const filter = document.getElementById("bookmark-filter");
+                const suggestions = document.getElementById("folder-suggestions");
+                const currentValue = filter.value;
+                filter.innerHTML = '<option value="all">All Folders</option>';
+                suggestions.innerHTML = "";
+                folders.forEach(folder => {
+                    filter.innerHTML += `<option value="${folder}">${folder}</option>`;
+                    suggestions.innerHTML += `<option value="${folder}">`;
+                });
+                filter.value = currentValue;
+            } catch (error) {
+                console.error("Failed to load folders:", error);
+            }
+        }
+
+        function renderBookmarks() {
+            const list = document.getElementById("bookmarks-list");
+            if (bookmarks.length === 0) {
+                list.innerHTML = `<div class="rounded-2xl border border-dashed border-slate-300 px-4 py-8 text-center text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">${showFavoritesOnly ? "No favorite bookmarks yet." : "No bookmarks yet. Add your first bookmark above."}</div>`;
+                return;
+            }
+            let html = '<div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">';
+            bookmarks.forEach(bm => {
+                const folderList = bm.folders || (bm.folders_str ? bm.folders_str.split("|").filter(f => f.trim()) : [bm.folder || "General"]);
+                const isFav = bm.is_favorite ? "text-yellow-500" : "text-slate-300 hover:text-yellow-400";
+                const fill = bm.is_favorite ? "currentColor" : "none";
+                const favBtn = `<button class="bookmark-star shrink-0 transition ${isFav}" data-id="${bm.id}"><svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${fill}" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg></button>`;
+                const folders = folderList.map(f => `<span class="rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-500 dark:bg-slate-700 dark:text-slate-400">${escapeHtml(f)}</span>`).join("");
+                const desc = bm.description ? `<p class="mt-1 text-xs text-slate-500 dark:text-slate-400 line-clamp-2">${escapeHtml(bm.description)}</p>` : "";
+                const actions = `<div class="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100"><button class="bookmark-edit rounded-lg p-1 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600 dark:text-slate-500 dark:hover:bg-slate-700 dark:hover:text-slate-300" data-id="${bm.id}"><svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg></button><button class="bookmark-delete rounded-lg p-1 text-slate-400 transition hover:bg-red-100 hover:text-red-500 dark:text-slate-500 dark:hover:bg-red-900/30 dark:hover:text-red-400" data-id="${bm.id}"><svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg></button></div>`;
+                html += `<div class="group relative flex flex-col gap-2 rounded-xl border border-slate-200 bg-white/50 p-3 transition hover:bg-white dark:border-slate-700 dark:bg-slate-800/50 dark:hover:bg-slate-800" data-id="${bm.id}">${actions}<div class="flex items-start gap-2">${favBtn}<a href="${bm.url}" target="_blank" rel="noopener noreferrer" class="flex-1 min-w-0"><span class="font-medium text-slate-800 dark:text-slate-100">${escapeHtml(bm.name)}</span>${desc}</a></div><div class="mt-2 flex flex-wrap gap-1">${folders}</div></div>`;
+            });
+            html += '</div>';
+            list.innerHTML = html;
+
+            list.querySelectorAll(".bookmark-star").forEach(btn => {
+                btn.addEventListener("click", async (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const id = btn.dataset.id;
+                    try {
+                        await apiFetch(`/api/bookmarks/${id}/favorite`, { method: "PUT" });
+                        await loadBookmarks();
+                    } catch (error) {
+                        console.error("Failed to toggle favorite:", error);
+                    }
+                });
+            });
+
+            list.querySelectorAll(".bookmark-delete").forEach(btn => {
+                btn.addEventListener("click", async (e) => {
+                    e.preventDefault();
+                    const id = btn.dataset.id;
+                    if (confirm("Delete this bookmark?")) {
+                        try {
+                            await apiFetch(`/api/bookmarks/${id}`, { method: "DELETE" });
+                            await loadBookmarks();
+                        } catch (error) {
+                            console.error("Failed to delete bookmark:", error);
+                        }
+                    }
+                });
+            });
+
+            list.querySelectorAll(".bookmark-edit").forEach(btn => {
+                btn.addEventListener("click", async (e) => {
+                    e.preventDefault();
+                    const id = btn.dataset.id;
+                    const bm = bookmarks.find(b => b.id == id);
+                    if (!bm) return;
+                    const folderList = bm.folders || (bm.folders_str ? bm.folders_str.split("|").join(", ") : (bm.folder || "General"));
+                    document.getElementById("bookmark-name").value = bm.name;
+                    document.getElementById("bookmark-url").value = bm.url;
+                    document.getElementById("bookmark-folder").value = folderList;
+                    document.getElementById("bookmark-description").value = bm.description || "";
+                    document.getElementById("bookmark-form").dataset.editId = id;
+                    document.getElementById("bookmark-form").querySelector('button[type="submit"]').textContent = "Update Bookmark";
+                    document.getElementById("bookmark-form").scrollIntoView({ behavior: "smooth" });
+                });
+            });
+        }
+
+        document.getElementById("bookmark-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            console.log("Form submit triggered!");
+            const form = e.target;
+            const editId = form.dataset.editId;
+            const data = {
+                name: document.getElementById("bookmark-name").value.trim(),
+                url: document.getElementById("bookmark-url").value.trim(),
+                folder: document.getElementById("bookmark-folder").value.trim() || "General",
+                description: document.getElementById("bookmark-description").value.trim()
+            };
+            console.log("Submitting bookmark:", data);
+            try {
+                if (editId) {
+                    await apiFetch(`/api/bookmarks/${editId}`, { method: "PUT", body: JSON.stringify(data) });
+                    delete form.dataset.editId;
+                    form.querySelector('button[type="submit"]').textContent = "Add Bookmark";
+                } else {
+                    const result = await apiFetch("/api/bookmarks", { method: "POST", body: JSON.stringify(data) });
+                    console.log("Bookmark created:", result);
+                }
+                form.reset();
+                await loadBookmarks();
+            } catch (error) {
+                console.error("Failed to save bookmark:", error);
+                alert("Failed to save bookmark: " + error.message);
+            }
+        });
+
+        document.getElementById("bookmark-filter").addEventListener("change", (e) => {
+            bookmarkFilter = e.target.value;
+            loadBookmarks();
+        });
+
+        document.getElementById("bookmark-favorites-filter").addEventListener("click", () => {
+            showFavoritesOnly = !showFavoritesOnly;
+            document.getElementById("bookmark-favorites-filter").classList.toggle("accent-gradient", showFavoritesOnly);
+            document.getElementById("bookmark-favorites-filter").classList.toggle("text-white", showFavoritesOnly);
+            loadBookmarks();
+        });
+
+        document.getElementById("bookmark-add-toggle").addEventListener("click", () => {
+            const form = document.getElementById("bookmark-form");
+            const icon = document.getElementById("bookmark-add-icon");
+            form.classList.toggle("hidden");
+            if (form.classList.contains("hidden")) {
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />';
+            } else {
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />';
+                document.getElementById("bookmark-name").focus();
+            }
+        });
+
 
 
         async function addRssFeedUrl(url) {
@@ -3764,7 +4594,17 @@
             youtubeSummaryContent.innerHTML = `<div class="flex items-center gap-2"><svg class="h-4 w-4 animate-spin text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg><span class="text-sm text-slate-500">Generating summary...</span></div>`;
 
             try {
-                const settings = getSettings();
+                let model = localStorage.getItem("nexus_default_model") || "";
+                
+                if (!model) {
+                    try {
+                        const modelSetting = await apiFetch("/api/settings/default_summary_model");
+                        model = modelSetting.value || "";
+                    } catch {
+                        model = "";
+                    }
+                }
+                
                 const result = await apiFetch("/api/ai/summary", {
 
                     method: "POST",
@@ -3776,13 +4616,17 @@
                         channel: video.channel_title,
 
                         video_id: video.video_id,
-                        ollama_endpoint: settings.ollamaEndpoint
+                        model: model
 
                     })
 
                 });
 
-                youtubeSummaryContent.innerHTML = `<p class="text-slate-700 dark:text-slate-200 leading-relaxed">${result.summary}</p>`;
+                const displayModel = model || "llama3:latest";
+                youtubeSummaryContent.innerHTML = `
+                    <p class="text-slate-700 dark:text-slate-200 leading-relaxed">${result.summary}</p>
+                    <p class="mt-3 pt-3 border-t border-slate-200 dark:border-slate-700 text-xs text-slate-400">Using: ${displayModel}</p>
+                `;
 
             } catch (error) {
 
@@ -4598,7 +5442,7 @@
 
             try {
 
-                await Promise.all([loadTasks(), loadNextTasks(), loadNotes(), loadRss(), loadYouTube(), loadPodcasts()]);
+                await Promise.all([loadTasks(), loadNextTasks(), loadNotes(), loadRss(), loadYouTube(), loadPodcasts(), loadBookmarks()]);
 
             } catch (error) {
 
@@ -4621,13 +5465,17 @@
         function getSettings() {
             return {
                 ollamaEndpoint: localStorage.getItem("nexus_ollama_endpoint") || DEFAULT_OLLAMA_ENDPOINT,
-                openaiKey: localStorage.getItem("nexus_openai_key") || ""
+                openaiKey: localStorage.getItem("nexus_openai_key") || "",
+                defaultModel: localStorage.getItem("nexus_default_model") || ""
             };
         }
         
         function saveSettings(settings) {
             localStorage.setItem("nexus_ollama_endpoint", settings.ollamaEndpoint);
             localStorage.setItem("nexus_openai_key", settings.openaiKey);
+            if (settings.defaultModel) {
+                localStorage.setItem("nexus_default_model", settings.defaultModel);
+            }
         }
 
         initializeApp();
@@ -4694,6 +5542,13 @@
                             <label for="settings-openai-key" class="block text-xs font-medium text-slate-600 dark:text-slate-400">OpenAI API Key</label>
                             <input type="password" id="settings-openai-key" placeholder="sk-..." class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 transition focus:border-aurora focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">
                         </div>
+                        <div>
+                            <label for="settings-default-model" class="block text-xs font-medium text-slate-600 dark:text-slate-400">Default Summary Model</label>
+                            <select id="settings-default-model" class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 transition focus:border-aurora focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">
+                                <option value="">Select a model...</option>
+                            </select>
+                            <p id="settings-models-loading" class="mt-1 text-xs text-slate-400 hidden">Loading models...</p>
+                        </div>
                     </div>
                 </div>
                 
@@ -4730,12 +5585,61 @@
             try {
                 const ollama = await apiFetch("/api/settings/ollama_endpoint");
                 const openai = await apiFetch("/api/settings/openai_api_key");
+                const defaultModel = await apiFetch("/api/settings/default_summary_model");
                 return {
                     ollamaEndpoint: ollama.value || DEFAULT_OLLAMA_ENDPOINT,
-                    openaiKey: openai.value || ""
+                    openaiKey: openai.value || "",
+                    defaultModel: defaultModel.value || ""
                 };
             } catch (error) {
                 return getSettings();
+            }
+        }
+        
+        async function loadModelsForSettings() {
+            const modelSelect = document.getElementById("settings-default-model");
+            const loadingText = document.getElementById("settings-models-loading");
+            
+            modelSelect.innerHTML = '<option value="">Loading models...</option>';
+            loadingText.classList.remove("hidden");
+            
+            try {
+                const models = await apiFetch("/api/ai/models");
+                modelSelect.innerHTML = '<option value="">Select a model...</option>';
+                
+                if (models.ollama && models.ollama.length > 0) {
+                    const ollamaGroup = document.createElement("optgroup");
+                    ollamaGroup.label = "Ollama Models";
+                    models.ollama.forEach(model => {
+                        const opt = document.createElement("option");
+                        opt.value = model;
+                        opt.textContent = model;
+                        ollamaGroup.appendChild(opt);
+                    });
+                    modelSelect.appendChild(ollamaGroup);
+                }
+                
+                if (models.openai && models.openai.length > 0) {
+                    const openaiGroup = document.createElement("optgroup");
+                    openaiGroup.label = "OpenAI Models";
+                    models.openai.forEach(model => {
+                        const opt = document.createElement("option");
+                        opt.value = model;
+                        opt.textContent = model;
+                        openaiGroup.appendChild(opt);
+                    });
+                    modelSelect.appendChild(openaiGroup);
+                }
+                
+                const serverSettings = await loadServerSettings();
+                if (serverSettings.defaultModel) {
+                    modelSelect.value = serverSettings.defaultModel;
+                }
+            } catch (error) {
+                console.error("Failed to load models:", error);
+                modelSelect.innerHTML = '<option value="">Failed to load models</option>';
+            } finally {
+                loadingText.classList.add("hidden");
             }
         }
         
@@ -4743,6 +5647,7 @@
             const serverSettings = await loadServerSettings();
             document.getElementById("settings-ollama-endpoint").value = serverSettings.ollamaEndpoint;
             document.getElementById("settings-openai-key").value = serverSettings.openaiKey;
+            await loadModelsForSettings();
             settingsModal.classList.remove("hidden");
         }
         
@@ -4757,6 +5662,7 @@
         document.getElementById("settings-save").addEventListener("click", async () => {
             const ollamaEndpoint = document.getElementById("settings-ollama-endpoint").value.trim() || DEFAULT_OLLAMA_ENDPOINT;
             const openaiKey = document.getElementById("settings-openai-key").value.trim();
+            const defaultModel = document.getElementById("settings-default-model").value;
             
             try {
                 await apiFetch("/api/settings/ollama_endpoint", {
@@ -4767,7 +5673,11 @@
                     method: "PUT",
                     body: JSON.stringify({ value: openaiKey })
                 });
-                saveSettings({ ollamaEndpoint, openaiKey });
+                await apiFetch("/api/settings/default_summary_model", {
+                    method: "PUT",
+                    body: JSON.stringify({ value: defaultModel })
+                });
+                saveSettings({ ollamaEndpoint, openaiKey, defaultModel });
                 closeSettingsModal();
             } catch (error) {
                 console.error("Failed to save settings:", error);
@@ -4817,8 +5727,7 @@
     </script>
 
     <div id="palette-overlay" class="fixed z-[99999] hidden pointer-events-none" style="transform: translateY(-10px); opacity: 0; transition: transform 0.3s ease, opacity 0.3s ease;">
-        <div id="palette-circle" class="relative bg-white/30 dark:bg-slate-900/40 backdrop-blur-xl border border-white/20 dark:border-slate-700/30 rounded-full shadow-2xl" style="width: 160px; height: 160px;">
-            <span id="palette-center-text" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs font-semibold capitalize text-slate-700 dark:text-slate-200 z-10">violet</span>
+        <div id="palette-circle" class="relative bg-white/30 dark:bg-slate-900/40 backdrop-blur-xl border border-white/20 dark:border-slate-700/30 rounded-full shadow-2xl" style="width: 180px; height: 180px;">
             <div id="palette-options" class="absolute inset-0">
                 <button type="button" data-palette="violet" class="palette-option absolute w-7 h-7 rounded-full shadow-md cursor-pointer" style="background: linear-gradient(135deg, #7c3aed, #06b6d4); top: 50%; left: 50%;"></button>
                 <button type="button" data-palette="green" class="palette-option absolute w-7 h-7 rounded-full shadow-md cursor-pointer" style="background: linear-gradient(135deg, #15803d, #22c55e); top: 50%; left: 50%;"></button>
@@ -4832,6 +5741,7 @@
                 <button type="button" data-palette="indigo" class="palette-option absolute w-7 h-7 rounded-full shadow-md cursor-pointer" style="background: linear-gradient(135deg, #4338ca, #a78bfa); top: 50%; left: 50%;"></button>
                 <button type="button" data-palette="rose" class="palette-option absolute w-7 h-7 rounded-full shadow-md cursor-pointer" style="background: linear-gradient(135deg, #be123c, #f472b6); top: 50%; left: 50%;"></button>
                 <button type="button" data-palette="amber" class="palette-option absolute w-7 h-7 rounded-full shadow-md cursor-pointer" style="background: linear-gradient(135deg, #b45309, #fcd34d); top: 50%; left: 50%;"></button>
+                <button type="button" data-palette="bw" class="palette-option absolute w-7 h-7 rounded-full shadow-md cursor-pointer" style="background: linear-gradient(135deg, #111, #eee); top: 50%; left: 50%;"></button>
             </div>
         </div>
     </div>
